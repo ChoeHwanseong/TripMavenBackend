@@ -1,10 +1,14 @@
 package com.tripmaven.filter;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.tripmaven.auth.CustomUserDetails;
@@ -34,12 +38,32 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-		//username추출
-		CustomUserDetails customUserDetails = null;
+		//Email추출
+		CustomUserDetails customUserDetails = (CustomUserDetails) authResult.getPrincipal();
+		String eMail = customUserDetails.getUsername();
+		
+		//role 추출
+		Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
+		Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
+		GrantedAuthority auth = iterator.next();
+		String role = auth.getAuthority();
+		
+		//JWT에 토큰 생성 요청 1시간짜리
+		String token = jwttoken.createJWT(eMail, role, 60*60*1000L);
+		
+		//JWT를 response에 담아서 응답(header 부분에)
+		// key : "Authorization"
+        // value : "Bearer " (인증방식) + token
+		response.addHeader(jwttoken.AUTHORIZATION, jwttoken.BEARER + token);
+		
 	}
 
-	///마지막 테스트 입니다.
-	
-	
+	//로그인 실패시
+	@Override
+	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+			AuthenticationException failed) throws IOException, ServletException {
+		 response.setStatus(401);
+	}
+
 	
 }

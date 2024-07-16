@@ -2,10 +2,19 @@ package com.tripmaven.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.tripmaven.filter.JWTFilter;
+import com.tripmaven.filter.LoginFilter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +23,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig{
 
+	private final AuthenticationConfiguration configuration;
+	private final JWTTOKEN jwttoken;
+	
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
+		return configuration.getAuthenticationManager();
+	}
+	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		
@@ -27,9 +44,11 @@ public class SecurityConfig{
 		
 		//로그인 설정
 		http.formLogin(login->login
+				.disable()
+			/*일단 비활성화 함
 			.loginPage("/login") //로그인 페이지 설정
 			.loginProcessingUrl("/loginProcess")//로그인 처리 URL(기본값:/login). 시큐리티가 로그인처리
-			.permitAll()
+			.permitAll()*/
 				
 		);
 		
@@ -45,8 +64,16 @@ public class SecurityConfig{
 		http.csrf(csrf->csrf.disable()); 
 	
 		http.sessionManagement(session->session
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) //JWT를 통한 인증, 인가 작업을 위해서는 세션을 무상태 (STATELESS) 로 설정하는 것이 중요!
 			.maximumSessions(1)
 		);
+		
+		// http basic 인증 방식 disable 설정 JWT, OAuth2 등 복잡한 인증 로직을 구현하려면 HTTP Basic 인증을 비활성화하는 것이 좋습니다.
+		http.httpBasic(basic-> basic.disable());
+		
+		http.addFilterAt(new LoginFilter(authenticationManager(configuration), jwttoken), UsernamePasswordAuthenticationFilter.class);
+		
+		http.addFilterBefore(new JWTFilter(jwttoken), LoginFilter.class);
 		
 		return http.build();
 	}
