@@ -27,7 +27,7 @@ public class SecurityConfig{
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
 		return configuration.getAuthenticationManager();
-	}
+	};
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -74,12 +74,12 @@ public class SecurityConfig{
 		http.addFilterBefore(new JWTFilter(jwttoken), LoginFilter.class);
 		
 		return http.build();
-	}
+	};
 	
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-	}
+	};
 	
 	
 }
