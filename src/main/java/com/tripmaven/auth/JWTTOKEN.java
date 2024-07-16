@@ -1,14 +1,8 @@
 package com.tripmaven.auth;
 
 
-
-
-import java.security.Key;
 import java.util.Date;
-
 import javax.crypto.SecretKey;
-
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;

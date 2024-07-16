@@ -15,7 +15,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-
+/*
 @RequiredArgsConstructor
 public class LoginFilter extends UsernamePasswordAuthenticationFilter{
 	private final AuthenticationManager authenticationManager;
@@ -42,4 +42,4 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
 	
 	
 	
-}
+}*/
