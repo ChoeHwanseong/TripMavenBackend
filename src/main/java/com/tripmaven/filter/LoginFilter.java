@@ -5,9 +5,9 @@ import java.io.IOException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.tripmaven.auth.CustomUserDetails;
 import com.tripmaven.auth.JWTTOKEN;
 
 import jakarta.servlet.FilterChain;
@@ -22,7 +22,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
 	private final JWTTOKEN jwttoken;
 	
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
 		String loginId = obtainUsername(request);
 		String password = obtainPassword(request);
 		
@@ -35,7 +35,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
 		//username추출
-		CustomUserDetails customUserDetails = 
+		CustomUserDetails customUserDetails = null;
 	}
 
 	
