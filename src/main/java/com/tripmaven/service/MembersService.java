@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MemversService {
+public class MembersService {
 	
 	private final MembersRepository membersRepository;
 	private final BCryptPasswordEncoder passwordEncoder;

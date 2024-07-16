@@ -22,6 +22,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @Component
 public class JWTTOKEN {
 	private static SecretKey secretKey;
+	public static final String AUTHORIZATION = "Authorization";
+	public static final String BEARER = "Bearer ";
 		
 	public JWTTOKEN(@Value("${jwt.secret}")String secret) {
 		byte[] keyBytes = Decoders.BASE64.decode(secret);
@@ -32,7 +34,7 @@ public class JWTTOKEN {
 		long currentTimeMillis = System.currentTimeMillis(); //토큰 생성시간
 		expiredTime = currentTimeMillis + expiredTime; //토큰 만료 시간
 		
-		//Header에 안 실었는데.. 내가 토큰을 발급하고 응답헤더에 실어서 주는게 아니니까 안 실어도 되지 않을까??
+		//Header에 안 실었는데.. 로그인 필터에서 실으니까 ㄱㅊ을거야~
 		
 		//JWT생성
 		JwtBuilder builder = Jwts.builder()
@@ -60,8 +62,8 @@ public class JWTTOKEN {
 		}
 		
 		return claims;
-		//loginId를 얻고 싶으면 .get("loginId", String.class);
-		//role을 얻고 싶으면 .claim("role", role)
+		//loginId를 얻고 싶으면 .get("loginId").toString()
+		//role을 얻고 싶으면 .get("role").toString()
 	}
 
 	/**
