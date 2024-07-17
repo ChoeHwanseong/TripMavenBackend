@@ -26,7 +26,7 @@ import lombok.Setter;
 public class MembersDTO {
 	
 	private long id;
-	private String eMail;
+	private String email;
 	private String name;
 	private String password;
 	private String gender;
@@ -42,7 +42,7 @@ public class MembersDTO {
 		public MembersEntity toEntity() {
 			return MembersEntity.builder()
 					.id(id)
-					.eMail(eMail)
+					.email(email)
 					.name(name)
 					.password(password)
 					.gender(gender)
@@ -60,7 +60,7 @@ public class MembersDTO {
 		public static MembersDTO toDto(MembersEntity membersEntity) {
 			return MembersDTO.builder()
 					.id(membersEntity.getId())
-					.eMail(membersEntity.getEMail())
+					.email(membersEntity.getEmail())
 					.name(membersEntity.getName())
 					.password(membersEntity.getPassword())
 					.gender(membersEntity.getGender())

@@ -42,7 +42,7 @@ public class MembersEntity {
 
 	/** 이메일. */
 	@Column(nullable = false, length = 50)
-	private String eMail;
+	private String email;
 
 	/** 이름. */
 	@Column(nullable = false, length = 10)

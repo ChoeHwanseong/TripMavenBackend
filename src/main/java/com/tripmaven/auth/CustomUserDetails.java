@@ -37,7 +37,7 @@ public class CustomUserDetails implements UserDetails{
 	//이메일 반환
 	@Override
 	public String getUsername() {
-		return membersEntity.getEMail();
+		return membersEntity.getEmail();
 	}
 	
 	//isAccountNonExpired() : 계정 만료 여부 => true : 만료 X

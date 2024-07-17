@@ -40,7 +40,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
 			Authentication authResult) throws IOException, ServletException {
 		//Email추출
 		CustomUserDetails customUserDetails = (CustomUserDetails) authResult.getPrincipal();
-		String eMail = customUserDetails.getUsername();
+		String email = customUserDetails.getUsername();
 		
 		//role 추출
 		Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
@@ -49,7 +49,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
 		String role = auth.getAuthority();
 		
 		//JWT에 토큰 생성 요청 1시간짜리
-		String token = jwttoken.createJWT(eMail, role, 60*60*1000L);
+		String token = jwttoken.createJWT(email, role, 60*60*1000L);
 		
 		//JWT를 response에 담아서 응답(header 부분에)
 		// key : "Authorization"

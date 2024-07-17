@@ -32,4 +32,12 @@ public class MembersService {
 		
 	}
 
+	public MembersDTO getLoginMemberByLoginId(String loginId) {
+		if(loginId == null) return null;
+		MembersEntity membersEntity= membersRepository.findByEmail(loginId).get();
+		return MembersDTO.toDto(membersEntity);
+	}
+	
+	
+
 }
