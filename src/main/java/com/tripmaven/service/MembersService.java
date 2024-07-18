@@ -17,7 +17,7 @@ public class MembersService {
 	
 	public boolean signup(MembersDTO dto) {
 		
-		boolean isDuplicated = membersRepository.existsByEmail(dto.getEMail());
+		boolean isDuplicated = membersRepository.existsByEmail(dto.getEmail());
 		if(isDuplicated) return false;
 		
 		//암호화
