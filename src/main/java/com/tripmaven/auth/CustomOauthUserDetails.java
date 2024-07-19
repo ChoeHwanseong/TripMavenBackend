@@ -2,20 +2,33 @@ package com.tripmaven.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.tripmaven.repository.MembersEntity;
+import com.tripmaven.repository.SocialUserEntity;
+import lombok.RequiredArgsConstructor;
 
-public class CustomUserDetails implements UserDetails{
-	
-	private MembersEntity membersEntity;
-	public CustomUserDetails(MembersEntity membersEntity) {
-		this.membersEntity = membersEntity;
+@RequiredArgsConstructor
+public class CustomOauthUserDetails implements UserDetails, OAuth2User{
+
+	private final MembersEntity membersEntity;
+	private final SocialUserEntity socialUserEntity;
+	private Map<String, Object> attributes;
+
+	@Override
+	public Map<String, Object> getAttributes() {
+		return attributes;
 	}
 
-	//역할 반환
+	@Override
+	public String getName() {
+		return null;
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
@@ -28,19 +41,17 @@ public class CustomUserDetails implements UserDetails{
 		});
 		return authorities;
 	}
-	
-	//비밀번호 반환
+
 	@Override
 	public String getPassword() {
 		return membersEntity.getPassword();
 	}
-	
-	//이메일 반환
+
 	@Override
 	public String getUsername() {
 		return membersEntity.getEmail();
 	}
-	
+
 	//isAccountNonExpired() : 계정 만료 여부 => true : 만료 X
 	@Override
 	public boolean isAccountNonExpired() {

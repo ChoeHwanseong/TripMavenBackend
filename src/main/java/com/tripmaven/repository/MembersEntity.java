@@ -8,11 +8,13 @@ import java.util.Date;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -106,10 +108,13 @@ public class MembersEntity {
 	@Column(length = 10)
 	private String Role;
 
-
-
 	/** 가이드 자격증. */
 	private String guidelicense;
+	
+	//CascadeType.All - Member의 변경이 소셜에도 전파
+	//orphanRemoval - member엔터티 삭제시 소셜도 삭제
+	@OneToOne(mappedBy = "members",cascade = CascadeType.ALL, orphanRemoval = true)
+	private SocialUserEntity socialUser;
 
 	
 
