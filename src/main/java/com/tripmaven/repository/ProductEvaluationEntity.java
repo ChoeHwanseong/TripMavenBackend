@@ -15,12 +15,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Table(name = "ProductEvaluation")
 @Entity
 @Getter
 @Setter
@@ -52,7 +54,6 @@ public class ProductEvaluationEntity {
     /** 점수에 대한 내용. */
 	@Column(nullable = true)
     @Lob
-	private String comment;
-
+	private String comments;
 	
 }
