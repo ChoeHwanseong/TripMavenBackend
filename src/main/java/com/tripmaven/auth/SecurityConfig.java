@@ -42,12 +42,16 @@ public class SecurityConfig{
 		
 		//로그인 설정
 		http.formLogin(login->login
-				.disable()
-			/*일단 비활성화 함
 			.loginPage("/login") //로그인 페이지 설정
 			.loginProcessingUrl("/loginProcess")//로그인 처리 URL(기본값:/login). 시큐리티가 로그인처리
-			.permitAll()*/
+			.permitAll()
 				
+		);
+		
+		http.oauth2Login(auth-> auth
+				.loginPage("/oauth-login/login")
+				.defaultSuccessUrl("/oath-login")
+				.permitAll()
 		);
 		
 		//로그아웃 설정

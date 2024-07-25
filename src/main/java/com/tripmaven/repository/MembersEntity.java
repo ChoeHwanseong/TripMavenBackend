@@ -106,7 +106,7 @@ public class MembersEntity {
 
 	/** 가이드 인지. */
 	@Column(length = 10)
-	private String Role;
+	private String role;
 
 	/** 가이드 자격증. */
 	private String guidelicense;

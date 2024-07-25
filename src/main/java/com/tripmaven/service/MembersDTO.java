@@ -51,7 +51,7 @@ public class MembersDTO {
 					.address(address)
 					.createdAt(createdAt)
 					.issocial(issocial)
-					.Role(Role)
+					.role(Role)
 					.guidelicense(guidelicense)
 					.build();
 		}

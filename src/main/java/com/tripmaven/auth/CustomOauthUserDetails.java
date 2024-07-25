@@ -10,13 +10,15 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.tripmaven.repository.MembersEntity;
 import com.tripmaven.repository.SocialUserEntity;
+
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class CustomOauthUserDetails implements UserDetails, OAuth2User{
 
 	private final MembersEntity membersEntity;
-	private final SocialUserEntity socialUserEntity;
 	private Map<String, Object> attributes;
 
 	@Override
