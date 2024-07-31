@@ -56,7 +56,7 @@ public class ProductBoardEntity {
 	@CreationTimestamp
 	private LocalDateTime createdAt;
 	
-	/** 활성화 정도 */
+	/** 활성화 유무 */
 	@Column
 	@ColumnDefault("1")
 	private String isactive;
@@ -78,6 +78,13 @@ public class ProductBoardEntity {
 	@Column
 	@ColumnDefault("0")
 	private String isupdate;
-
 	
+	/** 삭제날짜 */
+	@CreationTimestamp
+	private LocalDateTime deletedAt;
+	
+	/** 삭제여부 */
+	@Column
+	@ColumnDefault("0")
+	private String isdelete;
 }
