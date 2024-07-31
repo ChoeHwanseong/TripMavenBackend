@@ -68,7 +68,7 @@ public class ProductBoardEntity {
 	
 	/** 여행도시 */
 	@Column(length = 30, nullable = false)
-	private String ciry;
+	private String city;
 	
 	/** 수정날짜 */
 	@CreationTimestamp
