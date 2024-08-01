@@ -35,7 +35,7 @@ public class MessageReadEntity {
 	/** 채팅방 메시지 고유 번호. FK*/
 	@ManyToOne(optional = false)
 	@JoinColumn(name="chattingmessageentity_id")
-	private ChattingMessageEntity chattingmessage;
+	private ChattingMessageEntity chattingMessage;
 	
 	/** 회원 고유 번호. FK*/
 	@ManyToOne(optional = false)

@@ -32,7 +32,7 @@ public class JoinChattingEntity {
 	/** 채팅방 고유 번호. FK*/
 	@ManyToOne(optional = false)
 	@JoinColumn(name="chattingroomentity_id")
-	private ChattingRoomEntity chattingroom;
+	private ChattingRoomEntity chattingRoom;
 	
 	/** 회원 고유 번호. FK*/
 	@ManyToOne(optional = false)

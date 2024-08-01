@@ -87,4 +87,8 @@ public class ProductBoardEntity {
 	@Column
 	@ColumnDefault("0")
 	private String isdelete;
+	
+	/**파일*/
+	@Column
+	private String file;
 }

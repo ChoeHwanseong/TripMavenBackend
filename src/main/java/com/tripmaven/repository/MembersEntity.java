@@ -65,7 +65,7 @@ public class MembersEntity {
 
 	/** 전화. */
 	@Column(length = 18)
-	private String telnumber;
+	private String telNumber;
 
 	/** 주소. */
 	@Column(length = 50)
