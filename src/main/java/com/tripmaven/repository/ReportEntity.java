@@ -80,5 +80,5 @@ public class ReportEntity {
 	@Column(nullable = false)
 	private String noShow;
 
-	
+	//
 }
