@@ -60,17 +60,25 @@ public class ReportEntity {
 	@ColumnDefault("1")
 	private String isactive;
 	
-	/** 평가항목 LIST */
+	/** 평가항목 : 불친절한 태도 */
 	@Column(nullable = false)
-	private String list1;
+	private String attitude;
 	
-	/** 평가항목 2 */
+	/** 평가항목 : 부정확한 정보 */
 	@Column(nullable = false)
-	private String list2;
+	private String information;
 	
-	/** 리스트 3 */
+	/** 평가항목 : 혐오발언 */
 	@Column(nullable = false)
-	private String list3;
+	private String disgust;
+	
+	/** 평가항목 : 공격적인 언어 */
+	@Column(nullable = false)
+	private String offensive;
+	
+	/** 평가항목 : 예약 불이행 */
+	@Column(nullable = false)
+	private String noShow;
 
-	
+	//
 }
