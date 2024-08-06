@@ -1,4 +1,4 @@
-package com.tripmaven.repository;
+package com.tripmaven.members.repository;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

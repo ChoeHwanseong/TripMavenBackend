@@ -1,4 +1,4 @@
-package com.tripmaven.repository;
+package com.tripmaven.members.repository;
 
 
 import java.time.LocalDateTime;

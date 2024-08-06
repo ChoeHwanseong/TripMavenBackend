@@ -2,6 +2,8 @@ package com.tripmaven.repository;
 
 import java.util.Date;
 
+import com.tripmaven.members.repository.MembersEntity;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

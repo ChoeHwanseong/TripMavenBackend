@@ -2,6 +2,8 @@ package com.tripmaven.repository;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import com.tripmaven.members.repository.MembersEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

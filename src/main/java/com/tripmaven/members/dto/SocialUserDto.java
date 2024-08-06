@@ -1,10 +1,9 @@
-package com.tripmaven.dto;
+package com.tripmaven.members.dto;
 
 
 
-import com.tripmaven.repository.MembersEntity;
-import com.tripmaven.repository.SocialUserEntity;
-
+import com.tripmaven.members.repository.MembersEntity;
+import com.tripmaven.members.repository.SocialUserEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

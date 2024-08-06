@@ -1,11 +1,11 @@
-package com.tripmaven.dto;
+package com.tripmaven.members.dto;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import com.tripmaven.members.repository.MembersEntity;
+import com.tripmaven.members.repository.SocialUserEntity;
 import com.tripmaven.repository.CalendarEntity;
-import com.tripmaven.repository.MembersEntity;
-import com.tripmaven.repository.SocialUserEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

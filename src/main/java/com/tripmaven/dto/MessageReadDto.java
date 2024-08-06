@@ -1,7 +1,7 @@
 package com.tripmaven.dto;
 
+import com.tripmaven.members.repository.MembersEntity;
 import com.tripmaven.repository.ChattingMessageEntity;
-import com.tripmaven.repository.MembersEntity;
 import com.tripmaven.repository.MessageReadEntity;
 
 import lombok.AllArgsConstructor;

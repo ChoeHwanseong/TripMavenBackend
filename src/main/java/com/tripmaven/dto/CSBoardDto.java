@@ -2,10 +2,8 @@ package com.tripmaven.dto;
 
 import java.time.LocalDateTime;
 
-
+import com.tripmaven.members.repository.MembersEntity;
 import com.tripmaven.repository.CSBoardEntity;
-import com.tripmaven.repository.MembersEntity;
-
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

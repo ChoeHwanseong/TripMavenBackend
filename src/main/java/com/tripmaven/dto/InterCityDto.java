@@ -2,8 +2,8 @@ package com.tripmaven.dto;
 
 
 
+import com.tripmaven.members.repository.MembersEntity;
 import com.tripmaven.repository.InterCityEntity;
-import com.tripmaven.repository.MembersEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

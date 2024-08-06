@@ -1,8 +1,8 @@
 package com.tripmaven.dto;
 
 
+import com.tripmaven.members.repository.MembersEntity;
 import com.tripmaven.repository.LikeyEntity;
-import com.tripmaven.repository.MembersEntity;
 import com.tripmaven.repository.ProductBoardEntity;
 
 import lombok.AllArgsConstructor;
