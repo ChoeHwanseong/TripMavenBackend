@@ -23,11 +23,13 @@ public class ProductBoardDto {
 	private String title;
 	private String content;	
 	private LocalDateTime createdAt;
-	private String isactive;
-	private String isevaluation;
+	private String isActive;
+	private String isEvaluation;
 	private String city;
 	private LocalDateTime updatedAt;
-	private String isupdate;
+	private String isUpdate;
+	private LocalDateTime deletedAt;
+	private String isDelete;
 	private String files;
 	
 	//DTO를 ENTITY로 변환하는 메소드
@@ -38,11 +40,13 @@ public class ProductBoardDto {
 					.title(title)
 					.content(content)
 					.createdAt(createdAt)
-					.isactive(isactive)
-					.isevaluation(isevaluation)
+					.isActive(isActive)
+					.isEvaluation(isEvaluation)
 					.city(city)
 					.updatedAt(updatedAt)
-					.isupdate(isupdate)
+					.isUpdate(isUpdate)
+					.deletedAt(deletedAt)
+					.isDelete(isDelete)
 					.files(files)
 					.build();
 		}
@@ -54,12 +58,14 @@ public class ProductBoardDto {
 					.title(productBoardEntity.getTitle())
 					.content(productBoardEntity.getContent())
 					.createdAt(productBoardEntity.getCreatedAt())
-					.isactive(productBoardEntity.getIsactive())
-					.isevaluation(productBoardEntity.getIsevaluation())
+					.isActive(productBoardEntity.getIsActive())
+					.isEvaluation(productBoardEntity.getIsEvaluation())
 					.city(productBoardEntity.getCity())
 					.updatedAt(productBoardEntity.getUpdatedAt())
-					.isupdate(productBoardEntity.getIsupdate())
-					.files(productBoardEntity.getFiles())
+					.isUpdate(productBoardEntity.getIsUpdate())
+					.deletedAt(productBoardEntity.getDeletedAt())
+					.isDelete(productBoardEntity.getIsDelete())
+					.files(productBoardEntity.getFiles())					
 					.build();
 					
 		}

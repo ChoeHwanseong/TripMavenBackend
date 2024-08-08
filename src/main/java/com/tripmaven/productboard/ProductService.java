@@ -98,7 +98,7 @@ public class ProductService {
 		productBoardEntity.setTitle(dto.getTitle());
 		productBoardEntity.setContent(dto.getContent());
 		productBoardEntity.setCity(dto.getCity());
-		productBoardEntity.setIsupdate("1"); //수정여부
+		productBoardEntity.setIsUpdate("1"); //수정여부
 		productBoardEntity.setUpdatedAt(LocalDateTime.now()); //수정시간
 		return ProductBoardDto.toDto(productRepository.save(productBoardEntity));
 	} 
@@ -109,7 +109,7 @@ public class ProductService {
 	@Transactional
 	public ProductBoardDto delete(Long id,ProductBoardDto dto) {
 		ProductBoardEntity productBoardEntity=productRepository.findById(id).get();
-		productBoardEntity.setIsupdate("1"); //삭제여부
+		productBoardEntity.setIsUpdate("1"); //삭제여부
 		productBoardEntity.setDeletedAt(LocalDateTime.now()); //삭제시간
 		return ProductBoardDto.toDto(productRepository.save(productBoardEntity));
 	}
