@@ -61,12 +61,12 @@ public class ProductBoardEntity {
 	/** 활성화 유무 */
 	@Column
 	@ColumnDefault("1")
-	private String isactive;
+	private String isActive;
 	
 	/** Al평가 유무 */
 	@Column(nullable = false)
 	@ColumnDefault("1")
-	private String isevaluation;
+	private String isEvaluation;
 	
 	/** 여행도시 */
 	@Column(length = 30, nullable = false)
@@ -79,7 +79,7 @@ public class ProductBoardEntity {
 	/** 수정여부 */
 	@Column
 	@ColumnDefault("0")
-	private String isupdate;
+	private String isUpdate;
 	
 	/** 삭제날짜 */
 	@CreationTimestamp
@@ -88,9 +88,9 @@ public class ProductBoardEntity {
 	/** 삭제여부 */
 	@Column
 	@ColumnDefault("0")
-	private String isdelete;
+	private String isDelete;
 	
 	/**파일*/
 	@Column
-	private String file;
+	private String files;
 }
