@@ -8,14 +8,19 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tripmaven.members.MembersEntity;
+import com.tripmaven.members.MembersRepository;
+
 import lombok.RequiredArgsConstructor;
 
-	// 상품게시판 등록 및 관리 
+// 상품게시판 등록 및 관리 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
 
 	private final ProductRepository productRepository;
+	//members 리파지토리 주입
+	private final MembersRepository membersRepository;
 	
 	//검색
 	
@@ -35,7 +40,8 @@ public class ProductService {
 			productsDto.add(ProductBoardDto.toDto(product));
 		} 
 		return productsDto;
-	}	
+	}
+	
 	// 게시물 내용으로 검색
 	@Transactional(readOnly = true)
 	public List<ProductBoardDto> searchByContent(String findContent) {
@@ -46,6 +52,7 @@ public class ProductService {
 		} 
 		return productsDto;
 	}
+	
 	// 게시글 도시로 찾기 
 	@Transactional(readOnly = true)
 	public List<ProductBoardDto> searchByCity(String findCity) {
@@ -57,12 +64,20 @@ public class ProductService {
 		return productsDto;
 	}
 	
-	// 게시글 회원고유번호(아이디)로 찾기 
-		@Transactional(readOnly = true)
-		public ProductBoardDto searchByMemberId(Long findMember) {
-			return ProductBoardDto.toDto(productRepository.findByMember(findMember).get());
-		}  
-		// 제목 + 내용
+	// 게시글 이메일(회원고유번호가 아니라 이메일)로 찾기 
+	@Transactional(readOnly = true)
+	public List<ProductBoardDto> searchByEmail(String email) {
+		//member 리파지토리에서 멤버 엔터티를 가져와서
+		//findByMember 메소드의 매개변수로 넣어줘야 함
+		MembersEntity membersEntity = membersRepository.findByEmail(email).orElse(null);
+		if(membersEntity != null) {
+			List<ProductBoardEntity> entityList =  productRepository.findByMember(membersEntity);
+			return entityList.stream().map(e -> ProductBoardDto.toDto(e)).toList();
+		}
+		return null;
+	}
+	
+	// 제목 + 내용
 	@Transactional(readOnly = true)
 	public List<ProductBoardDto> searchByTitleAndContent(String keyword) {
 		List<ProductBoardEntity> products=productRepository.findByTitleAndContent(keyword);
@@ -74,7 +89,7 @@ public class ProductService {
 		
 	}
 
-/////////////////////
+	/////////////////////
 
 	//게시글 수정
 	@Transactional
@@ -88,7 +103,7 @@ public class ProductService {
 		return ProductBoardDto.toDto(productRepository.save(productBoardEntity));
 	} 
 
-////////////////////////////
+	////////////////////////////
 	
 	//게시글 삭제 여부
 	@Transactional
@@ -100,7 +115,4 @@ public class ProductService {
 	}
 	
 	/////////////////////
-	
-	
-	
 }

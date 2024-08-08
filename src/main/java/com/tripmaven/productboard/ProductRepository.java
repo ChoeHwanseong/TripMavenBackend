@@ -10,13 +10,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.tripmaven.members.MembersEntity;
+
 @Repository
 public interface ProductRepository extends JpaRepository<ProductBoardEntity, Long> {
 	// 제목, 내용, 제목+내용, 아이디, 도시로 찾기
 	
 	// 회원고유번호로 찾기(회원아이디)
-    Optional<ProductBoardEntity> findByMember(Long memberId); 
- 
+    List<ProductBoardEntity> findByMember(MembersEntity entity); 
 	
 	// 제목으로 찾기
 	List<ProductBoardEntity> findByTitleContaining(String title);

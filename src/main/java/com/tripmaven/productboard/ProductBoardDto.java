@@ -28,6 +28,7 @@ public class ProductBoardDto {
 	private String city;
 	private LocalDateTime updatedAt;
 	private String isupdate;
+	private String files;
 	
 	//DTO를 ENTITY로 변환하는 메소드
 		public ProductBoardEntity toEntity() {
@@ -42,6 +43,7 @@ public class ProductBoardDto {
 					.city(city)
 					.updatedAt(updatedAt)
 					.isupdate(isupdate)
+					.files(files)
 					.build();
 		}
 		//ENTITY를 DTO로 변환하는 메소드
@@ -57,6 +59,7 @@ public class ProductBoardDto {
 					.city(productBoardEntity.getCity())
 					.updatedAt(productBoardEntity.getUpdatedAt())
 					.isupdate(productBoardEntity.getIsupdate())
+					.files(productBoardEntity.getFiles())
 					.build();
 					
 		}

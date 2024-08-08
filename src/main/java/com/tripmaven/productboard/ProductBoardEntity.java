@@ -92,5 +92,5 @@ public class ProductBoardEntity {
 	
 	/**파일*/
 	@Column
-	private String file;
+	private String files;
 }
