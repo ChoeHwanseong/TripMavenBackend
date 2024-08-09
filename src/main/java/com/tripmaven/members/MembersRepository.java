@@ -16,4 +16,5 @@ public interface MembersRepository extends JpaRepository<MembersEntity, Long>{
 	List<MembersEntity> findByname(String name);
 	Optional<MembersEntity> findByid(Long id);
 
+
 }
