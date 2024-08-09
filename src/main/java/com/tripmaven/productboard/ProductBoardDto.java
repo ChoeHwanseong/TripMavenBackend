@@ -65,7 +65,7 @@ public class ProductBoardDto {
 					.isUpdate(productBoardEntity.getIsUpdate())
 					.deletedAt(productBoardEntity.getDeletedAt())
 					.isDelete(productBoardEntity.getIsDelete())
-					.files(productBoardEntity.getFiles())
+					.files(productBoardEntity.getFiles())					
 					.build();
 					
 		}
