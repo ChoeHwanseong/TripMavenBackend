@@ -87,4 +87,5 @@ public class MembersDto {
 				.socialUser(membersEntity.getSocialUser())
 				.build();
 	}
+
 }

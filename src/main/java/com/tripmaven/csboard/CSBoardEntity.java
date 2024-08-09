@@ -57,12 +57,12 @@ public class CSBoardEntity {
     private String comments;
 
     /** 게시 날짜 */
-    @Column(nullable = false, updatable = false)
     @CreationTimestamp
+    @ColumnDefault("SYSDATE")
     private LocalDateTime createdAt;
 
     /** 활성화 여부 */
-    @Column(nullable = false)
+    @Column
     @ColumnDefault("1")
     private String isActive;
 
@@ -85,4 +85,6 @@ public class CSBoardEntity {
     @Column
     @ColumnDefault("0")
     private String isDelete;
+
+	
 }

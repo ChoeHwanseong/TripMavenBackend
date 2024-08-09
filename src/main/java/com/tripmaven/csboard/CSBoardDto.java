@@ -47,8 +47,8 @@ public class CSBoardDto {
   	}
   	
   	//ENTITY를 DTO로 변환하는 메소드
-  	public static CSBoardDto toDto(CSBoardEntity csBoardEntity) {
-  		return CSBoardDto.builder()
+	public static CSBoardDto toDto(CSBoardEntity csBoardEntity) {
+		return CSBoardDto.builder()
   				.id(csBoardEntity.getId())
   				.member(csBoardEntity.getMember())
   				.title(csBoardEntity.getTitle())
@@ -61,5 +61,5 @@ public class CSBoardDto {
   				.deletedAt(csBoardEntity.getDeletedAt())
   				.isDelete(csBoardEntity.getIsDelete()) 				
   				.build();
-  	}
+	}
 }
