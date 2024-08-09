@@ -120,6 +120,5 @@ public class MembersEntity {
 	@OneToOne(mappedBy = "members",cascade = CascadeType.ALL, orphanRemoval = true)
 	private SocialUserEntity socialUser;
 
-	
 
 }
