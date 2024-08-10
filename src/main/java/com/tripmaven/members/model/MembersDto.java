@@ -1,0 +1,77 @@
+package com.tripmaven.members.model;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class MembersDto {
+
+	private long id;
+	private String email;
+	private String name;
+	private String password;
+	private String gender;
+	private Date birthday;
+	private String telnumber;
+	private String address;
+	private String isactive;
+	private LocalDateTime createdAt;
+	private String issocial;
+	private String Role;
+	private String guidelicense;
+	private String loginType;
+	private String snsAccessToken;
+	
+	//DTO를 ENTITY로 변환하는 메소드
+		public MembersEntity toEntity() {
+			return MembersEntity.builder()
+					.id(id)
+					.email(email)
+					.name(name)
+					.password(password)
+					.gender(gender)
+					.birthday(birthday)
+					.telNumber(telnumber)
+					.address(address)
+					.isactive(isactive)
+					.createdAt(createdAt)
+					.issocial(issocial)
+					.role(Role)
+					.guidelicense(guidelicense)
+					.loginType(loginType)
+					.snsAccessToken(snsAccessToken)
+					.build();
+		}
+		
+		//Entity를 DTO로 변환하는 메소드
+		public static MembersDto toDto(MembersEntity membersEntity) {
+			return MembersDto.builder()
+					.id(membersEntity.getId())
+					.email(membersEntity.getEmail())
+					.name(membersEntity.getName())
+					.password(membersEntity.getPassword())
+					.gender(membersEntity.getGender())
+					.birthday(membersEntity.getBirthday())
+					.telnumber(membersEntity.getTelNumber())
+					.address(membersEntity.getAddress())
+					.isactive(membersEntity.getIsactive())
+					.createdAt(membersEntity.getCreatedAt())
+					.issocial(membersEntity.getIssocial())
+					.Role(membersEntity.getRole())
+					.guidelicense(membersEntity.getGuidelicense())
+					.loginType(membersEntity.getLoginType())
+					.snsAccessToken(membersEntity.getSnsAccessToken())
+					.build();
+		}
+
+}

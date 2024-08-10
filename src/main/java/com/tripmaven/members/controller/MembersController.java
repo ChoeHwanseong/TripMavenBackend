@@ -1,6 +1,8 @@
-package com.tripmaven.members;
+package com.tripmaven.members.controller;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,9 +10,15 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tripmaven.members.model.MembersDto;
+import com.tripmaven.members.service.MembersService;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -18,6 +26,26 @@ import lombok.RequiredArgsConstructor;
 public class MembersController {
 
 	private final MembersService membersService;
+	private final ObjectMapper mapper;
+	
+	//CREATE
+	//회원가입
+	@CrossOrigin
+	@PostMapping("/signup")
+	public ResponseEntity<MembersDto> signUp(@RequestParam Map map){
+		try {
+			//맵을 DTO로 변환하는 코드 (파라미터 명과 필드명을 일치시켜야 함 아마?)  
+			MembersDto dto= mapper.convertValue(map, MembersDto.class);
+			MembersDto insertedDto = membersService.signup(dto);
+			return ResponseEntity.ok(insertedDto);
+		}
+		catch (Exception e) {
+			
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+	}
+	
 	
 	//READ
 	//모든 회원 조회

@@ -6,7 +6,7 @@ import java.util.Date;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.tripmaven.members.MembersEntity;
+import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.productboard.ProductBoardEntity;
 
 import jakarta.persistence.Column;

@@ -2,7 +2,7 @@ package com.tripmaven.intercity;
 
 import java.util.Date;
 
-import com.tripmaven.members.MembersEntity;
+import com.tripmaven.members.model.MembersEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

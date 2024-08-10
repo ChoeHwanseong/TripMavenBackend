@@ -1,4 +1,4 @@
-package com.tripmaven.members;
+package com.tripmaven.members.model;
 
 
 import java.time.LocalDateTime;
@@ -8,7 +8,6 @@ import java.util.Date;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.tripmaven.socialuser.SocialUserEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -55,7 +54,7 @@ public class MembersEntity {
 	private String name;
 
 	/** 비밀번호. */
-	@Column(nullable = false, length = 20)
+	@Column(nullable = false)
 	private String password;
 
 	/** 성별. */
@@ -79,7 +78,7 @@ public class MembersEntity {
 	private LocalDateTime createdAt;
 
 	/** 활성화 여부. */
-	@Column(nullable = false)
+	@Column
 	@ColumnDefault("1")
 	private String isactive;
 
@@ -88,7 +87,7 @@ public class MembersEntity {
 	private LocalDateTime updatedAt;
 
 	/** 수정 여부. */
-	@Column(nullable = false)
+	@Column
 	@ColumnDefault("0")
 	private String isupdate;
 
@@ -97,7 +96,7 @@ public class MembersEntity {
 	private LocalDateTime deletedAt;
 
 	/** 삭제 여부. */
-	@Column(nullable = false)
+	@Column
 	@ColumnDefault("0")
 	private String isdelete;
 
@@ -110,15 +109,15 @@ public class MembersEntity {
 
 	/** 가이드 인지. */
 	@Column(length = 10)
+	@ColumnDefault("USER")
 	private String role;
 
 	/** 가이드 자격증. */
 	private String guidelicense;
 	
-	//CascadeType.All - Member의 변경이 소셜에도 전파
-	//orphanRemoval - member엔터티 삭제시 소셜도 삭제
-	@OneToOne(mappedBy = "members",cascade = CascadeType.ALL, orphanRemoval = true)
-	private SocialUserEntity socialUser;
+	@Column(name = "login_type", nullable = false, columnDefinition = "VARCHAR(50) DEFAULT 'local'")
+    private String loginType;
 
-
+	@Column(name = "sns_access_token", nullable = true)
+    private String snsAccessToken;
 }

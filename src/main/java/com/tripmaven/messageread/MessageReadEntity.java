@@ -3,7 +3,7 @@ package com.tripmaven.messageread;
 import org.hibernate.annotations.ColumnDefault;
 
 import com.tripmaven.chattingmessage.ChattingMessageEntity;
-import com.tripmaven.members.MembersEntity;
+import com.tripmaven.members.model.MembersEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

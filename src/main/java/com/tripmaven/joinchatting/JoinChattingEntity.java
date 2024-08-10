@@ -1,7 +1,7 @@
 package com.tripmaven.joinchatting;
 
 import com.tripmaven.chattingroom.ChattingRoomEntity;
-import com.tripmaven.members.MembersEntity;
+import com.tripmaven.members.model.MembersEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

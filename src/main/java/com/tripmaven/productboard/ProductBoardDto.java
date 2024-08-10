@@ -2,7 +2,7 @@ package com.tripmaven.productboard;
 
 import java.time.LocalDateTime;
 
-import com.tripmaven.members.MembersEntity;
+import com.tripmaven.members.model.MembersEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

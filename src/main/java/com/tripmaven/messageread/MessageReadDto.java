@@ -1,7 +1,7 @@
 package com.tripmaven.messageread;
 
 import com.tripmaven.chattingmessage.ChattingMessageEntity;
-import com.tripmaven.members.MembersEntity;
+import com.tripmaven.members.model.MembersEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

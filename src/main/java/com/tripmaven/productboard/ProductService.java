@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tripmaven.members.MembersEntity;
-import com.tripmaven.members.MembersRepository;
+import com.tripmaven.members.model.MembersEntity;
+import com.tripmaven.members.service.MembersRepository;
 
 import lombok.RequiredArgsConstructor;
 
