@@ -72,6 +72,10 @@ public class MembersEntity {
 	@Column(length = 50)
 	private String address;
 
+	/** 프로필 사진. */
+	@Column
+	private String profile;
+	
 	/** 생성일. */
 	@ColumnDefault("SYSDATE")
 	@CreationTimestamp
@@ -115,15 +119,14 @@ public class MembersEntity {
 	/** 가이드 자격증. */
 	private String guidelicense;
 	
+
 	/** 로그인 타입 */
-	@Column(name = "login_type", nullable = false, columnDefinition = "VARCHAR(50) DEFAULT 'local'")
+	@Column(name = "login_type", nullable = false)
+	@ColumnDefault("local")
     private String loginType;
 
 	/** 소셜로그인 어세스 토큰 */
 	@Column(name = "sns_access_token", nullable = true)
     private String snsAccessToken;
 	
-	/** 프로필 사진 */
-	@Column(name = "profile", nullable = true)
-    private String profile;
 }

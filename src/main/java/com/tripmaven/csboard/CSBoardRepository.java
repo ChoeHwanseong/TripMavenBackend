@@ -27,8 +27,7 @@ public interface CSBoardRepository extends JpaRepository<CSBoardEntity, Long>{
 	// READ 사용자 등록 문의 내역 가져오기
 	List<CSBoardEntity> findByMember_Id(long id);
 	
-	
-	
+
 	
 	
 	

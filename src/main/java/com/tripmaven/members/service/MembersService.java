@@ -63,7 +63,7 @@ public class MembersService {
 		return objectMapper.convertValue(membersEntityList2, objectMapper.getTypeFactory().defaultInstance().constructCollectionType(List.class,MembersDto.class));
 	}
 	
-	//모든 회원 아이디로 검색
+	//회원 아이디로 검색
 	@Transactional(readOnly = true)
 	public MembersDto searchByMemberID(Long id) {		
 		return MembersDto.toDto(membersRepository.findById(id).get());
@@ -86,7 +86,7 @@ public class MembersService {
 		members.setAddress(dto.getAddress());
 		members.setBirthday(dto.getBirthday());
 		members.setGender(dto.getGender());
-		members.setTelNumber(dto.getTelnumber());
+		members.setTelNumber(dto.getTelNumber());
 		return MembersDto.toDto(membersRepository.save(members));
 		
 	}
