@@ -40,6 +40,7 @@ public class CSBoardController {
 	public ResponseEntity<CSBoardDto> createInquire(@RequestParam Map map) {
 		try {
 			String member_id = map.get("member_id").toString();
+			System.out.println("최한성");
 			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(member_id)).toEntity();
 			CSBoardDto dto = mapper.convertValue(map, CSBoardDto.class);				
 			dto.setMember(members);
