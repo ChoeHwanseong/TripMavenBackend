@@ -86,7 +86,7 @@ public class MembersService {
 		members.setAddress(dto.getAddress());
 		members.setBirthday(dto.getBirthday());
 		members.setGender(dto.getGender());
-		members.setTelNumber(dto.getTelnumber());
+		members.setTelNumber(dto.getTelNumber());
 		return MembersDto.toDto(membersRepository.save(members));
 		
 	}

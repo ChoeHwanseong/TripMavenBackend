@@ -35,8 +35,7 @@ public class CSBoardController {
 	@PostMapping(path ="/cs")
 	@CrossOrigin	
 	public ResponseEntity<CSBoardDto> createInquire(@RequestParam Map map) {
-		try {
-			
+		try {		
 			CSBoardDto dto = mapper.convertValue(map, CSBoardDto.class);				
 			CSBoardDto createInquire = csBoardService.create(dto);	
 			return ResponseEntity.ok(createInquire);

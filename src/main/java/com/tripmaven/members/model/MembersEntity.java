@@ -72,6 +72,10 @@ public class MembersEntity {
 	@Column(length = 50)
 	private String address;
 
+	/** 프로필 사진. */
+	@Column
+	private String profile;
+	
 	/** 생성일. */
 	@ColumnDefault("SYSDATE")
 	@CreationTimestamp
