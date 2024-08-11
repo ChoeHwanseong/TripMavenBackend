@@ -63,6 +63,9 @@ public class CustomOauthUserService extends DefaultOAuth2UserService{
                             .name(name)
                             .role("user")
                             .loginType(provider)
+                            .isactive("1")
+                            .isdelete("1")
+                            .isupdate("1")
                             .password("OAUTH2_LOGIN")
                             .build();
                     return membersRepository.save(newMember);
