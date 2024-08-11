@@ -107,7 +107,7 @@ public class MembersEntity {
 	@CreationTimestamp
 	private LocalDateTime socialAt;
 
-	/** 가이드 인지. */
+	/** 가이드, 어드민, 유저 인지. */
 	@Column(length = 10)
 	@ColumnDefault("USER")
 	private String role;
@@ -115,9 +115,15 @@ public class MembersEntity {
 	/** 가이드 자격증. */
 	private String guidelicense;
 	
+	/** 로그인 타입 */
 	@Column(name = "login_type", nullable = false, columnDefinition = "VARCHAR(50) DEFAULT 'local'")
     private String loginType;
 
+	/** 소셜로그인 어세스 토큰 */
 	@Column(name = "sns_access_token", nullable = true)
     private String snsAccessToken;
+	
+	/** 프로필 사진 */
+	@Column(name = "profile", nullable = true)
+    private String profile;
 }
