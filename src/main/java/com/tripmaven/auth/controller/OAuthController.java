@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,7 +48,7 @@ public class OAuthController {
     private final ObjectMapper mapper;
    
 
-
+    @CrossOrigin
     @GetMapping("/oauth2/code/kakao")
     public void kakaoLogin(@RequestParam String code, HttpServletResponse response) throws IOException {
         log.info("code = {}", code);

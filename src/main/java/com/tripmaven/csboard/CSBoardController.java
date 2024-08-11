@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.members.model.MembersDto;
+import com.tripmaven.members.model.MembersEntity;
+import com.tripmaven.members.service.MembersService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +31,7 @@ public class CSBoardController {
 	
 	private final CSBoardService csBoardService;
 	private final ObjectMapper mapper;
+	private final MembersService membersService;
 
 	
 	//CREATE (문의 등록)
@@ -36,8 +39,10 @@ public class CSBoardController {
 	@CrossOrigin	
 	public ResponseEntity<CSBoardDto> createInquire(@RequestParam Map map) {
 		try {
-			
+			String member_id = map.get("member_id").toString();
+			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(member_id)).toEntity();
 			CSBoardDto dto = mapper.convertValue(map, CSBoardDto.class);				
+			dto.setMember(members);
 			CSBoardDto createInquire = csBoardService.create(dto);	
 			return ResponseEntity.ok(createInquire);
 		}

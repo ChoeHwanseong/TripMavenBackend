@@ -115,7 +115,8 @@ public class MembersEntity {
 	/** 가이드 자격증. */
 	private String guidelicense;
 	
-	@Column(name = "login_type", nullable = false, columnDefinition = "VARCHAR(50) DEFAULT 'local'")
+	@Column(name = "login_type", nullable = false)
+	@ColumnDefault("local")
     private String loginType;
 
 	@Column(name = "sns_access_token", nullable = true)
