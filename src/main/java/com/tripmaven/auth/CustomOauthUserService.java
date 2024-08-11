@@ -27,50 +27,49 @@ public class CustomOauthUserService extends DefaultOAuth2UserService{
 	private final MembersRepository membersRepository;
 
 	@Override
-	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-		OAuth2User oAuth2User = super.loadUser(userRequest);
-		log.info("getAttributes : {}", oAuth2User.getAttributes()); //Info	명확한 의도가  있는 정보성 로그요구사항에 따라 시스템 동작을 보여줄 떄
-		String provider = userRequest.getClientRegistration().getRegistrationId();
-		OAuthUserInfo oAuthUserInfo = null;
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		
-		if(provider.equals("google")) { //구글이라면
-			log.info("구글 로그인");
-			oAuthUserInfo = new GoogleUserDetails(oAuth2User.getAttributes());
-			
-		}
-		else if(provider.equals("kakao")) { //카카오라면
-			log.info("카카오 로그인");
-			oAuthUserInfo = new KakaoUserDetails(oAuth2User.getAttributes());
-			
-		}
-		else if(provider.equals("naver")) { //네이버라면
-			log.info("네이버 로그인");
-			oAuthUserInfo = new NaverUserDetails(oAuth2User.getAttributes());
-			
-		}
-		
-		String providerId = oAuthUserInfo.getProviderId();
-		String email = oAuthUserInfo.getEmail();
-		String name = oAuthUserInfo.getName();
-		
-		MembersEntity findMember = membersRepository.findByEmail(email).get();
-		MembersEntity membersEntity = null;
-		
-		if(findMember == null) {
-			membersEntity = membersEntity.builder()
-							.email(email)
-							.name(name)
-							.role("user")
-							.loginType(provider)
-							.build();	
-			membersRepository.save(membersEntity);
-		}
-		else {
-			membersEntity=findMember;
-		}
-		
-		return new CustomOauthUserDetails(membersEntity, oAuth2User.getAttributes());
-	}
+        OAuth2User oAuth2User = super.loadUser(userRequest);
+        log.info("getAttributes : {}", oAuth2User.getAttributes());
+        
+
+        String provider = userRequest.getClientRegistration().getRegistrationId();
+        OAuthUserInfo oAuthUserInfo = null;
+
+        if (provider.equals("google")) {
+            log.info("구글 로그인");
+            oAuthUserInfo = new GoogleUserDetails(oAuth2User.getAttributes());
+        } else if (provider.equals("kakao")) {
+            log.info("카카오 로그인");
+            oAuthUserInfo = new KakaoUserDetails(oAuth2User.getAttributes());
+        } else if (provider.equals("naver")) {
+            log.info("네이버 로그인");
+            oAuthUserInfo = new NaverUserDetails(oAuth2User.getAttributes());
+        }
+        
+        if (oAuthUserInfo == null) {
+            throw new OAuth2AuthenticationException("지원하지 않는 OAuth2 공급자입니다.");
+        }
+        
+        String providerId = oAuthUserInfo.getProviderId();
+        String email = oAuthUserInfo.getEmail();
+        String name = oAuthUserInfo.getName();
+        
+
+        MembersEntity membersEntity = membersRepository.findByEmail(email)
+                .orElseGet(() -> {
+                    MembersEntity newMember = MembersEntity.builder()
+                            .email(email)
+                            .name(name)
+                            .role("user")
+                            .loginType(provider)
+                            .password("OAUTH2_LOGIN")
+                            .build();
+                    return membersRepository.save(newMember);
+                });
+
+        return new CustomOauthUserDetails(membersEntity, oAuth2User.getAttributes());
+    }
 	
 	
 }
