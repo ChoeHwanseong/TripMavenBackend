@@ -48,14 +48,15 @@ public class SecurityConfig{
 		
 		//로그인 설정
 		http.formLogin(login->login
-			.loginPage("/login") //로그인 페이지 설정
-			.loginProcessingUrl("/loginProcess")//로그인 처리 URL(기본값:/login). 시큐리티가 로그인처리
-			.permitAll()
+				.disable()
+//				.loginPage("/login") //로그인 페이지 설정
+//				.loginProcessingUrl("/loginProcess")//로그인 처리 URL(기본값:/login). 시큐리티가 로그인처리
+//			.permitAll()
 				
 		);
 		
 		http.oauth2Login(auth-> auth
-				.loginPage("http://localhost:58337/")
+				//.loginPage("http://localhost:58337/home")
 				.defaultSuccessUrl("http://localhost:58337/", true)
 				//.failureUrl("/login?error=true"); 에러나면 갈 페이지 어케하까
 				.permitAll()
