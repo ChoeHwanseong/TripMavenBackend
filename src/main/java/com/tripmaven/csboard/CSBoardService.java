@@ -125,7 +125,16 @@ public class CSBoardService {
 		
 	}
 
-	
+
+
+	//UPDATE (문의 답변 수정)
+	@Transactional
+	public CSBoardDto updateAnswerById(long id, CSBoardDto dto) {
+		CSBoardEntity csBoardEntity= csBoardRepository.findById(id).get();		
+		csBoardEntity.setComments(dto.getComments());		
+		return CSBoardDto.toDto(csBoardRepository.save(csBoardEntity));
+		}
+
 	
 	
 	

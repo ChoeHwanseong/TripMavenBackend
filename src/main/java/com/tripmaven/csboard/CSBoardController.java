@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/cs")
 public class CSBoardController {
 	
 	private final CSBoardService csBoardService;
@@ -35,12 +37,11 @@ public class CSBoardController {
 
 	
 	//CREATE (문의 등록)
-	@PostMapping(path ="/cs")
+	@PostMapping("/post")
 	@CrossOrigin	
 	public ResponseEntity<CSBoardDto> createInquire(@RequestParam Map map) {
 		try {
 			String member_id = map.get("member_id").toString();
-			System.out.println("최한성");
 			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(member_id)).toEntity();
 			CSBoardDto dto = mapper.convertValue(map, CSBoardDto.class);				
 			dto.setMember(members);
@@ -52,11 +53,11 @@ public class CSBoardController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
-	
+
 	
 
 	//READ 관리자 측 전체 조회
-	@GetMapping("/cs")
+	@GetMapping("/getAll")
 	@CrossOrigin	
 	public ResponseEntity<List<CSBoardDto>> getUsersAll(){
 		try {
@@ -73,8 +74,8 @@ public class CSBoardController {
 
 
 	
-	// READ 사용자 등록 문의 전체 조회 (회원엔터티 FK_email로 조회) -◆테스트아직 안함.
-	@GetMapping("/cs/email/{email}")
+	// READ 사용자 등록 문의 전체 조회 (회원엔터티 FK_email로 조회)
+	@GetMapping("/get/email/{email}")
 	@CrossOrigin
 	public ResponseEntity<List<CSBoardDto>> getInquireByUsername(@PathVariable("email") String email){
 		try {
@@ -90,7 +91,7 @@ public class CSBoardController {
 	
 		
 	// READ 사용자 등록 문의 1개 조회(cs엔터티 PK_id로)
-	@GetMapping("/cs/{id}")
+	@GetMapping("/get/{id}")
 	@CrossOrigin
 	public ResponseEntity<CSBoardDto> getInquireById(@PathVariable("id") Long id){
 		try {
@@ -106,7 +107,7 @@ public class CSBoardController {
 	
 	
 	//UPDATE (문의 수정)
-	@PutMapping("/cs/{id}")
+	@PutMapping("/put/{id}")
 	@CrossOrigin
 	public ResponseEntity<CSBoardDto> updateInquire(@PathVariable("id") long id, @RequestParam Map map){
 		try {
@@ -119,12 +120,27 @@ public class CSBoardController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);			
 		}		
 	}
+	
+	//UPDATE (문의 답변수정)
+	@PutMapping("/answer/{id}")
+	@CrossOrigin
+	public ResponseEntity<CSBoardDto> updateAnswer(@PathVariable("id") long id, @RequestParam Map map){
+		try {
+			CSBoardDto dto = mapper.convertValue(map, CSBoardDto.class);
+			CSBoardDto updatedDto= csBoardService.updateAnswerById(id,dto);
+			return ResponseEntity.ok(updatedDto);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);			
+		}		
+	}
 
 	
 	//DELETE (문의 삭제)
-	@DeleteMapping("/cs/{id}")
+	@DeleteMapping("/delete/{id}")
 	@CrossOrigin
-	public ResponseEntity<CSBoardDto> deleteInquire(@PathVariable long id){
+	public ResponseEntity<CSBoardDto> deleteInquire(@PathVariable("id") long id){
 		try {
 			CSBoardDto deletedDto= csBoardService.deleteById(id);
 			return ResponseEntity.ok(deletedDto);
@@ -140,8 +156,8 @@ public class CSBoardController {
 	// 문의 내용 검색
 	// 문의 내용 검색 -제목
 	@CrossOrigin
-	@GetMapping("/cs/title/{title}")
-	public ResponseEntity<List<CSBoardDto>> getPostByTitle (@PathVariable String title) {
+	@GetMapping("/title/{title}")
+	public ResponseEntity<List<CSBoardDto>> getPostByTitle (@PathVariable("title") String title) {
 		try {
 			List<CSBoardDto> searchTitles=csBoardService.searchByTitle(title);
 			return ResponseEntity.ok(searchTitles);
@@ -153,8 +169,8 @@ public class CSBoardController {
 	}
 	// 문의 내용 검색 -내용	
 	@CrossOrigin
-	@GetMapping("/cs/content/{content}")
-	public ResponseEntity<List<CSBoardDto>> getPostByContent (@PathVariable String content) {
+	@GetMapping("/content/{content}")
+	public ResponseEntity<List<CSBoardDto>> getPostByContent (@PathVariable("content") String content) {
 		try {
 			List<CSBoardDto> searchContents=csBoardService.searchByContent(content);
 			return ResponseEntity.ok(searchContents);
@@ -165,10 +181,10 @@ public class CSBoardController {
 		}
 	}
 	
-	// 문의 내용 검색 -제목+내용
+	// 문의 내용 검색 -제목+내용 (잘 모르겠음)
 	@CrossOrigin
-	@GetMapping("/cs/titlencontent/{keyword}")
-	public ResponseEntity<List<CSBoardDto>> getPostsByTitleAndContent(@PathVariable String keyword) {
+	@GetMapping("/titlencontent/{keyword}")
+	public ResponseEntity<List<CSBoardDto>> getPostsByTitleAndContent(@PathVariable("keyword") String keyword) {
 		try {
 			List<CSBoardDto> dtoList = csBoardService.searchByTitleOrContent(keyword);
 			return ResponseEntity.ok(dtoList);
@@ -177,6 +193,6 @@ public class CSBoardController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
-	
-	
+
+
 }
