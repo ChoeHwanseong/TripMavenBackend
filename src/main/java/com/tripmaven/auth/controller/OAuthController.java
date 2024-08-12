@@ -3,11 +3,9 @@ package com.tripmaven.auth.controller;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +17,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.auth.model.JWTTOKEN;
 import com.tripmaven.auth.model.TokenDTO;
 import com.tripmaven.auth.service.TokenService;
-import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersRepository;
-import com.tripmaven.members.service.MembersService;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +64,7 @@ public class OAuthController {
                 + "&client_id=" + naverClientId
                 + "&redirect_uri=" + naverRedirectUri
                 + "&code=" + code
-        		+ "&client_secret=" + naverClientSecret;
+                + "&client_secret=" + naverClientSecret;
 
         // 토큰 요청
         HttpEntity<String> tokenRequestEntity = new HttpEntity<>(tokenRequestBody, tokenHeaders);
@@ -94,7 +90,8 @@ public class OAuthController {
         String email = ((Map<String, Object>) userJson.get("response")).get("email").toString();
         log.info("email = {}", email);
 
-        Optional<MembersEntity> optionalMembers = membersRepository.findByEmailAndLoginType(email, "kakao");
+        // 'naver'로 loginType을 설정해야 합니다.
+        Optional<MembersEntity> optionalMembers = membersRepository.findByEmailAndLoginType(email, "naver");
 
         if (optionalMembers.isPresent()) {
             MembersEntity membersEntity = optionalMembers.get();
@@ -118,14 +115,15 @@ public class OAuthController {
             tokenService.save(token.toEntity());
 
             // 로그인 성공 후 URL에 토큰 정보 포함
-            String redirectUrl = String.format("http://localhost:58337?access=%s&refresh=%s&isAdmin=%s",
-            	    accessTokenJwt, refreshTokenJwt, membersEntity.getRole());
+            String redirectUrl = String.format("http://localhost:58337/home?access=%s&refresh=%s&isAdmin=%s",
+                    accessTokenJwt, refreshTokenJwt, membersEntity.getRole());
 
             response.sendRedirect(redirectUrl);
             log.info("로그인 성공: {}", email);
         } else {
             log.info("회원가입 필요: {}", email);
-            response.sendRedirect("http://localhost:58337/");
+            // 회원가입 페이지로 리다이렉트
+            response.sendRedirect("http://localhost:58337/signup");
         }
     }
     

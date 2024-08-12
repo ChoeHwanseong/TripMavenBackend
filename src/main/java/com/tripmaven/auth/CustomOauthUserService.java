@@ -15,10 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 
-/*
-Form로그인 방식은 기존의 CustomUserDetailsService를 통해서 진행됨.
-첫 로그인이면 자동으로 회원가입 진행
-*/
+
 @Service
 @RequiredArgsConstructor
 @Slf4j //로깅용 어노테이션

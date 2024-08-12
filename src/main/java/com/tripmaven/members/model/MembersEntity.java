@@ -50,7 +50,7 @@ public class MembersEntity {
 	private String email;
 
 	/** 이름. */
-	@Column(nullable = false, length = 10)
+	@Column(nullable = false)
 	private String name;
 
 	/** 비밀번호. */
