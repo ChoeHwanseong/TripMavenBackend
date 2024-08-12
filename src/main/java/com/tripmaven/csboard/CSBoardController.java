@@ -41,8 +41,8 @@ public class CSBoardController {
 	@CrossOrigin	
 	public ResponseEntity<CSBoardDto> createInquire(@RequestParam Map map) {
 		try {
-			String member_id = map.get("member_id").toString();
-			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(member_id)).toEntity();
+			String members_id = map.get("members_id").toString();
+			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(members_id)).toEntity();
 			CSBoardDto dto = mapper.convertValue(map, CSBoardDto.class);				
 			dto.setMember(members);
 			CSBoardDto createInquire = csBoardService.create(dto);	

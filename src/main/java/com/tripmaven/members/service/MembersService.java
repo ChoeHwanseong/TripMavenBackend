@@ -31,8 +31,11 @@ public class MembersService {
 		boolean isDuplicated = membersRepository.existsByEmail(dto.getEmail()); //증복확인
 		if(isDuplicated) return null;
 		
+		//System.out.println(dto.getPassword());
 		//암호화
 		dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+		dto.setLoginType("local");
+		//System.out.println(dto.getPassword());
 
 		//역할 DTO에서 받아왔잖아~
 		dto.setIsactive("1");
