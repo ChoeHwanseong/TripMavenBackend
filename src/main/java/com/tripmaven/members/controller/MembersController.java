@@ -32,9 +32,10 @@ public class MembersController {
 	//회원가입
 	@CrossOrigin
 	@PostMapping("/signup")
-	public ResponseEntity<MembersDto> signUp(@RequestParam Map map){
+	public ResponseEntity<MembersDto> signUp(@RequestBody Map map){ //RequestParam에서 Body로 변경
 		try {
 			//맵을 DTO로 변환하는 코드 (파라미터 명과 필드명을 일치시켜야 함 아마?)  
+			//System.out.println(map.get("password"));
 			MembersDto dto= mapper.convertValue(map, MembersDto.class);
 			MembersDto insertedDto = membersService.signup(dto);
 			return ResponseEntity.ok(insertedDto);
