@@ -57,7 +57,7 @@ public class ReportController {
 			String members_id = map.get("members_id").toString();
 			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(members_id)).toEntity();
 			String productboard_id = map.get("productboard_id").toString();
-			ProductBoardEntity productboard = productService.searchByProductId(Long.parseLong(productboard_id)).toEntity();
+			ProductBoardEntity productboard = productService.usersById(Long.parseLong(productboard_id)).toEntity();
 			ReportDto reportDto = mapper.convertValue(map, ReportDto.class);				
 			reportDto.setMember(members);
 	        reportDto.setProductBoard(productboard);;

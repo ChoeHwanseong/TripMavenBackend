@@ -34,9 +34,9 @@ public class TokenEntity {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_tokens")
 	private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memebers_id", referencedColumnName = "id", nullable = false)
-    private MembersEntity members;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "Members_id")
+    private MembersEntity member;
 
     @Column(name = "token_value", nullable = false, length = 255)
     private String tokenValue;

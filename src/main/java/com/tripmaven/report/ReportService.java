@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tripmaven.csboard.CSBoardDto;
+import com.tripmaven.csboard.CSBoardEntity;
 import com.tripmaven.productboard.ProductBoardDto;
 
 import lombok.RequiredArgsConstructor;
@@ -17,25 +20,24 @@ import lombok.RequiredArgsConstructor;
 public class ReportService {
 	
 	private final ReportRepository reportRepository;  
+	private final ObjectMapper objectMapper;
 	
-	
-	//전체
+
+	//신고 등록
 	@Transactional
-	public List<ReportDto> listAll(){
-		List<ReportEntity> postEntityList=reportRepository.findAll();
-		return postEntityList.stream().map(user->ReportDto.toDto(user)).collect(Collectors.toList());
+	public ReportDto create(ReportDto reportDto) {
+		return ReportDto.toDto(reportRepository.save(reportDto.toEntity()));
 	}
-	
-	
-	
-	//신고
-	
-	
-	@Transactional
-	public ReportDto reportContent(ReportDto dto) {									
-			ReportEntity  reportEntity = reportRepository.save(dto.toEntity());
-			return ReportDto.toDto(reportEntity);
-		
+
+
+    //전체 조회
+	@Transactional(readOnly = true)
+	public List<ReportDto> listAll() {
+		List<ReportEntity> inquireEntityList= reportRepository.findAll();	
+		// 엔터티 리스트를 dto 로 변환
+		return objectMapper.convertValue(inquireEntityList,
+										objectMapper.getTypeFactory().defaultInstance()
+										.constructCollectionLikeType(List.class, ReportDto.class));
 	}
 	
 }

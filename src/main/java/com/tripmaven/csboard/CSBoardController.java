@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersService;
+import com.tripmaven.productboard.ProductBoardDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/cs")
+@CrossOrigin(origins = "http://localhost")
 public class CSBoardController {
 	
 	private final CSBoardService csBoardService;
@@ -37,8 +39,7 @@ public class CSBoardController {
 
 	
 	//CREATE (문의 등록)
-	@PostMapping("/post")
-	@CrossOrigin	
+	@PostMapping("/post")	
 	public ResponseEntity<CSBoardDto> createInquire(@RequestParam Map map) {
 		try {
 			String members_id = map.get("members_id").toString();
@@ -57,8 +58,9 @@ public class CSBoardController {
 	
 
 	//READ 관리자 측 전체 조회
-	@GetMapping("/getAll")
-	
+
+	@GetMapping("/getAll")	
+
 	public ResponseEntity<List<CSBoardDto>> getUsersAll(){
 		try {
 			List<CSBoardDto> inquireList= csBoardService.usersAll();
@@ -67,16 +69,15 @@ public class CSBoardController {
 		catch(Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);			
-			}		
+		}		
 	}
 	
 	
 
 
 	
-	// READ 사용자 등록 문의 전체 조회 (회원엔터티 FK_email로 조회)
+	// READ 가이드 측 문의내역 조회(회원엔터티 FK_email로 조회)
 	@GetMapping("/get/email/{email}")
-	@CrossOrigin
 	public ResponseEntity<List<CSBoardDto>> getInquireByUsername(@PathVariable("email") String email){
 		try {
 			MembersDto dto= csBoardService.usersByEmail(email);
@@ -89,10 +90,8 @@ public class CSBoardController {
 		}		
 	}
 	
-		
-	// READ 사용자 등록 문의 1개 조회(cs엔터티 PK_id로)
+	// READ 가이드 측 문의내역 조회(cs엔터티 PK_id로)	
 	@GetMapping("/get/{id}")
-	@CrossOrigin
 	public ResponseEntity<CSBoardDto> getInquireById(@PathVariable("id") Long id){
 		try {
 			CSBoardDto dto= csBoardService.usersById(id);
@@ -108,7 +107,6 @@ public class CSBoardController {
 	
 	//UPDATE (문의 수정)
 	@PutMapping("/put/{id}")
-	@CrossOrigin
 	public ResponseEntity<CSBoardDto> updateInquire(@PathVariable("id") long id, @RequestParam Map map){
 		try {
 			CSBoardDto dto = mapper.convertValue(map, CSBoardDto.class);
@@ -123,7 +121,6 @@ public class CSBoardController {
 	
 	//UPDATE (문의 답변수정)
 	@PutMapping("/answer/{id}")
-	@CrossOrigin
 	public ResponseEntity<CSBoardDto> updateAnswer(@PathVariable("id") long id, @RequestParam Map map){
 		try {
 			CSBoardDto dto = mapper.convertValue(map, CSBoardDto.class);
@@ -139,7 +136,6 @@ public class CSBoardController {
 	
 	//DELETE (문의 삭제)
 	@DeleteMapping("/delete/{id}")
-	@CrossOrigin
 	public ResponseEntity<CSBoardDto> deleteInquire(@PathVariable("id") long id){
 		try {
 			CSBoardDto deletedDto= csBoardService.deleteById(id);
@@ -155,7 +151,6 @@ public class CSBoardController {
 	
 	// 문의 내용 검색
 	// 문의 내용 검색 -제목
-	@CrossOrigin
 	@GetMapping("/title/{title}")
 	public ResponseEntity<List<CSBoardDto>> getPostByTitle (@PathVariable("title") String title) {
 		try {
@@ -168,7 +163,6 @@ public class CSBoardController {
 		}
 	}
 	// 문의 내용 검색 -내용	
-	@CrossOrigin
 	@GetMapping("/content/{content}")
 	public ResponseEntity<List<CSBoardDto>> getPostByContent (@PathVariable("content") String content) {
 		try {
@@ -181,18 +175,18 @@ public class CSBoardController {
 		}
 	}
 	
-	// 문의 내용 검색 -제목+내용 (잘 모르겠음)
-	@CrossOrigin
-	@GetMapping("/titlencontent/{keyword}")
-	public ResponseEntity<List<CSBoardDto>> getPostsByTitleAndContent(@PathVariable("keyword") String keyword) {
-		try {
-			List<CSBoardDto> dtoList = csBoardService.searchByTitleOrContent(keyword);
-			return ResponseEntity.ok(dtoList);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		}
-	}
 
+	// 문의 내용 검색 -제목+내용
+    @CrossOrigin
+    @GetMapping("/titlencontent/{keyword}") 
+    public ResponseEntity<List<CSBoardDto>> getPostsByTitleAndContent(@PathVariable("keyword") String keyword) {
+        try {
+            List<CSBoardDto> dtoList = csBoardService.searchByTitleAndContent(keyword);
+            return ResponseEntity.ok(dtoList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
 
 }

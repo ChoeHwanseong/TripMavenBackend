@@ -14,8 +14,7 @@ import com.tripmaven.members.model.MembersEntity;
 
 @Repository
 public interface ProductRepository extends JpaRepository<ProductBoardEntity, Long> {
-	// 제목, 내용, 제목+내용, 아이디, 도시로 찾기
-	
+
 	// 회원고유번호로 찾기(회원아이디)
     List<ProductBoardEntity> findByMember(MembersEntity entity); 
     List<ProductBoardEntity> findByMemberIn(List<MembersEntity> entity);
@@ -26,13 +25,13 @@ public interface ProductRepository extends JpaRepository<ProductBoardEntity, Lon
     List<ProductBoardEntity> findByContentContaining(String content);  
     // 도시로 찾기
     List<ProductBoardEntity> findByCityContaining(String city);
-    
-    
+       
     // 제목과 내용 모두 포함하는 항목 찾기 
-    /**이게 맞는지 모르겠다**/
-    @Query("SELECT p FROM ProductBoardEntity p WHERE p.title LIKE %:keyword% AND p.content LIKE %:keyword%")
-    List<ProductBoardEntity> findByTitleAndContent(@Param("keyword") String keyword);
-    /**이렇게도 될거 같은데? ?**/
-	Page<ProductBoardEntity> findByTitleAndContent(String title,String content,  PageRequest of);
+  	List<ProductBoardEntity> findByTitleOrContentContaining(String title, String content);	
+	
+  	
+	// READ 가이드 측 게시글 가져오기(아이디로)
+	List<ProductBoardEntity> findByMember_Id(long id);
+
     
 }
