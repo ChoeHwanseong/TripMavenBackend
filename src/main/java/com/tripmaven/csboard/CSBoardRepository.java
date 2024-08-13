@@ -22,10 +22,11 @@ public interface CSBoardRepository extends JpaRepository<CSBoardEntity, Long>{
 	List<CSBoardEntity> findByContentContaining(String findContent);
 
 	// 문의 내용 검색 -제목+내용
-	List<CSBoardEntity> findByTitleContainingOrContentContaining(String titleKeyword, String contentKeyword);
-	
+	List<CSBoardEntity> findByTitleOrContentContaining(String title, String content);
+
 	// READ 가이드 측 문의내역 조회(회원엔터티 FK_email로 조회)
 	List<CSBoardEntity> findByMember_Id(long id);
+
 	
 
 	

@@ -72,69 +72,9 @@ public class ProductService {
 		return ProductBoardDto.toDto(productRepository.findById(id).get());
 	}
 	
-
 	
-
 	
-	// 게시글 제목으로 검색
-	@Transactional(readOnly = true)
-	public List<ProductBoardDto> searchByTitle(String findTitle) {
-		List<ProductBoardEntity> products = productRepository.findByTitleContaining(findTitle);
-		List<ProductBoardDto> productsDto = new Vector<>();
-		for(ProductBoardEntity product : products) {
-			productsDto.add(ProductBoardDto.toDto(product));
-		} 
-		return productsDto;
-	}
-	
-	// 게시물 내용으로 검색
-	@Transactional(readOnly = true)
-	public List<ProductBoardDto> searchByContent(String findContent) {
-		List<ProductBoardEntity> products=productRepository.findByContentContaining(findContent);
-		List<ProductBoardDto> productsDto = new Vector<>();
-		for(ProductBoardEntity product : products) {
-			productsDto.add(ProductBoardDto.toDto(product));
-		} 
-		return productsDto;
-	}
-	
-	// 게시글 도시로 찾기 
-	@Transactional(readOnly = true)
-	public List<ProductBoardDto> searchByCity(String findCity) {
-		List<ProductBoardEntity> products=productRepository.findByCityContaining(findCity);
-		List<ProductBoardDto> productsDto = new Vector<>();
-		for(ProductBoardEntity product : products) {
-			productsDto.add(ProductBoardDto.toDto(product));
-		} 
-		return productsDto;
-	}
-	
-	// 게시글 이메일로 찾기 
-	@Transactional(readOnly = true)
-	public List<ProductBoardDto> searchByEmail(String email) {
-	    List<MembersEntity> membersEntities = membersRepository.findPostsByEmail(email);
-	    if (!membersEntities.isEmpty()) {
-	        List<ProductBoardEntity> entityList = productRepository.findByMemberIn(membersEntities);
-	        return entityList.stream().map(ProductBoardDto::toDto).toList();
-	    }
-	    return null;
-	}
-	
-	// 제목 + 내용
-	@Transactional(readOnly = true)
-	public List<ProductBoardDto> searchByTitleAndContent(String keyword) {
-		List<ProductBoardEntity> products=productRepository.findByTitleAndContent(keyword);
-		List<ProductBoardDto> productsDto = new Vector<>();
-		for(ProductBoardEntity product : products) {
-			productsDto.add(ProductBoardDto.toDto(product));
-		} 
-		return productsDto;
-		
-	}
-
-	/////////////////////
-
-	//게시글 수정
+	//UPDATE (게시글 수정)
 	@Transactional
 	public ProductBoardDto update(Long id,ProductBoardDto dto) {
 		ProductBoardEntity productBoardEntity=productRepository.findById(id).get();
@@ -146,30 +86,64 @@ public class ProductService {
 		productBoardEntity.setUpdatedAt(LocalDateTime.now()); //수정시간
 		
 		return ProductBoardDto.toDto(productRepository.save(productBoardEntity));
-	} 
-
-	////////////////////////////
+	}
 	
-	//게시글 삭제 여부
+	//DELETE (게시글 삭제)
 	@Transactional
 	public ProductBoardDto delete(long id) {
 		ProductBoardDto deletedDto=ProductBoardDto.toDto(productRepository.findById(id).get());
 		productRepository.deleteById(id);
 		return deletedDto;
 	}
-
-
-
 	
 
-
-
+	
+	
+	//게시글 검색	
+	//게시글 검색 -제목
+	@Transactional(readOnly = true)
+	public List<ProductBoardDto> searchByTitle(String findTitle) {
+		List<ProductBoardEntity> products = productRepository.findByTitleContaining(findTitle);
+		List<ProductBoardDto> productsDto = new Vector<>();
+		for(ProductBoardEntity product : products) {
+			productsDto.add(ProductBoardDto.toDto(product));
+		} 
+		return productsDto;
+	}
+	
+	//게시글 검색 -내용	
+	@Transactional(readOnly = true)
+	public List<ProductBoardDto> searchByContent(String findContent) {
+		List<ProductBoardEntity> products=productRepository.findByContentContaining(findContent);
+		List<ProductBoardDto> productsDto = new Vector<>();
+		for(ProductBoardEntity product : products) {
+			productsDto.add(ProductBoardDto.toDto(product));
+		} 
+		return productsDto;
+	}
+	
+	//게시글 검색 -도시
+	@Transactional(readOnly = true)
+	public List<ProductBoardDto> searchByCity(String findCity) {
+		List<ProductBoardEntity> products=productRepository.findByCityContaining(findCity);
+		List<ProductBoardDto> productsDto = new Vector<>();
+		for(ProductBoardEntity product : products) {
+			productsDto.add(ProductBoardDto.toDto(product));
+		} 
+		return productsDto;
+	}
 	
 
-
-
-
-	
+	//게시글 검색 -제목+내용
+	@Transactional(readOnly = true)
+	public List<ProductBoardDto> searchByTitleAndContent(String keyword) {
+		List<ProductBoardEntity> products = productRepository.findByTitleOrContentContaining(keyword, keyword);
+		List<ProductBoardDto> productsDto = new Vector<>();
+		for(ProductBoardEntity product : products) {
+			productsDto.add(ProductBoardDto.toDto(product));
+		} 
+		return productsDto;
+	}
 
 
 }

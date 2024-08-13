@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersRepository;
+import com.tripmaven.productboard.ProductBoardDto;
+import com.tripmaven.productboard.ProductBoardEntity;
 
 import lombok.RequiredArgsConstructor;
 
@@ -113,17 +115,17 @@ public class CSBoardService {
 	}
 
 	// 문의 내용 검색 -제목+내용
-	@Transactional
-	public List<CSBoardDto> searchByTitleOrContent(String keyword) {
-	    List<CSBoardEntity> inquireTCs = csBoardRepository.findByTitleContainingOrContentContaining(keyword, keyword);
-	    List<CSBoardDto> csDto = new Vector<>();
-	    
-	    for(CSBoardEntity inquireTC : inquireTCs) {
-			csDto.add(CSBoardDto.toDto(inquireTC));
+	@Transactional(readOnly = true)
+	public List<CSBoardDto> searchByTitleAndContent(String keyword) {
+		List<CSBoardEntity> findings = csBoardRepository.findByTitleOrContentContaining(keyword, keyword);
+		List<CSBoardDto> csDto = new Vector<>();
+		for(CSBoardEntity finding : findings) {
+			csDto.add(CSBoardDto.toDto(finding));
 		} 
-		return csDto;
+	return csDto;
 		
 	}
+	
 
 
 
@@ -134,6 +136,8 @@ public class CSBoardService {
 		csBoardEntity.setComments(dto.getComments());		
 		return CSBoardDto.toDto(csBoardRepository.save(csBoardEntity));
 		}
+
+
 
 	
 	

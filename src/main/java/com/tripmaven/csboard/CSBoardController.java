@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersService;
+import com.tripmaven.productboard.ProductBoardDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -172,17 +173,18 @@ public class CSBoardController {
 		}
 	}
 	
-	// 문의 내용 검색 -제목+내용 (잘 모르겠음)
-	@GetMapping("/titlencontent/{keyword}")
-	public ResponseEntity<List<CSBoardDto>> getPostsByTitleAndContent(@PathVariable("keyword") String keyword) {
-		try {
-			List<CSBoardDto> dtoList = csBoardService.searchByTitleOrContent(keyword);
-			return ResponseEntity.ok(dtoList);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		}
-	}
 
+	// 문의 내용 검색 -제목+내용
+    @CrossOrigin
+    @GetMapping("/titlencontent/{keyword}") 
+    public ResponseEntity<List<CSBoardDto>> getPostsByTitleAndContent(@PathVariable("keyword") String keyword) {
+        try {
+            List<CSBoardDto> dtoList = csBoardService.searchByTitleAndContent(keyword);
+            return ResponseEntity.ok(dtoList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
 
 }

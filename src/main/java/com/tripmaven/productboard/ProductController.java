@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost")
+@CrossOrigin(origins = "http://localhost:58337")
 public class ProductController  {
 	
 	private final ProductService productService;
@@ -73,9 +73,11 @@ public class ProductController  {
 
 	
 	
+
 	// READ 가이드 측 게시글 조회(회원엔터티 FK_email로 조회)
+	@CrossOrigin
 	@GetMapping("/product/member/{email}")
-	public ResponseEntity<List<ProductBoardDto>> getPostByMemberId (@PathVariable("email") String email) {
+	public ResponseEntity<List<ProductBoardDto>> getPostByEmail (@PathVariable("email") String email) {
 		try {
 			MembersDto dto= productService.usersByEmail(email);
 			List<ProductBoardDto> csDto= productService.findAllById(dto.getId());
@@ -88,12 +90,11 @@ public class ProductController  {
 		}
 	}
 	
-	
+
 	// READ 가이드 측 게시글 조회(cs엔터티 PK_id로)	
 	@GetMapping("/product/{id}")
-	public ResponseEntity<ProductBoardDto> getInquireById(@PathVariable("id") Long id){
+	public ResponseEntity<ProductBoardDto> getPostById(@PathVariable("id") Long id){
 		try {
-			System.out.println("나와라!!!!!!!!"+id);
 			ProductBoardDto dto= productService.usersById(id);
 			return ResponseEntity.ok(dto);
 		}
@@ -102,8 +103,11 @@ public class ProductController  {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);			
 		}		
 	}
+		
+	
 	
 	//UPDATE (게시글 수정)
+	@CrossOrigin
 	@PutMapping("/product/{id}")
 	public ResponseEntity<ProductBoardDto> postUpdate(@PathVariable("id") long id, @RequestParam Map map) {
 		try {
@@ -171,21 +175,19 @@ public class ProductController  {
 		}
 	}
 	
-	
-	//게시글 검색 -제목+내용 (잘 모르겠음)
-	@GetMapping("/product/titlencontent/{keyword}") //->안댐 
-	
-	public ResponseEntity<List<ProductBoardDto>> getPostsByTitleAndContent(@PathVariable("keyword") String keyword) {
-		try {
-			List<ProductBoardDto> dtoList = productService.searchByTitleAndContent(keyword);
-			return ResponseEntity.ok(dtoList);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		}
-	}
 
-	
-	
+	//게시글 검색 -제목+내용
+    @CrossOrigin
+    @GetMapping("/product/titlencontent/{keyword}") 
+    public ResponseEntity<List<ProductBoardDto>> getPostsByTitleAndContent(@PathVariable("keyword") String keyword) {
+        try {
+            List<ProductBoardDto> dtoList = productService.searchByTitleAndContent(keyword);
+            return ResponseEntity.ok(dtoList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
 	
 }
