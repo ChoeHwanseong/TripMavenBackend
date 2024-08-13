@@ -120,6 +120,11 @@ public class ProductService {
 	public ProductBoardDto create(ProductBoardDto dto) {
 		return ProductBoardDto.toDto(productRepository.save(dto.toEntity()));
 	}
+
+	public CSBoardDto searchByProductId(long long1) {
+		
+		return null;
+	}
 	
 	/////////////////////
 }
