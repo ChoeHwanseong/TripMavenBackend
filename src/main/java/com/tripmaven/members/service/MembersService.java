@@ -65,7 +65,7 @@ public class MembersService {
 	
 	//회원 아이디로 검색
 	@Transactional(readOnly = true)
-	public MembersDto searchByMemberID(Long id) {		
+	public MembersDto searchByMemberID(Long id) {
 		return MembersDto.toDto(membersRepository.findById(id).get());
 	}
 	

@@ -35,7 +35,7 @@ public class InterCityEntity {
 	
 	/** 회원 고유 번호. FK*/
 	@ManyToOne(optional = false)
-	@JoinColumn(name="membersentity_id")
+	@JoinColumn(name="Members_id")
 	private MembersEntity member;
 	
 }
