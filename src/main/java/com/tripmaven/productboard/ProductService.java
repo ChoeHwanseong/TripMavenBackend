@@ -68,10 +68,10 @@ public class ProductService {
 	// 게시글 이메일로 찾기 
 	@Transactional(readOnly = true)
 	public List<ProductBoardDto> searchByEmail(String email) {
-	    List<MembersEntity> membersEntities = membersRepository.findPostsByEmail(email);
-	    if (!membersEntities.isEmpty()) {
-	        List<ProductBoardEntity> entityList = productRepository.findByMemberIn(membersEntities);
-	        return entityList.stream().map(ProductBoardDto::toDto).toList();
+	    MembersEntity membersEntity = membersRepository.findByEmail(email).orElse(null);
+	    if (membersEntity!=null) {
+	        List<ProductBoardEntity> entityList = productRepository.findByMember(membersEntity);
+	        return entityList.stream().map(entity->ProductBoardDto.toDto(entity)).toList();
 	    }
 	    return null;
 	}
@@ -79,7 +79,7 @@ public class ProductService {
 	// 제목 + 내용
 	@Transactional(readOnly = true)
 	public List<ProductBoardDto> searchByTitleAndContent(String keyword) {
-		List<ProductBoardEntity> products=productRepository.findByTitleAndContent(keyword);
+		List<ProductBoardEntity> products = productRepository.findByTitleOrContentContaining(keyword, keyword);
 		List<ProductBoardDto> productsDto = new Vector<>();
 		for(ProductBoardEntity product : products) {
 			productsDto.add(ProductBoardDto.toDto(product));
@@ -119,6 +119,11 @@ public class ProductService {
 	@Transactional
 	public ProductBoardDto create(ProductBoardDto dto) {
 		return ProductBoardDto.toDto(productRepository.save(dto.toEntity()));
+	}
+
+	public ProductBoardDto searchById(String id) {
+		ProductBoardEntity entity = productRepository.findById(Long.parseLong(id)).orElse(null);
+		return ProductBoardDto.toDto(entity);
 	}
 	
 	/////////////////////

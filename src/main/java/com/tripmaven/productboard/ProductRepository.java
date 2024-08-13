@@ -30,9 +30,10 @@ public interface ProductRepository extends JpaRepository<ProductBoardEntity, Lon
     
     // 제목과 내용 모두 포함하는 항목 찾기 
     /**이게 맞는지 모르겠다**/
-    @Query("SELECT p FROM ProductBoardEntity p WHERE p.title LIKE %:keyword% AND p.content LIKE %:keyword%")
-    List<ProductBoardEntity> findByTitleAndContent(@Param("keyword") String keyword);
-    /**이렇게도 될거 같은데? ?**/
-	Page<ProductBoardEntity> findByTitleAndContent(String title,String content,  PageRequest of);
+    //@Query("SELECT p FROM ProductBoardEntity p WHERE p.title LIKE %:keyword% AND p.content LIKE %:keyword%")
+    //List<ProductBoardEntity> findByTitleAndContent(@Param("keyword") String keyword);
+    
+    //고쳤음
+	List<ProductBoardEntity> findByTitleOrContentContaining(String title, String content);
     
 }

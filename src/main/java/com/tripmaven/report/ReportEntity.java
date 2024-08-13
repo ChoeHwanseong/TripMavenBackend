@@ -53,7 +53,7 @@ public class ReportEntity {
 	@Column(length = 20)
 	private String etc;
 	
-	/** 리뷰 날짜 */
+	/** 신고 날짜 */
 	@ColumnDefault("SYSDATE")
 	@CreationTimestamp
 	private LocalDateTime createdAt;

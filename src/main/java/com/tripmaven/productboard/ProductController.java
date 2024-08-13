@@ -115,8 +115,7 @@ public class ProductController  {
 	}
 	
 	
-	//게시글 (아이디가 아니라 이메일)로 검색   ->테스트 안해봄 ㅇ////잉거 안댕댕댕
-	
+	//게시글 (아이디가 아니라 이메일)로 검색 -> 테스트 안해봄 ㅇ///고치긴 했는데 이거 쓰는건가?
 	@CrossOrigin
 	@GetMapping("/product/member/{email}")
 	public ResponseEntity<List<ProductBoardDto>> getPostByMemberId (@PathVariable("email") String email) {
@@ -129,11 +128,26 @@ public class ProductController  {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
-	/**
+	
+	//게시글 아이디로 검색
+		@CrossOrigin
+		@GetMapping("/product/{id}")
+		public ResponseEntity<ProductBoardDto> getPostById(@PathVariable String id) {
+			try {
+				ProductBoardDto dto = productService.searchById(id);
+				return ResponseEntity.ok(dto);
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			}
+		}
+	
+	
+	
 	//게시글 제목+내용으로 검색
 	@CrossOrigin
-	@GetMapping("/product/titlencontent/{keyword}") //->안댐 
-	
+	@GetMapping("/product/titlencontent/{keyword}") 
 	public ResponseEntity<List<ProductBoardDto>> getPostsByTitleAndContent(@PathVariable("keyword") String keyword) {
 		try {
 			List<ProductBoardDto> dtoList = productService.searchByTitleAndContent(keyword);
@@ -143,14 +157,8 @@ public class ProductController  {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
-
-	
 	///////////////////////////////////////////
-	 * */
 
-	
-	
-	
 	
 	//수정
 	@CrossOrigin
