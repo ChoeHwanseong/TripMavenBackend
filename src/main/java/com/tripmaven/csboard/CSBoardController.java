@@ -29,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/cs")
-@CrossOrigin(origins = "http://localhost:58337")
+@CrossOrigin(origins = "http://localhost")
 public class CSBoardController {
 	
 	private final CSBoardService csBoardService;
@@ -66,14 +66,14 @@ public class CSBoardController {
 		catch(Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);			
-			}		
+		}		
 	}
 	
 	
 
 
 	
-	// READ 사용자 등록 문의 전체 조회 (회원엔터티 FK_email로 조회)
+	// READ 가이드 측 문의내역 조회(회원엔터티 FK_email로 조회)
 	@GetMapping("/get/email/{email}")
 	public ResponseEntity<List<CSBoardDto>> getInquireByUsername(@PathVariable("email") String email){
 		try {
@@ -87,8 +87,7 @@ public class CSBoardController {
 		}		
 	}
 	
-		
-	// READ 사용자 등록 문의 1개 조회(cs엔터티 PK_id로)
+	// READ 가이드 측 문의내역 조회(cs엔터티 PK_id로)	
 	@GetMapping("/get/{id}")
 	public ResponseEntity<CSBoardDto> getInquireById(@PathVariable("id") Long id){
 		try {

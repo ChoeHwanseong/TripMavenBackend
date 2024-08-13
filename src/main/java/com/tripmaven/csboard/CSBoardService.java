@@ -40,12 +40,12 @@ public class CSBoardService {
 	}
 	
 
-	// READ 사용자 등록 문의 전체 조회(email로 조회)
+	// READ 가이드 측 문의내역 조회(회원엔터티 FK_email로 조회)
 	@Transactional(readOnly = true)
 	public MembersDto usersByEmail(String email) {
 		return MembersDto.toDto(membersRepository.findByEmail(email).get());
 	}
-	// READ 사용자 등록 문의 내역 가져오기
+	// READ 가이드 측 문의내역 가져오기
 	@Transactional(readOnly = true)
 	public List<CSBoardDto> findAllById(long id) {
 		// 리포지토리 호출
@@ -53,7 +53,7 @@ public class CSBoardService {
 		// 엔터티 리스트를 dto 로 변환
 		return objectMapper.convertValue(inquireEntityList,
 										objectMapper.getTypeFactory().defaultInstance()
-									.constructCollectionLikeType(List.class, CSBoardDto.class));
+										.constructCollectionLikeType(List.class, CSBoardDto.class));
 	}
 	
 	
@@ -100,7 +100,7 @@ public class CSBoardService {
 		return csDto;
 	}
 	
-	// 문의 내용 검색 -제목
+	// 문의 내용 검색 -내용
 	@Transactional
 	public List<CSBoardDto> searchByContent(String findContent) {
 		List<CSBoardEntity> inquireContents = csBoardRepository.findByContentContaining(findContent);

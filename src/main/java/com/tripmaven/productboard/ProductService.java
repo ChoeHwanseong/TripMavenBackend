@@ -5,32 +5,76 @@ import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.csboard.CSBoardDto;
+import com.tripmaven.csboard.CSBoardEntity;
+import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersRepository;
 
 import lombok.RequiredArgsConstructor;
 
-// 상품게시판 등록 및 관리 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
 
 	private final ProductRepository productRepository;
-	//members 리파지토리 주입
 	private final MembersRepository membersRepository;
-	
-	//검색
-	
-	//게시글 전체 조회
+	private final ObjectMapper objectMapper;
+
+	//CREATE (게시글 등록)
 	@Transactional
+	public ProductBoardDto create(ProductBoardDto dto) {
+		return ProductBoardDto.toDto(productRepository.save(dto.toEntity()));
+	}
+	
+	
+
+	//READ 관리자 측 전체 게시글 조회
+	@Transactional(readOnly = true)
 	public List<ProductBoardDto> listAll() {
-		List<ProductBoardEntity> postEntityList = productRepository.findAll();
-		return postEntityList.stream().map(user->ProductBoardDto.toDto(user)).collect(Collectors.toList());
-	} //listAll() : 게시글 전체 조회
+		// 리포지토리 호출
+		List<ProductBoardEntity> postEntityList= productRepository.findAll();	
+		// 엔터티 리스트를 dto 로 변환
+		return objectMapper.convertValue(postEntityList,
+										objectMapper.getTypeFactory().defaultInstance()
+										.constructCollectionLikeType(List.class, ProductBoardDto.class));
+	}
+	
+	
+	// READ 가이드 측 게시글 조회(회원엔터티 FK_email로 조회)
+	@Transactional(readOnly = true)
+	public MembersDto usersByEmail(String email) {
+		return MembersDto.toDto(membersRepository.findByEmail(email).get());
+	}
+		
+	// READ 가이드 측 게시글 가져오기
+	@Transactional(readOnly = true)
+	public List<ProductBoardDto> findAllById(long id) {
+		// 리포지토리 호출
+		List<ProductBoardEntity> postEntityList= productRepository.findByMember_Id(id);	
+		// 엔터티 리스트를 dto 로 변환
+		return objectMapper.convertValue(postEntityList,
+										objectMapper.getTypeFactory().defaultInstance()
+										.constructCollectionLikeType(List.class, ProductBoardDto.class));
+	}
+	
+	
+	// READ 가이드 측 문의내역 조회(cs엔터티 PK_id로)	
+	public ProductBoardDto usersById(Long id) {
+		return ProductBoardDto.toDto(productRepository.findById(id).get());
+	}
+	
+
+	
+
 	
 	// 게시글 제목으로 검색
 	@Transactional(readOnly = true)
@@ -114,12 +158,18 @@ public class ProductService {
 		return deletedDto;
 	}
 
+
+
 	
-	///등록
-	@Transactional
-	public ProductBoardDto create(ProductBoardDto dto) {
-		return ProductBoardDto.toDto(productRepository.save(dto.toEntity()));
-	}
+
+
+
 	
-	/////////////////////
+
+
+
+
+	
+
+
 }

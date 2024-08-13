@@ -34,5 +34,10 @@ public interface ProductRepository extends JpaRepository<ProductBoardEntity, Lon
     List<ProductBoardEntity> findByTitleAndContent(@Param("keyword") String keyword);
     /**이렇게도 될거 같은데? ?**/
 	Page<ProductBoardEntity> findByTitleAndContent(String title,String content,  PageRequest of);
+	
+	
+	
+	// READ 가이드 측 게시글 가져오기(아이디로)
+	List<ProductBoardEntity> findByMember_Id(long id);
     
 }
