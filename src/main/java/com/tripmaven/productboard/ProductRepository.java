@@ -18,7 +18,8 @@ public interface ProductRepository extends JpaRepository<ProductBoardEntity, Lon
 	
 	// 회원고유번호로 찾기(회원아이디)
     List<ProductBoardEntity> findByMember(MembersEntity entity); 
-	
+    List<ProductBoardEntity> findByMemberIn(List<MembersEntity> entity);
+    
 	// 제목으로 찾기
 	List<ProductBoardEntity> findByTitleContaining(String title);
 	// 내용으로 찾기 
