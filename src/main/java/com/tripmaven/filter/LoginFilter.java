@@ -98,17 +98,17 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
-            // 요청 본문에서 사용자의 로그인 데이터를 추출합니다.
-        	String loginId = obtainUsername(request);
-        	String password = obtainPassword(request);
-           
-            // 사용자 이름과 비밀번호를 기반으로 AuthenticationToken을 생성합니다. 이 토큰은 사용자가 제공한 이메일과 비밀번호를 담고 있으며, 이후 인증 과정에서 사용됩니다.
-        	UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginId, password, null);
-            // AuthenticationManager를 사용하여 실제 인증을 수행합니다. 이 과정에서 사용자의 이메일과 비밀번호가 검증됩니다.
-        	return authenticationManager.authenticate(authenticationToken);
+        try {
+            String loginId = obtainUsername(request);
+            String password = obtainPassword(request);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginId, password, null);
+            return authenticationManager.authenticate(authenticationToken);
+        } catch (AuthenticationException e) {
+            throw new BadCredentialsException("Authentication failed for user: " + obtainUsername(request));
+        }
     }
 
-    // 로그인 성공 시 실행되는 메소드입니다. 인증된 사용자 정보를 바탕으로 JWT를 생성하고, 이를 응답 헤더에 추가합니다.
+    // 로그인 성공 시 실행되는 메소드입니다. 인증된 사용자 정보를 바탕으로 JWT를 생성하고, 이를 응답 헤더에 추가합니다.	
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException {
         // 인증 객체에서 CustomUserDetails를 추출합니다.
@@ -121,7 +121,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
         String access  = jwttoken.generateToken(username,"access",accessExpiredMs);
         String refresh  = jwttoken.generateToken(username,"refresh",refreshExpiredMs);
         MembersDto membersDto = membersService.searchByMemberEmail(username);
-        if(membersDto == null){
+        if (membersDto != null) {
             TokenDTO token = TokenDTO.builder()
                     .status("activated")
                     .userAgent(request.getHeader("User-Agent"))

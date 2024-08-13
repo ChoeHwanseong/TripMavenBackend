@@ -22,12 +22,13 @@ public class MembersDto {
 	private String password;
 	private String gender;
 	private Date birthday;
-	private String telnumber;
+	private String telNumber;
 	private String address;
+	private String profile;
 	private String isactive;
 	private LocalDateTime createdAt;
 	private String issocial;
-	private String Role;
+	private String role;
 	private String guidelicense;
 	private String loginType;
 	private String snsAccessToken;
@@ -41,12 +42,13 @@ public class MembersDto {
 					.password(password)
 					.gender(gender)
 					.birthday(birthday)
-					.telNumber(telnumber)
+					.telNumber(telNumber)
 					.address(address)
+					.profile(profile)
 					.isactive(isactive)
 					.createdAt(createdAt)
 					.issocial(issocial)
-					.role(Role)
+					.role(role)
 					.guidelicense(guidelicense)
 					.loginType(loginType)
 					.snsAccessToken(snsAccessToken)
@@ -62,12 +64,13 @@ public class MembersDto {
 					.password(membersEntity.getPassword())
 					.gender(membersEntity.getGender())
 					.birthday(membersEntity.getBirthday())
-					.telnumber(membersEntity.getTelNumber())
+					.telNumber(membersEntity.getTelNumber())
 					.address(membersEntity.getAddress())
+					.profile(membersEntity.getProfile())
 					.isactive(membersEntity.getIsactive())
 					.createdAt(membersEntity.getCreatedAt())
 					.issocial(membersEntity.getIssocial())
-					.Role(membersEntity.getRole())
+					.role(membersEntity.getRole())
 					.guidelicense(membersEntity.getGuidelicense())
 					.loginType(membersEntity.getLoginType())
 					.snsAccessToken(membersEntity.getSnsAccessToken())
