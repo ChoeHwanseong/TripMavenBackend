@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import com.tripmaven.csboard.CSBoardDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,6 +36,12 @@ public class LikeyService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	
+	//회원번호로 찜 가져오기  (내 찜 목록 시 사용)
+	@Transactional(readOnly = true)
+	public LikeyDto usersById(Long memberID) {
+		return LikeyDto.toDto(likeyRepository.findById(memberID).get());
+	}
 
 }

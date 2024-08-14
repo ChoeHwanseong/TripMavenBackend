@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tripmaven.csboard.CSBoardDto;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.productboard.ProductBoardEntity;
 import com.tripmaven.report.ReportDto;
@@ -20,12 +21,12 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 public class LikeyController {
 
 	private final LikeyService likeyService;
 	
 	//찜 목록 전체 불러오기
-	@CrossOrigin	
 	@GetMapping("/likey/getAll")
 	public ResponseEntity<List<LikeyDto>> getListAll(){
 		try {
@@ -38,8 +39,21 @@ public class LikeyController {
 		}
 	}
 	
+	//회원번호로 찜 가져오기 (내 찜 목록 시 사용)
+	@GetMapping("/likey/{memberID}")
+	public ResponseEntity<LikeyDto> getByMemberId(@PathVariable("memberID") Long memberID){
+		try {		
+			LikeyDto dto= likeyService.usersById(memberID);
+			return ResponseEntity.ok(dto);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+	}
+	
+	
 	//게시글 찜하기
-	@CrossOrigin
 	@PostMapping("/likey/{productID}/{memberID}")
 	public ResponseEntity<String> likeyPost(
 			@PathVariable("productID") Long productID,

@@ -7,7 +7,9 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
+import com.tripmaven.likey.LikeyEntity;
 import com.tripmaven.members.model.MembersEntity;
+import com.tripmaven.productevaluation.ProductEvaluationEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,6 +47,17 @@ public class ProductBoardEntity {
 	@ManyToOne(optional = false)
 	@JoinColumn(name="membersentity_id")
 	private MembersEntity member;
+	
+	/** 상품 찜 고유 번호. FK*/
+	@ManyToOne(optional = false)
+	@JoinColumn(name="likeyentity_id")
+	private LikeyEntity likey;
+	
+	
+	/** AI평가 고유 번호. FK*/
+	@ManyToOne(optional = false)
+	@JoinColumn(name="productevaluationEntity_id")
+	private ProductEvaluationEntity productevaluation;
 	
 	/** 제목 */
 	@Column(length = 20, nullable = false)
