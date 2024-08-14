@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:58337")
 public class ProductController  {
 	
 	private final ProductService productService;
@@ -40,10 +39,10 @@ public class ProductController  {
 	//CREATE (게시글 등록)
 	@PostMapping("/product")
 	@CrossOrigin	
-	public ResponseEntity<ProductBoardDto> createPost(@RequestParam Map map) {
+	public ResponseEntity<ProductBoardDto> createPost(@RequestParam Map<String , String> map) {
 		try {
-			String member_id = map.get("member_id").toString();
-			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(member_id)).toEntity();
+			String members_id = map.get("members_id").toString();
+			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(members_id)).toEntity();
 			ProductBoardDto dto = mapper.convertValue(map, ProductBoardDto.class);				
 			dto.setMember(members);
 			ProductBoardDto createInquire = productService.create(dto);	
