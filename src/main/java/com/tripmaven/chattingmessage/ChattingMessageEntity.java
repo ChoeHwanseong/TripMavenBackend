@@ -56,7 +56,7 @@ public class ChattingMessageEntity {
 	private LocalDateTime createdAt;
 	
 	/** 생성 여부. */
-	@Column(nullable = false)
+
 	@ColumnDefault("0")
 	private String isActive;
     
@@ -65,7 +65,7 @@ public class ChattingMessageEntity {
 	private LocalDateTime deletedAt;
 
 	/** 삭제 여부. */
-	@Column(nullable = false)
+
 	@ColumnDefault("0")
 	private String isDelete;
     

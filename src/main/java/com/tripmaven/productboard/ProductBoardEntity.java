@@ -93,4 +93,7 @@ public class ProductBoardEntity {
 	/**파일*/
 	@Column
 	private String files;
+	
+	//tripdays 들어와야함. 
+	
 }
