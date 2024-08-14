@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import com.tripmaven.members.model.MembersEntity;
 
@@ -31,6 +32,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamicInsert
 public class ProductBoardEntity {
 
 	/** 가이드 상품 고유 번호. PK*/
@@ -64,7 +66,6 @@ public class ProductBoardEntity {
 	private String isActive;
 	
 	/** Al평가 유무 */
-	@Column(nullable = false)
 	@ColumnDefault("1")
 	private String isEvaluation;
 	
@@ -73,7 +74,6 @@ public class ProductBoardEntity {
 	private String city;
 	
 	/** 수정날짜 */
-	@CreationTimestamp
 	private LocalDateTime updatedAt;
 	
 	/** 수정여부 */
@@ -82,7 +82,6 @@ public class ProductBoardEntity {
 	private String isUpdate;
 	
 	/** 삭제날짜 */
-	@CreationTimestamp
 	private LocalDateTime deletedAt;
 	
 	/** 삭제여부 */

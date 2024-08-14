@@ -7,7 +7,8 @@ import java.util.Date;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
-
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -37,11 +38,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamicInsert
 public class MembersEntity {
 
 	/** 회원 고유 번호. */
 	@Id
-	@SequenceGenerator(name="seq_members",sequenceName = "seq_members",allocationSize = 1,initialValue = 1)
+	@SequenceGenerator(name="seq_members",sequenceName = "seq_members", allocationSize = 1,initialValue = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_members")
 	private long id;
 
@@ -87,7 +89,6 @@ public class MembersEntity {
 	private String isactive;
 
 	/** 수정 시간. */
-	@CreationTimestamp
 	private LocalDateTime updatedAt;
 
 	/** 수정 여부. */
@@ -96,7 +97,6 @@ public class MembersEntity {
 	private String isupdate;
 
 	/** 삭제날짜. */
-	@CreationTimestamp
 	private LocalDateTime deletedAt;
 
 	/** 삭제 여부. */
@@ -108,7 +108,6 @@ public class MembersEntity {
 	private String issocial;
 
 	/** 소셜 연동 날짜. */
-	@CreationTimestamp
 	private LocalDateTime socialAt;
 
 	/** 가이드, 어드민, 유저 인지. */
@@ -128,5 +127,11 @@ public class MembersEntity {
 	/** 소셜로그인 어세스 토큰 */
 	@Column(name = "sns_access_token", nullable = true)
     private String snsAccessToken;
+
 	
+	/** 선호 도시*/
+	/*
+	@Column(name = "inter_city", nullable = false)
+    private String interCity;
+	*/
 }
