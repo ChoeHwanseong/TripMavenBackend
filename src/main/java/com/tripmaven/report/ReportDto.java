@@ -1,6 +1,8 @@
 package com.tripmaven.report;
 
 
+import java.time.LocalDateTime;
+
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.productboard.ProductBoardEntity;
 
@@ -27,6 +29,7 @@ public class ReportDto {
     private String disgust;
     private String offensive;
     private String noShow;
+    private LocalDateTime createdAt;
 	
 	//DTO를 ENTITY로 변환하는 메소드
     public ReportEntity toEntity() {
@@ -41,6 +44,7 @@ public class ReportDto {
                 .disgust(disgust)
                 .offensive(offensive)
                 .noShow(noShow)
+                .createdAt(createdAt)
                 .build();
     }
 	//ENTITY를 DTO로 변환하는 메소드
@@ -56,6 +60,7 @@ public class ReportDto {
                 .disgust(reportEntity.getDisgust())
                 .offensive(reportEntity.getOffensive())
                 .noShow(reportEntity.getNoShow())
+                .createdAt(reportEntity.getCreatedAt())
                 .build();
     }
 }

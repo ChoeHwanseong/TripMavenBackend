@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import com.tripmaven.members.model.MembersEntity;
 
@@ -30,6 +31,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamicInsert
 public class CSBoardEntity {
 
     /** 고객센터 고유 번호. PK */
@@ -68,7 +70,6 @@ public class CSBoardEntity {
 
     /** 수정 날짜 */
     @Column
-    @CreationTimestamp
     private LocalDateTime updatedAt;
 
     /** 수정 유무 */
@@ -78,7 +79,6 @@ public class CSBoardEntity {
 
     /** 삭제 날짜 */
     @Column
-    @CreationTimestamp
     private LocalDateTime deletedAt;
 
     /** 삭제 유무 */

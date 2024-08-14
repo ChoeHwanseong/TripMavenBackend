@@ -110,6 +110,11 @@ public class ProductService {
 		} 
 		return productsDto;
 	}
+
+	public CSBoardDto searchByProductId(long long1) {
+		
+		return null;
+	}
 	
 	//게시글 검색 -내용	
 	@Transactional(readOnly = true)

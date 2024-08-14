@@ -13,8 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tripmaven.csboard.CSBoardDto;
+import com.tripmaven.csboard.CSBoardService;
 import com.tripmaven.members.model.MembersEntity;
+import com.tripmaven.members.service.MembersService;
 import com.tripmaven.productboard.ProductBoardEntity;
+import com.tripmaven.productboard.ProductService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,11 +28,15 @@ import lombok.RequiredArgsConstructor;
 public class ReportController {
 
 	private final ReportService reportService;
+	private final MembersService membersService;
+	private final ProductService productService;
+	private final ObjectMapper mapper;
 
 	//// 여기서 리포트디티오를 만들어라 
 
 	//전체
-	@GetMapping("product/report")
+	@CrossOrigin	
+	@GetMapping("/product/report")
 	public ResponseEntity<List<ReportDto>> getListAll(){
 		try {
 			List<ReportDto> postList=reportService.listAll();
@@ -42,34 +51,22 @@ public class ReportController {
 	
 	//게시글 신고
 	@CrossOrigin
-	@PostMapping("/product/report/{productID}/{memberID}")
-	public ResponseEntity<String> reportContent(
-			@PathVariable("productID") Long productID,
-			@PathVariable("memberID") Long memberID,
-			@RequestParam Map<String,String> payload
-			){
+	@PostMapping("/product/report/post")
+	public ResponseEntity<ReportDto> reportContent(@RequestParam Map<String, String> map){
 		try {
-			ReportDto dto =ReportDto.builder()
-					.productBoard(ProductBoardEntity.builder().id(productID).build())
-					.member(MembersEntity.builder().id(memberID).build())
-					.etc(payload.get("etc"))
-					.attitude(payload.get("attitude"))
-					.information(payload.get("information"))
-					.disgust(payload.get("disgust"))
-					.offensive(payload.get("offensive"))
-					.noShow(payload.get("noShow"))
-					.build();
-			ReportDto reportDTO = reportService.reportContent(dto);
-			if (reportDTO != null) {
-				return ResponseEntity.ok("게시글 신고 완료");
-			} //if
-			else {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("신고에 실패했습니다.");
-			}//else
+			String members_id = map.get("members_id").toString();
+			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(members_id)).toEntity();
+			String productboard_id = map.get("productboard_id").toString();
+			ProductBoardEntity productboard = productService.usersById(Long.parseLong(productboard_id)).toEntity();
+			ReportDto reportDto = mapper.convertValue(map, ReportDto.class);				
+			reportDto.setMember(members);
+	        reportDto.setProductBoard(productboard);;
+	        ReportDto createdReport = reportService.create(reportDto);	
+	        return ResponseEntity.ok(createdReport);
 		} //try
 		catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류로 인해 신고에 실패했습니다.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		} //catch
 	} 
 	

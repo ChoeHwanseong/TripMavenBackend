@@ -58,7 +58,9 @@ public class CSBoardController {
 	
 
 	//READ 관리자 측 전체 조회
+
 	@GetMapping("/getAll")	
+
 	public ResponseEntity<List<CSBoardDto>> getUsersAll(){
 		try {
 			List<CSBoardDto> inquireList= csBoardService.usersAll();

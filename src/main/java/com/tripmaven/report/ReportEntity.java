@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.productboard.ProductBoardEntity;
@@ -31,6 +32,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamicInsert
 public class ReportEntity {
 
 	/** 신고 고유 번호 PK*/
@@ -64,23 +66,23 @@ public class ReportEntity {
 	private String isactive;
 	
 	/** 평가항목 : 불친절한 태도 */
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String attitude;
 	
 	/** 평가항목 : 부정확한 정보 */
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String information;
 	
 	/** 평가항목 : 혐오발언 */
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String disgust;
 	
 	/** 평가항목 : 공격적인 언어 */
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String offensive;
 	
 	/** 평가항목 : 예약 불이행 */
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String noShow;
 
 	//
