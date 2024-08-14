@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tripmaven.csboard.CSBoardDto;
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersService;
@@ -22,14 +21,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:58337")
 public class ProductController  {
 	
 	private final ProductService productService;
@@ -39,10 +37,10 @@ public class ProductController  {
 	//CREATE (게시글 등록)
 	@PostMapping("/product")
 	@CrossOrigin	
-	public ResponseEntity<ProductBoardDto> createPost(@RequestParam Map<String , String> map) {
+	public ResponseEntity<ProductBoardDto> createPost(@RequestParam Map map) {
 		try {
-			String members_id = map.get("members_id").toString();
-			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(members_id)).toEntity();
+			String member_id = map.get("member_id").toString();
+			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(member_id)).toEntity();
 			ProductBoardDto dto = mapper.convertValue(map, ProductBoardDto.class);				
 			dto.setMember(members);
 			ProductBoardDto createInquire = productService.create(dto);	
