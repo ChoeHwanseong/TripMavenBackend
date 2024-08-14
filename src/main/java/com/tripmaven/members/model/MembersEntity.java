@@ -8,7 +8,9 @@ import java.util.Date;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
+
 import org.hibernate.annotations.UpdateTimestamp;
+
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -104,7 +106,7 @@ public class MembersEntity {
 	@ColumnDefault("0")
 	private String isdelete;
 
-	/** 소셜 연동 여부. */
+	/** 소셜 연동 여부. */   
 	private String issocial;
 
 	/** 소셜 연동 날짜. */
@@ -120,7 +122,7 @@ public class MembersEntity {
 	
 
 	/** 로그인 타입 */
-	@Column(name = "login_type", nullable = false)
+	@Column(name = "login_type")
 	@ColumnDefault("local")
     private String loginType;
 

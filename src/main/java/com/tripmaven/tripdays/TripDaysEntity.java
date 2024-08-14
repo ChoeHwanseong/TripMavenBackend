@@ -35,7 +35,8 @@ public class TripDaysEntity {
 	@Id
 	@SequenceGenerator(name="seq_tripdays",sequenceName = "seq_tripdays",allocationSize = 1,initialValue = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_tripdays")
-	private long id;
+	private long id; /// ㄴsort 위험한거 같다. 
+	
 	
 	/** 가이드 상품 고유 번호. FK*/
 	@ManyToOne(optional = false)
@@ -44,15 +45,18 @@ public class TripDaysEntity {
 	
 	/** 날짜. */
 	@Column(nullable = false)
-    private Integer day;
+    private Integer day; //1일차.. 2일차.. sort... 
 
+	//content 추가... 
+	
+	
 	/** 수정 여부. */
 	@Column(nullable = false)
 	@ColumnDefault("0")
 	private String isUpdate;
 	
 	/** 수정 날짜. */
-	@CreationTimestamp
+	
 	private LocalDateTime updatedAt;
 	
 	/** 생성 여부. */
