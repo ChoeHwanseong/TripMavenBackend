@@ -108,6 +108,19 @@ public class ProductBoardEntity {
 	@Column
 	private String files;
 	
+	/**해시태그*/
+	@Column
+	private String hashtag;
+	
+	/**호텔명*/
+	@Column
+	private String hotel;
+	
+	/**호텔 주소*/
+	@Column
+	private String hotelAd;
+	
+	
 	//tripdays 들어와야함. 
 	
 }

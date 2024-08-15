@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -37,9 +38,9 @@ public class ProductController  {
 	//CREATE (게시글 등록)
 	@PostMapping("/product")
 	@CrossOrigin	
-	public ResponseEntity<ProductBoardDto> createPost(@RequestParam Map map) {
+	public ResponseEntity<ProductBoardDto> createPost(@RequestBody Map map) {
 		try {
-			String member_id = map.get("member_id").toString();
+			String member_id = map.get("members_id").toString();
 			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(member_id)).toEntity();
 			ProductBoardDto dto = mapper.convertValue(map, ProductBoardDto.class);				
 			dto.setMember(members);
@@ -122,7 +123,7 @@ public class ProductController  {
 	//UPDATE (게시글 수정)
 	@CrossOrigin
 	@PutMapping("/product/{id}")
-	public ResponseEntity<ProductBoardDto> postUpdate(@PathVariable("id") long id, @RequestParam Map map) {
+	public ResponseEntity<ProductBoardDto> postUpdate(@PathVariable("id") long id, @RequestBody Map map) {
 		try {
 			ProductBoardDto dto = mapper.convertValue(map, ProductBoardDto.class);
 			ProductBoardDto updateDto=productService.update(id,dto);
