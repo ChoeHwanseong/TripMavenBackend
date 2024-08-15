@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:58337")
+@CrossOrigin(origins = "http://localhost")
 public class ProductController  {
 
 	private final ProductService productService;
@@ -36,7 +36,6 @@ public class ProductController  {
 
 	//CREATE (게시글 등록)
 	@PostMapping("/product")
-	@CrossOrigin	
 	public ResponseEntity<ProductBoardDto> createPost(@RequestParam Map map) {
 		try {
 			String member_id = map.get("member_id").toString();
@@ -72,7 +71,6 @@ public class ProductController  {
 
 
 	// READ 가이드 측 게시글 조회(회원엔터티 FK_email로 조회)
-	@CrossOrigin
 	@GetMapping("/product/member/{email}")
 	public ResponseEntity<List<ProductBoardDto>> getPostByEmail (@PathVariable("email") String email) {
 		try {
@@ -120,7 +118,6 @@ public class ProductController  {
 	*/
 
 	//UPDATE (게시글 수정)
-	@CrossOrigin
 	@PutMapping("/product/{id}")
 	public ResponseEntity<ProductBoardDto> postUpdate(@PathVariable("id") long id, @RequestParam Map map) {
 		try {
@@ -190,7 +187,6 @@ public class ProductController  {
 
 
 	//게시글 검색 -제목+내용
-	@CrossOrigin
 	@GetMapping("/product/titlencontent/{keyword}") 
 	public ResponseEntity<List<ProductBoardDto>> getPostsByTitleAndContent(@PathVariable("keyword") String keyword) {
 		try {
