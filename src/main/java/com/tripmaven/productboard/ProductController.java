@@ -55,11 +55,10 @@ public class ProductController  {
 
 
 	//READ 관리자 측 전체 게시글 조회
-	@GetMapping("/product")
-	public ResponseEntity<List<ProductBoardDto>> getListAll(){
+	@GetMapping("/product/all/{page}")
+	public ResponseEntity<List<ProductBoardDto>> getListAll(@PathVariable("page") String page){
 		try {
-
-			List<ProductBoardDto> postList=productService.listAll(); 
+			List<ProductBoardDto> postList=productService.listAll(page, "20"); 
 			return ResponseEntity.status(200).header(HttpHeaders.CONTENT_TYPE, "application/json").body(postList);
 		}
 		catch(Exception e) {
@@ -175,9 +174,11 @@ public class ProductController  {
 
 	//게시글 검색 -도시
 	@GetMapping("/product/city/{findCity}")
-	public ResponseEntity<List<ProductBoardDto>> getPostByCity (@PathVariable("findCity") String findCity) {
+	public ResponseEntity<List<ProductBoardDto>> getPostByCity (@PathVariable("findCity") String findCity, @RequestParam(name = "page") String page) {
+		System.out.println(findCity);
+		System.out.println(page);
 		try {
-			List<ProductBoardDto> dtos=productService.searchByCity(findCity);
+			List<ProductBoardDto> dtos=productService.searchByCity(findCity, page, "20");
 			return ResponseEntity.ok(dtos);
 		}
 		catch(Exception e) {
@@ -189,16 +190,15 @@ public class ProductController  {
 
 	//게시글 검색 -제목+내용
 	@GetMapping("/product/titlencontent/{keyword}") 
-	public ResponseEntity<List<ProductBoardDto>> getPostsByTitleAndContent(@PathVariable("keyword") String keyword) {
+	public ResponseEntity<List<ProductBoardDto>> getPostsByTitleAndContent(@PathVariable("keyword") String keyword, @RequestParam(name = "page") String page) {
 		try {
 			System.out.println(keyword);
-			List<ProductBoardDto> dtoList = productService.searchByTitleAndContent(keyword);
+			List<ProductBoardDto> dtoList = productService.searchByTitleAndContent(keyword, page, "20");
 			return ResponseEntity.ok(dtoList);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
-
-
+	
 }
