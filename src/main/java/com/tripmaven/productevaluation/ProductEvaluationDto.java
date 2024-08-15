@@ -30,7 +30,7 @@ public class ProductEvaluationDto {
 	public ProductEvaluationEntity toEntity() {
 		return ProductEvaluationEntity.builder()
 				.id(id)
-				.productBoard(productBoard)
+				//.ProductBoardEntity(productBoard)
 				.createdAt(createdAt)
 				.score(score)
 				.comments(comments)
@@ -41,7 +41,7 @@ public class ProductEvaluationDto {
 	public static ProductEvaluationDto toDto(ProductEvaluationEntity productEvaluationEntity) {
 		return ProductEvaluationDto.builder()
 				.id(productEvaluationEntity.getId())
-				.productBoard(productEvaluationEntity.getProductBoard())
+				//.productBoard(productEvaluationEntity.getProductBoard())
 				.createdAt(productEvaluationEntity.getCreatedAt())
 				.score(productEvaluationEntity.getScore())
 				.comments(productEvaluationEntity.getComments())
