@@ -1,6 +1,7 @@
 package com.tripmaven.likey;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,10 +11,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.members.model.MembersEntity;
+import com.tripmaven.members.service.MembersService;
 import com.tripmaven.productboard.ProductBoardEntity;
+import com.tripmaven.productboard.ProductService;
 import com.tripmaven.report.ReportDto;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +28,9 @@ import lombok.RequiredArgsConstructor;
 public class LikeyController {
 
 	private final LikeyService likeyService;
+	private final MembersService membersService;
+	private final ProductService productService;
+	private final ObjectMapper mapper;
 	
 	//찜 목록 전체 불러오기
 	@CrossOrigin	
@@ -40,29 +48,28 @@ public class LikeyController {
 	
 	//게시글 찜하기
 	@CrossOrigin
-	@PostMapping("/likey/{productID}/{memberID}")
-	public ResponseEntity<String> likeyPost(
-			@PathVariable("productID") Long productID,
-			@PathVariable("memberID") Long memberID){
+	@PostMapping("/product/likey/post")
+	public ResponseEntity<LikeyDto> addWishList(@RequestParam Map<String,String> map){
 		try {
-			
-			LikeyDto dto=LikeyDto.builder()
-					.productBoard(ProductBoardEntity.builder().id(productID).build())
-					.member(MembersEntity.builder().id(memberID).build())
-					.build();
-			LikeyDto likeyDto = likeyService.addtoWishList(dto);
-			if(likeyDto != null) {
-			return ResponseEntity.ok("찜 목록에 추가 되었습니다.");
-			}
-			else {
-				return ResponseEntity.ok("찜 등록에 실패하였습니다.");
-			}
+			String members_id=map.get("members_id").toString();
+			MembersEntity members = membersService.searchByMemberID(Long.parseLong(members_id)).toEntity();
+			String productboard_id = map.get("productboard_id").toString();
+			ProductBoardEntity productboard= productService.usersById(Long.parseLong(productboard_id)).toEntity();
+			LikeyDto likeyDto = mapper.convertValue(map, LikeyDto.class);		
+			likeyDto.setMember(members);
+			likeyDto.setProductBoard(productboard);
+			LikeyDto createWishList = likeyService.addtoWishList(likeyDto);
+			return ResponseEntity.ok(createWishList);
 		}
 		catch (Exception e) {
-	         e.printStackTrace();
-	         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("서버오류로 인해 찜 등록에 실패하였습니다.");
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
+	
+		
+		
+		
 			
 	//찜 삭제하기
 	
