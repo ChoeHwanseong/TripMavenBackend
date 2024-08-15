@@ -3,20 +3,15 @@ package com.tripmaven.productboard;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Vector;
-import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.csboard.CSBoardDto;
-import com.tripmaven.csboard.CSBoardEntity;
 import com.tripmaven.members.model.MembersDto;
-import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -39,11 +34,11 @@ public class ProductService {
 
 	//READ 관리자 측 전체 게시글 조회
 	@Transactional(readOnly = true)
-	public List<ProductBoardDto> listAll() {
+	public List<ProductBoardDto> listAll(String page, String size) {
 		// 리포지토리 호출
-		List<ProductBoardEntity> postEntityList= productRepository.findAll();	
+		Page<ProductBoardEntity> postEntityList= productRepository.findAll(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)));	
 		// 엔터티 리스트를 dto 로 변환
-		return objectMapper.convertValue(postEntityList,
+		return objectMapper.convertValue(postEntityList.getContent(),
 										objectMapper.getTypeFactory().defaultInstance()
 										.constructCollectionLikeType(List.class, ProductBoardDto.class));
 	}
@@ -129,25 +124,21 @@ public class ProductService {
 	
 	//게시글 검색 -도시
 	@Transactional(readOnly = true)
-	public List<ProductBoardDto> searchByCity(String findCity) {
-		List<ProductBoardEntity> products=productRepository.findByCityContaining(findCity);
-		List<ProductBoardDto> productsDto = new Vector<>();
-		for(ProductBoardEntity product : products) {
-			productsDto.add(ProductBoardDto.toDto(product));
-		} 
-		return productsDto;
+	public List<ProductBoardDto> searchByCity(String findCity, String page, String size) {
+		Page<ProductBoardEntity> products=productRepository.findByCityContaining(findCity, PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)));
+		return objectMapper.convertValue(products.getContent(),
+				objectMapper.getTypeFactory().defaultInstance()
+				.constructCollectionLikeType(List.class, ProductBoardDto.class));
 	}
 	
 
 	//게시글 검색 -제목+내용
 	@Transactional(readOnly = true)
-	public List<ProductBoardDto> searchByTitleAndContent(String keyword) {
-		List<ProductBoardEntity> products = productRepository.findByTitleOrContentContaining(keyword, keyword);
-		List<ProductBoardDto> productsDto = new Vector<>();
-		for(ProductBoardEntity product : products) {
-			productsDto.add(ProductBoardDto.toDto(product));
-		} 
-		return productsDto;
+	public List<ProductBoardDto> searchByTitleAndContent(String keyword, String page, String size) {
+		Page<ProductBoardEntity> products = productRepository.findByTitleOrContentContaining(keyword, keyword, PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)));
+		return objectMapper.convertValue(products.getContent(),
+				objectMapper.getTypeFactory().defaultInstance()
+				.constructCollectionLikeType(List.class, ProductBoardDto.class));
 	}
 
 

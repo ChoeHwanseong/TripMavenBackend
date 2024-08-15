@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost")
 public class ChatbotController {
 
 	private final ChatbotService chatbotService;
@@ -28,8 +29,8 @@ public class ChatbotController {
 
 	//질문받고 답변 저장
 	@PostMapping("/chatbot/post")
-	@CrossOrigin
 	public ResponseEntity<ChatbotDto> createInquiryAndAnswer(@RequestParam Map map) {
+		System.out.println(map.get("inquery"));
 		try {
 			ChatbotDto dto = mapper.convertValue(map, ChatbotDto.class);
 			return ResponseEntity.ok(dto);

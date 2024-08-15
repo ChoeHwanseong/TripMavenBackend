@@ -24,14 +24,15 @@ public interface ProductRepository extends JpaRepository<ProductBoardEntity, Lon
 	// 내용으로 찾기 
     List<ProductBoardEntity> findByContentContaining(String content);  
     // 도시로 찾기
-    List<ProductBoardEntity> findByCityContaining(String city);
+    Page<ProductBoardEntity> findByCityContaining(String findCity, PageRequest of);
        
-    // 제목과 내용 모두 포함하는 항목 찾기 
-  	List<ProductBoardEntity> findByTitleOrContentContaining(String title, String content);	
-	
+    // 제목과 내용 모두 포함하는 항목 찾기
+    Page<ProductBoardEntity> findByTitleOrContentContaining(String keyword, String keyword2, PageRequest of);
   	
 	// READ 가이드 측 게시글 가져오기(아이디로)
 	List<ProductBoardEntity> findByMember_Id(long id);
+	
+	
 
     
 }
