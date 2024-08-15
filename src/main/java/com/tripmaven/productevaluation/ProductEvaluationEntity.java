@@ -31,6 +31,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class ProductEvaluationEntity {
 
 	/** AI평가 고유 번호. PK*/

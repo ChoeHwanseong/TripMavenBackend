@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.model.MembersEntity;
+import com.tripmaven.review.ReviewDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -100,4 +101,8 @@ public class MembersService {
 		membersRepository.deleteById(id);
 		return deletedDto;
 	}
+
+
+
+	
 }

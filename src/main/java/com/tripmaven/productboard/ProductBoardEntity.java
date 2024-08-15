@@ -48,18 +48,6 @@ public class ProductBoardEntity {
 	@JoinColumn(name="membersentity_id")
 	private MembersEntity member;
 
-	/** 상품 찜 고유 번호. FK*/
-	/*
-	@ManyToOne(optional = false)
-	@JoinColumn(name="likeyentity_id")
-	private LikeyEntity likey;
-	*/
-	
-	/** AI평가 고유 번호. FK*/
-	
-	@ManyToOne(optional = false)
-	@JoinColumn(name="productevaluationEntity_id")
-	private ProductEvaluationEntity productevaluation;
 
 //	/** 상품 찜 고유 번호. FK*/
 //	@ManyToOne(optional = false)

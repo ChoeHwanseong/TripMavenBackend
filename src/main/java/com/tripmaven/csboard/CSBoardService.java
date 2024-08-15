@@ -77,6 +77,16 @@ public class CSBoardService {
 		
 		return CSBoardDto.toDto(csBoardRepository.save(csBoardEntity));
 	}
+	
+	
+	//UPDATE (문의 답변 수정)
+	@Transactional
+	public CSBoardDto updateAnswerById(long id, CSBoardDto dto) {
+		CSBoardEntity csBoardEntity= csBoardRepository.findById(id).get();		
+		csBoardEntity.setComments(dto.getComments());		
+		return CSBoardDto.toDto(csBoardRepository.save(csBoardEntity));
+	}
+
 
 	
 	//DELETE (문의 삭제)
@@ -129,14 +139,7 @@ public class CSBoardService {
 
 
 
-	//UPDATE (문의 답변 수정)
-	@Transactional
-	public CSBoardDto updateAnswerById(long id, CSBoardDto dto) {
-		CSBoardEntity csBoardEntity= csBoardRepository.findById(id).get();		
-		csBoardEntity.setComments(dto.getComments());		
-		return CSBoardDto.toDto(csBoardRepository.save(csBoardEntity));
-		}
-
+	
 
 	
 	
