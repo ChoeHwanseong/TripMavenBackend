@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:58337")
 public class ProductController  {
-	
+
 	private final ProductService productService;
 	private final ObjectMapper mapper;
 	private final MembersService membersService;
@@ -51,14 +51,14 @@ public class ProductController  {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
-	
-		
-	
+
+
+
 	//READ 관리자 측 전체 게시글 조회
 	@GetMapping("/product")
 	public ResponseEntity<List<ProductBoardDto>> getListAll(){
 		try {
-			
+
 			List<ProductBoardDto> postList=productService.listAll(); 
 			return ResponseEntity.status(200).header(HttpHeaders.CONTENT_TYPE, "application/json").body(postList);
 		}
@@ -68,8 +68,8 @@ public class ProductController  {
 		}		
 	}
 
-	
-	
+
+
 
 	// READ 가이드 측 게시글 조회(회원엔터티 FK_email로 조회)
 	@CrossOrigin
@@ -79,14 +79,14 @@ public class ProductController  {
 			MembersDto dto= productService.usersByEmail(email);
 			List<ProductBoardDto> csDto= productService.findAllById(dto.getId());
 			return ResponseEntity.status(200).header(HttpHeaders.CONTENT_TYPE, "application/json").body(csDto);
-			
+
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
-	
+
 
 	// READ 가이드 측 게시글 조회(cs엔터티 PK_id로)	
 	@GetMapping("/product/{id}")
@@ -100,9 +100,25 @@ public class ProductController  {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);			
 		}		
 	}
-		
-	
-	
+
+	// READ 제목검색용 컨트롤러 
+	/*
+	@GetMapping("/product/{title}")
+	public ResponseEntity<ProductBoardDto> getPostBySearch(){
+		try {
+			List<ProductBoardDto> postList=productService.listAll(); 
+			// 전체 게시글 조회해서 확장포문 적용
+			// gettitle해서 {title}이 포함되어 잇다면.. 
+			// 새로운 리스트에 담아서 응답바디에 실어서 보낸다. 
+			// 리액트에서 구현
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}			
+	}
+	*/
+
 	//UPDATE (게시글 수정)
 	@CrossOrigin
 	@PutMapping("/product/{id}")
@@ -117,7 +133,7 @@ public class ProductController  {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
 	}	
-	
+
 	//DELETE (게시글 삭제)
 	@DeleteMapping("/product/{id}")
 	public ResponseEntity<ProductBoardDto> postDelete(@PathVariable("id") long id){
@@ -130,8 +146,8 @@ public class ProductController  {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
 	}
-	
-	
+
+
 	//게시글 검색	
 	//게시글 검색 -제목
 	@GetMapping("/product/title/{findTitle}")
@@ -145,7 +161,7 @@ public class ProductController  {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}	
-	
+
 	//게시글 검색 -내용	
 	@GetMapping("/product/content/{findContent}")
 	public ResponseEntity<List<ProductBoardDto>> getPostByContent (@PathVariable("findContent") String findContent) {
@@ -158,7 +174,7 @@ public class ProductController  {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
-	
+
 	//게시글 검색 -도시
 	@GetMapping("/product/city/{findCity}")
 	public ResponseEntity<List<ProductBoardDto>> getPostByCity (@PathVariable("findCity") String findCity) {
@@ -171,20 +187,21 @@ public class ProductController  {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
-	
+
 
 	//게시글 검색 -제목+내용
-    @CrossOrigin
-    @GetMapping("/product/titlencontent/{keyword}") 
-    public ResponseEntity<List<ProductBoardDto>> getPostsByTitleAndContent(@PathVariable("keyword") String keyword) {
-        try {
-            List<ProductBoardDto> dtoList = productService.searchByTitleAndContent(keyword);
-            return ResponseEntity.ok(dtoList);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-    }
+	@CrossOrigin
+	@GetMapping("/product/titlencontent/{keyword}") 
+	public ResponseEntity<List<ProductBoardDto>> getPostsByTitleAndContent(@PathVariable("keyword") String keyword) {
+		try {
+			System.out.println(keyword);
+			List<ProductBoardDto> dtoList = productService.searchByTitleAndContent(keyword);
+			return ResponseEntity.ok(dtoList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+	}
 
-	
+
 }
