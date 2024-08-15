@@ -49,15 +49,18 @@ public class ProductBoardEntity {
 	private MembersEntity member;
 	
 	/** 상품 찜 고유 번호. FK*/
+	/*
 	@ManyToOne(optional = false)
 	@JoinColumn(name="likeyentity_id")
 	private LikeyEntity likey;
-	
+	*/
 	
 	/** AI평가 고유 번호. FK*/
+	
 	@ManyToOne(optional = false)
 	@JoinColumn(name="productevaluationEntity_id")
 	private ProductEvaluationEntity productevaluation;
+	
 	
 	/** 제목 */
 	@Column(length = 20, nullable = false)

@@ -32,6 +32,7 @@ public class ProductBoardDto {
 	private String isDelete;
 	private String files;
 	
+	
 	//DTO를 ENTITY로 변환하는 메소드
 		public ProductBoardEntity toEntity() {
 			return ProductBoardEntity.builder()
