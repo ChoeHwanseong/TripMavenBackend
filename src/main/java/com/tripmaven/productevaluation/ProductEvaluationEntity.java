@@ -31,6 +31,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class ProductEvaluationEntity {
 
 	/** AI평가 고유 번호. PK*/
@@ -40,10 +41,12 @@ public class ProductEvaluationEntity {
 	private long id;
 	
 	/** 가이드 상품 고유 번호. FK*/
+	/*
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "productboardentity_id")
 	private ProductBoardEntity productBoard;
-
+	 */
+	
 	/** 평가 날짜. */
 	@ColumnDefault("SYSDATE")
 	@CreationTimestamp
@@ -51,7 +54,7 @@ public class ProductEvaluationEntity {
 	
 	/** 점수. */
 	@Column(nullable = true)
-    private Integer score;
+    private int score;
 	
     /** 점수에 대한 내용. */
 	@Column(nullable = true)

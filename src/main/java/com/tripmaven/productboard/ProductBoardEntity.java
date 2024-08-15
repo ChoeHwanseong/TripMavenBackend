@@ -47,7 +47,8 @@ public class ProductBoardEntity {
 	@ManyToOne(optional = false)
 	@JoinColumn(name="membersentity_id")
 	private MembersEntity member;
-	
+
+
 //	/** 상품 찜 고유 번호. FK*/
 //	@ManyToOne(optional = false)
 //	@JoinColumn(name="likeyentity_id")
@@ -58,6 +59,7 @@ public class ProductBoardEntity {
 //	@ManyToOne(optional = false)
 //	@JoinColumn(name="productevaluationEntity_id")
 //	private ProductEvaluationEntity productevaluation;
+	
 	
 	/** 제목 */
 	@Column(length = 20, nullable = false)

@@ -124,7 +124,9 @@ public class CSBoardController {
 	public ResponseEntity<CSBoardDto> updateAnswer(@PathVariable("id") long id, @RequestBody Map map){
 		try {
 			CSBoardDto dto = mapper.convertValue(map, CSBoardDto.class);
+			System.out.println("dto.comments: "+dto.getComments());
 			CSBoardDto updatedDto= csBoardService.updateAnswerById(id,dto);
+			System.out.println("updatedDto: "+updatedDto.getComments());
 			return ResponseEntity.ok(updatedDto);
 		}
 		catch(Exception e) {
