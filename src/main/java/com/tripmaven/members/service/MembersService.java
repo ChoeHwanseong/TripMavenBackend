@@ -21,7 +21,7 @@ public class MembersService {
 
 	private final MembersRepository membersRepository;
 	private final ObjectMapper objectMapper;
-	private final BCryptPasswordEncoder passwordEncoder;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	
 	//CREATE
@@ -34,11 +34,12 @@ public class MembersService {
 		
 		//System.out.println(dto.getPassword());
 		//암호화
-		dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+		dto.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
 		//System.out.println(dto.getPassword());
 
 		//역할 DTO에서 받아왔잖아~
 		System.out.println(dto);
+		System.out.println(bCryptPasswordEncoder.matches(dto.getPassword(), bCryptPasswordEncoder.encode(dto.getPassword())));
 		return MembersDto.toDto(membersRepository.save(dto.toEntity()));
 	}
 	

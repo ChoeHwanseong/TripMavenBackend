@@ -51,7 +51,7 @@ public class MembersController {
 	
 	//로그인 프로세스
 	@CrossOrigin
-	@GetMapping("/loginProcess")
+	//@GetMapping("/loginProcess")
 	public ResponseEntity<MembersDto> loginProcess(@RequestBody Map map){
 		try {
 			System.out.println(map.get("email"));

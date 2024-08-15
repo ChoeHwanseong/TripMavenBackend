@@ -45,7 +45,7 @@ public class TokenDTO {
     public TokenEntity toEntity() {
     	return TokenEntity.builder()
     			.id(id)
-    			.member(members)
+    			.members(members)
     			.tokenValue(tokenValue)
     			.issuedAt(issuedAt)
     			.expiresIn(expiresIn)
@@ -59,7 +59,7 @@ public class TokenDTO {
     public static TokenDTO toDto(TokenEntity entity) {
     	return TokenDTO.builder()
     			.id(entity.getId())
-    			.members(entity.getMember())
+    			.members(entity.getMembers())
     			.tokenValue(entity.getTokenValue())
     			.issuedAt(entity.getIssuedAt())
     			.expiresIn(entity.getExpiresIn())

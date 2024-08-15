@@ -54,7 +54,7 @@ public class MembersEntity {
 	private String email;
 
 	/** 이름. */
-	@Column(nullable = false)
+	@Column
 	private String name;
 
 	/** 비밀번호. */
