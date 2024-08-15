@@ -31,7 +31,7 @@ public class LikeyController {
 	private final MembersService membersService;
 	private final ProductService productService;
 	private final ObjectMapper mapper;
-	
+
 	//찜 목록 전체 불러오기
 	@CrossOrigin	
 	@GetMapping("/likey/getAll")
@@ -45,7 +45,7 @@ public class LikeyController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
-	
+
 	//게시글 찜하기
 	@CrossOrigin
 	@PostMapping("/product/likey/post")
@@ -66,30 +66,23 @@ public class LikeyController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
-	
-		
-		
-		
-			
-	//찜 삭제하기
-	
-	 @CrossOrigin
-	 @DeleteMapping("/likey/remove/{productID}/{memberID}")
-	    public ResponseEntity<String> removeFromWishlist(
-	            @PathVariable Long productID,
-	            @PathVariable Long memberID) {
-	        try {
-	        	LikeyDto dto=LikeyDto.builder()
-						.productBoard(ProductBoardEntity.builder().id(productID).build())
-						.member(MembersEntity.builder().id(memberID).build())
-						.build();
-	        	LikeyDto likeyDto = likeyService.deletetoWishList(dto);
-	            return ResponseEntity.ok("게시물이 찜 목록에서 제거되었습니다.");
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("찜 제거에 실패했습니다.");
-	        }
-	    }
-	
 
+	//찜 삭제하기
+	@CrossOrigin
+	@DeleteMapping("/likey/remove/{productID}/{memberID}")
+	public ResponseEntity<String> removeFromWishlist(
+			@PathVariable Long productID,
+			@PathVariable Long memberID) {
+		try {
+			LikeyDto dto=LikeyDto.builder()
+					.productBoard(ProductBoardEntity.builder().id(productID).build())
+					.member(MembersEntity.builder().id(memberID).build())
+					.build();
+			LikeyDto likeyDto = likeyService.deletetoWishList(dto);
+			return ResponseEntity.ok("게시물이 찜 목록에서 제거되었습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("찜 제거에 실패했습니다.");
+		}
+	}
 }//

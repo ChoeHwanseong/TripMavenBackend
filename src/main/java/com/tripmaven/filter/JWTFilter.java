@@ -39,10 +39,13 @@ public class JWTFilter extends OncePerRequestFilter{
 		String token = authorization.split(" ")[1]; //bearer 제거
 		
 		//토큰 검증
-		if(jwttoken.verifyToken(token)) {
-			filterChain.doFilter(request, response);
-			return;
-		}
+		if (!jwttoken.verifyToken(token)) {
+	        // 검증 실패 시 응답 처리
+	        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+	        response.getWriter().write("Invalid or expired JWT token");
+	        response.getWriter().flush();
+	        return;
+	    }
 		
 		//토큰 검증 후 일시적 session 생성하고 user정보 설정
 		String loginId = jwttoken.getToKenPayloads(token).get("loginId").toString();

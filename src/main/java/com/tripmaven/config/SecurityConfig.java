@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -27,7 +26,6 @@ public class SecurityConfig{
 	private final AuthenticationConfiguration configuration;
 	private final JWTTOKEN jwttoken;
     private final TokenService tokenService;
-    private final AuthenticationConfiguration authenticationConfiguration;
     private final MembersService membersService;
 	
 	@Bean
@@ -49,16 +47,16 @@ public class SecurityConfig{
 		//로그인 설정
 		http.formLogin(login->login
 				.disable()
-				//.loginPage("/login") //로그인 페이지 설정
+//				.loginPage("/login") //로그인 페이지 설정
 //				.loginProcessingUrl("/loginProcess")//로그인 처리 URL(기본값:/login). 시큐리티가 로그인처리
-//			.permitAll()
+//				.permitAll()
 				
 		);
 		
 		http.oauth2Login(auth-> auth
-				//.loginPage("/oauth-login/login")
+				.loginPage("/login")
 				.defaultSuccessUrl("http://localhost:58337/home", true)
-				.failureUrl("/login?error=true") //에러나면 갈 페이지 어케하까
+				//.failureUrl("/login?error=true") //에러나면 갈 페이지 어케하까
 				.permitAll()
 		);
 		
@@ -80,10 +78,10 @@ public class SecurityConfig{
 		
 		// http basic 인증 방식 disable 설정 JWT, OAuth2 등 복잡한 인증 로직을 구현하려면 HTTP Basic 인증을 비활성화하는 것이 좋습니다.
 		http.httpBasic(basic-> basic.disable());
-		
-		http.addFilterAt(new LoginFilter(membersService, tokenService, authenticationManager(configuration), jwttoken), UsernamePasswordAuthenticationFilter.class);
-		
 		http.addFilterBefore(new JWTFilter(jwttoken), LoginFilter.class);
+		http.addFilterAfter(new LoginFilter(membersService, tokenService, authenticationManager(configuration), jwttoken), UsernamePasswordAuthenticationFilter.class);
+		
+	
 		
 		return http.build();
 	};

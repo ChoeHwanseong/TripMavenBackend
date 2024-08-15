@@ -52,7 +52,7 @@ public class CustomOauthUserService extends DefaultOAuth2UserService{
         String email = oAuthUserInfo.getEmail();
         String name = oAuthUserInfo.getName();
         
-
+        ///
         MembersEntity membersEntity = membersRepository.findByEmail(email)
                 .orElseGet(() -> {
                     MembersEntity newMember = MembersEntity.builder()

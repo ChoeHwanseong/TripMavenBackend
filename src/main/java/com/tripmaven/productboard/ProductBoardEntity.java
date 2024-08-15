@@ -5,8 +5,11 @@ import java.util.Date;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
+import com.tripmaven.likey.LikeyEntity;
 import com.tripmaven.members.model.MembersEntity;
+import com.tripmaven.productevaluation.ProductEvaluationEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,6 +34,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamicInsert
 public class ProductBoardEntity {
 
 	/** 가이드 상품 고유 번호. PK*/
@@ -43,6 +47,17 @@ public class ProductBoardEntity {
 	@ManyToOne(optional = false)
 	@JoinColumn(name="membersentity_id")
 	private MembersEntity member;
+	
+//	/** 상품 찜 고유 번호. FK*/
+//	@ManyToOne(optional = false)
+//	@JoinColumn(name="likeyentity_id")
+//	private LikeyEntity likey;
+//	
+//	
+//	/** AI평가 고유 번호. FK*/
+//	@ManyToOne(optional = false)
+//	@JoinColumn(name="productevaluationEntity_id")
+//	private ProductEvaluationEntity productevaluation;
 	
 	/** 제목 */
 	@Column(length = 20, nullable = false)
@@ -64,7 +79,6 @@ public class ProductBoardEntity {
 	private String isActive;
 	
 	/** Al평가 유무 */
-	@Column(nullable = false)
 	@ColumnDefault("1")
 	private String isEvaluation;
 	
@@ -73,7 +87,6 @@ public class ProductBoardEntity {
 	private String city;
 	
 	/** 수정날짜 */
-	@CreationTimestamp
 	private LocalDateTime updatedAt;
 	
 	/** 수정여부 */
@@ -82,7 +95,6 @@ public class ProductBoardEntity {
 	private String isUpdate;
 	
 	/** 삭제날짜 */
-	@CreationTimestamp
 	private LocalDateTime deletedAt;
 	
 	/** 삭제여부 */
@@ -93,4 +105,7 @@ public class ProductBoardEntity {
 	/**파일*/
 	@Column
 	private String files;
+	
+	//tripdays 들어와야함. 
+	
 }
