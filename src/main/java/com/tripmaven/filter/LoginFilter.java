@@ -136,16 +136,15 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
         String access  = jwtUtil.generateToken(username,"access",accessExpiredMs);
         String refresh  = jwtUtil.generateToken(username,"refresh",refreshExpiredMs);
         MembersDto membersDto = membersService.searchByMemberEmail(username);
+        
         if (membersDto != null) {
             TokenEntity token = TokenEntity.builder()
                     .status("activated")
                     .userAgent(request.getHeader("User-Agent"))
                     .members(membersDto.toEntity())
                     .tokenValue(refresh)
-                    .expirationDate(null)
                     .expiresIn(refreshExpiredMs)
                     .build();
-
             tokenService.save(token);
         }
 
