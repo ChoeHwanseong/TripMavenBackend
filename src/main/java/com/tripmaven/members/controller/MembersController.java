@@ -98,6 +98,7 @@ public class MembersController {
 	@GetMapping("/members/id/{id}")
 	public ResponseEntity<MembersDto> getMemberByMemberId (@PathVariable("id") Long id){
 		try {
+			System.out.println(id);
 			MembersDto dto = membersService.searchByMemberID(id);
 			return ResponseEntity.ok(dto);
 		}
