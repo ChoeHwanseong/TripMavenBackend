@@ -3,7 +3,6 @@ package com.tripmaven.auth.service;
 
 import org.springframework.stereotype.Service;
 
-import com.tripmaven.auth.model.TokenDTO;
 import com.tripmaven.auth.model.TokenEntity;
 
 import jakarta.transaction.Transactional;
@@ -21,8 +20,8 @@ public class TokenService {
         tokenRepository.save(Token);
     }
 
-    public TokenDTO findByTokenValue(String token) {
-        return TokenDTO.toDto(tokenRepository.findByTokenValue(token).get());
+    public TokenEntity findByTokenValue(String token) {
+        return tokenRepository.findByTokenValue(token).get();
     }
 
     public Boolean existsByRefresh(String tokenValue) {

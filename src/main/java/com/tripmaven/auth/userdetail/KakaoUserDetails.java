@@ -1,4 +1,4 @@
-package com.tripmaven.auth;
+package com.tripmaven.auth.userdetail;
 
 import java.util.Map;
 

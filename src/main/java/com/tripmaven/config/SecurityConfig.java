@@ -1,8 +1,6 @@
 package com.tripmaven.config;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,24 +9,17 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.tripmaven.auth.CustomUserDetails;
-import com.tripmaven.auth.CustomUserDetailsService;
-import com.tripmaven.auth.model.JWTTOKEN;
 import com.tripmaven.auth.model.JWTUtil;
 import com.tripmaven.auth.service.TokenService;
+import com.tripmaven.auth.userdetail.CustomUserDetailsService;
 import com.tripmaven.filter.JWTFilter;
 import com.tripmaven.filter.LoginFilter;
 import com.tripmaven.members.service.MembersService;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -39,7 +30,6 @@ public class SecurityConfig{
 	private final AuthenticationConfiguration configuration;
 	private final JWTUtil jwtUtil;
     private final TokenService tokenService;
-    private final CustomUserDetailsService customUserDetailsService;
     private final MembersService membersService;
 	
 	@Bean
@@ -60,38 +50,7 @@ public class SecurityConfig{
 				);
 		
 		//로그인 설정
-		http.formLogin(login->login
-				.disable()
-//				.loginPage("/login") //로그인 페이지 설정
-//				.usernameParameter("email")
-//				.passwordParameter("password")
-//				.loginProcessingUrl("/loginProcess")//로그인 처리 URL(기본값:/login). 시큐리티가 로그인처리
-//				.successHandler(new AuthenticationSuccessHandler() {
-//					//로그인 성공시 처리할 작업 작성-defaultSuccessUrl는 무시된다
-//					@Override
-//					public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-//							Authentication authentication) throws IOException, ServletException {
-//						CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-//						String email = customUserDetails.getUsername();
-//						
-//						//role 추출
-//						Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-//						Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
-//						GrantedAuthority auth = iterator.next();
-//						String role = auth.getAuthority();
-//						
-//						//JWT에 토큰 생성 요청 1시간짜리
-//						String token = jwtUtil.createJwt(email, role, 60*60*1000L);
-//						
-//						//JWT를 response에 담아서 응답(header 부분에)
-//						// key : "Authorization"
-//				        // value : "Bearer " (인증방식) + token
-//						response.addHeader("Authorization", "Bearer " + token);					
-//					}
-//				})
-//				.permitAll()
-//				
-		);
+		http.formLogin(login->login.disable());
 		
 		http.oauth2Login(auth-> auth
 				//.loginPage("/login")
@@ -117,15 +76,10 @@ public class SecurityConfig{
 		);
 		
 		// http basic 인증 방식 disable 설정 JWT, OAuth2 등 복잡한 인증 로직을 구현하려면 HTTP Basic 인증을 비활성화하는 것이 좋습니다.
-		http.httpBasic(basic-> basic.disable());
-		
-//		http.addFilterAt(new LoginFilter(authenticationManager(configuration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
-//		http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
+		http.httpBasic(basic-> basic.disable());	
+
 		http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
 		http.addFilterAt(new LoginFilter(membersService, tokenService, authenticationManager(configuration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
-		
-		http.userDetailsService(customUserDetailsService);
-	
 		
 		return http.build();
 	};

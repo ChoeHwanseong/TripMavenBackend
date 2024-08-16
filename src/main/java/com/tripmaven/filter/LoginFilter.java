@@ -2,9 +2,7 @@ package com.tripmaven.filter;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -16,74 +14,26 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tripmaven.auth.CustomOauthUserDetails;
-import com.tripmaven.auth.CustomUserDetails;
-import com.tripmaven.auth.model.JWTTOKEN;
 import com.tripmaven.auth.model.JWTUtil;
-import com.tripmaven.auth.model.TokenDTO;
 import com.tripmaven.auth.model.TokenEntity;
 import com.tripmaven.auth.service.TokenService;
+import com.tripmaven.auth.userdetail.CustomUserDetails;
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.service.MembersService;
 
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-//@RequiredArgsConstructor
 public class LoginFilter extends UsernamePasswordAuthenticationFilter{
-//	private final AuthenticationManager authenticationManager;
-//	private final JWTUtil jwtUtil;
-//	
-//	@Override
-//	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
-//		String loginId = obtainUsername(request);
-//		String password = obtainPassword(request);
-//		
-//		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginId, password, null);
-//		return authenticationManager.authenticate(authenticationToken);
-//	}
-//
-//	//로그인 성공 시 
-//	@Override
-//	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-//			Authentication authResult) throws IOException, ServletException {
-//		//Email추출
-//		CustomUserDetails customUserDetails = (CustomUserDetails) authResult.getPrincipal();
-//		String email = customUserDetails.getUsername();
-//		
-//		//role 추출
-//		Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
-//		Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
-//		GrantedAuthority auth = iterator.next();
-//		String role = auth.getAuthority();
-//		
-//		//JWT에 토큰 생성 요청 1시간짜리
-//		String token = jwtUtil.createJwt(email, role, 60*60*1000L);
-//		
-//		//JWT를 response에 담아서 응답(header 부분에)
-//		// key : "Authorization"
-//        // value : "Bearer " (인증방식) + token
-//		response.addHeader("Authorization", "Bearer " + token);
-//		
-//	}
-//
-//	//로그인 실패시
-//	@Override
-//	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-//			AuthenticationException failed) throws IOException, ServletException {
-//		 response.setStatus(401);
-//	}
+
 	private final Long accessExpiredMs;
     private final Long refreshExpiredMs;
 
@@ -114,10 +64,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
 
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginId, password);
             return authenticationManager.authenticate(authenticationToken);
-//            String loginId = obtainUsername(request);
-//            String password = obtainPassword(request);
-//            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginId, password);
-//            return authenticationManager.authenticate(authenticationToken);
         } catch (AuthenticationException e) {
         	throw new AuthenticationServiceException("인증 처리 중 오류가 발생했습니다.", e);
         }

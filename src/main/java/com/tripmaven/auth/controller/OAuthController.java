@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.auth.model.JWTTOKEN;
-import com.tripmaven.auth.model.TokenDTO;
+import com.tripmaven.auth.model.TokenEntity;
 import com.tripmaven.auth.service.TokenService;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersRepository;
@@ -104,7 +104,7 @@ public class OAuthController {
             Long refreshExpiredMs = 86400000L;
             String refreshTokenJwt = jwttoken.generateToken(email, "refresh", refreshExpiredMs);
 
-            TokenDTO token = TokenDTO.builder()
+            TokenEntity token = TokenEntity.builder()
                     .status("activated")
                     .userAgent(response.getHeader("User-Agent"))
                     .members(membersEntity)
@@ -112,7 +112,7 @@ public class OAuthController {
                     .expiresIn(refreshExpiredMs)
                     .build();
 
-            tokenService.save(token.toEntity());
+            tokenService.save(token);
 
             // 로그인 성공 후 URL에 토큰 정보 포함
             String redirectUrl = String.format("http://localhost:58337/home?access=%s&refresh=%s&isAdmin=%s",
@@ -181,7 +181,7 @@ public class OAuthController {
             Long refreshExpiredMs = 86400000L;
             String refreshTokenJwt = jwttoken.generateToken(email, "refresh", refreshExpiredMs);
 
-            TokenDTO token = TokenDTO.builder()
+            TokenEntity token = TokenEntity.builder()
                     .status("activated")
                     .userAgent(response.getHeader("User-Agent"))
                     .members(membersEntity)
@@ -189,7 +189,7 @@ public class OAuthController {
                     .expiresIn(refreshExpiredMs)
                     .build();
 
-            tokenService.save(token.toEntity());
+            tokenService.save(token);
 
             // 로그인 성공 후 URL에 토큰 정보 포함
             String redirectUrl = String.format("http://localhost:58337?access=%s&refresh=%s&isAdmin=%s",

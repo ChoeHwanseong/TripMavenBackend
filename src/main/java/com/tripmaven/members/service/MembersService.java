@@ -31,15 +31,9 @@ public class MembersService {
 		
 		boolean isDuplicated = membersRepository.existsByEmail(dto.getEmail()); //증복확인
 		if(isDuplicated) return null;
-		
-		//System.out.println(dto.getPassword());
 		//암호화
 		dto.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
-		//System.out.println(dto.getPassword());
-
 		//역할 DTO에서 받아왔잖아~
-		System.out.println(dto);
-		System.out.println(bCryptPasswordEncoder.matches(dto.getPassword(), bCryptPasswordEncoder.encode(dto.getPassword())));
 		return MembersDto.toDto(membersRepository.save(dto.toEntity()));
 	}
 	
@@ -94,6 +88,12 @@ public class MembersService {
 		
 	}
 	
+	//가이드 변환 로직
+	@Transactional
+	public MembersDto toguide(MembersDto findMember) {
+		return MembersDto.toDto(membersRepository.save(findMember.toEntity()));
+	}
+	
 	//DELETE
 	//회원 정보 삭제
 	@Transactional
@@ -102,6 +102,10 @@ public class MembersService {
 		membersRepository.deleteById(id);
 		return deletedDto;
 	}
+
+
+
+	
 
 
 

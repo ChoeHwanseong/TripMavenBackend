@@ -1,5 +1,6 @@
 package com.tripmaven.members.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,32 +41,32 @@ public class MembersController {
 			//System.out.println(map.get("password"));
 			MembersDto dto= mapper.convertValue(map, MembersDto.class);
 			MembersDto insertedDto = membersService.signup(dto);
-			return ResponseEntity.ok(insertedDto);
+			if(insertedDto == null)	{
+				Map<String, String> response = new HashMap<>();
+			    response.put("message", "중복된 아이디입니다.");
+			    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			}
+			return ResponseEntity.ok(insertedDto);			
 		}
-		catch (Exception e) {
-			
+		catch (Exception e) {			
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
 	
-	//로그인 프로세스
-	@CrossOrigin
-	//@GetMapping("/loginProcess")
-	public ResponseEntity<MembersDto> loginProcess(@RequestBody Map map){
-		try {
-			System.out.println(map.get("email"));
-			MembersDto dto = mapper.convertValue(map, MembersDto.class);
-			System.out.println(dto);
-			dto = membersService.searchByMemberEmail(dto.getEmail());
-			System.out.println(dto);
-			
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		}
-		return null;
+	//가이드가 되어라!
+	/** 라이센스 파일 업로드 필요.*/
+	@PutMapping("/toguide")
+	public ResponseEntity<MembersDto> toGuide(@RequestBody Map map){
+		String guidelicense = map.get("guidelicense").toString();
+		String introduce = map.get("introduce").toString();
+		long membersId = (long)map.get("id");
+		MembersDto findMember =  membersService.searchByMemberID(membersId);
+		findMember.setIntroduce(introduce);
+		findMember.setGuidelicense(guidelicense);
+		findMember.setRole("GUIDE");
+		System.out.println(findMember);
+		return ResponseEntity.ok(membersService.toguide(findMember));
 	}
 	
 	
