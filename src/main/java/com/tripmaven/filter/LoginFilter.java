@@ -136,7 +136,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
         String access  = jwtUtil.generateToken(username,"access",accessExpiredMs);
         String refresh  = jwtUtil.generateToken(username,"refresh",refreshExpiredMs);
         MembersDto membersDto = membersService.searchByMemberEmail(username);
-        
+        String membersId = String.valueOf(membersDto.getId());
         if (membersDto != null) {
             TokenEntity token = TokenEntity.builder()
                     .status("activated")
@@ -163,6 +163,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
         responseBody.put("isAdmin", isAdmin);
         responseBody.put("isGuide", isGuide);
         responseBody.put("refresh",refresh);
+        responseBody.put("membersId",membersId);
         
 
         // ObjectMapper를 사용하여 Map을 JSON 문자열로 변환합니다.
