@@ -1,7 +1,9 @@
 package com.tripmaven.csboard;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +36,9 @@ public class CSBoardService {
 	@Transactional(readOnly = true)
 	public List<CSBoardDto> usersAll() {
 		// 리포지토리 호출
-		List<CSBoardEntity> inquireEntityList= csBoardRepository.findAll();	
+		List<CSBoardEntity> inquireEntityList= csBoardRepository.findAll().stream()
+                .sorted(Comparator.comparingLong(CSBoardEntity::getId))
+                .collect(Collectors.toList());	
 		// 엔터티 리스트를 dto 로 변환
 		return objectMapper.convertValue(inquireEntityList,
 										objectMapper.getTypeFactory().defaultInstance()
@@ -77,6 +81,16 @@ public class CSBoardService {
 		
 		return CSBoardDto.toDto(csBoardRepository.save(csBoardEntity));
 	}
+	
+	
+	//UPDATE (문의 답변 수정)
+	@Transactional
+	public CSBoardDto updateAnswerById(long id, CSBoardDto dto) {
+		CSBoardEntity csBoardEntity= csBoardRepository.findById(id).get();		
+		csBoardEntity.setComments(dto.getComments());		
+		return CSBoardDto.toDto(csBoardRepository.save(csBoardEntity));
+	}
+
 
 	
 	//DELETE (문의 삭제)
@@ -129,17 +143,8 @@ public class CSBoardService {
 
 
 
-	//UPDATE (문의 답변 수정)
-	@Transactional
-	public CSBoardDto updateAnswerById(long id, CSBoardDto dto) {
-		CSBoardEntity csBoardEntity= csBoardRepository.findById(id).get();		
-		csBoardEntity.setComments(dto.getComments());		
-		return CSBoardDto.toDto(csBoardRepository.save(csBoardEntity));
-		}
-
-
-
 	
+
 	
 	
 	

@@ -3,8 +3,10 @@ package com.tripmaven.members.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,6 +47,25 @@ public class MembersController {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
+	}
+	
+	//로그인 프로세스
+	@CrossOrigin
+	//@GetMapping("/loginProcess")
+	public ResponseEntity<MembersDto> loginProcess(@RequestBody Map map){
+		try {
+			System.out.println(map.get("email"));
+			MembersDto dto = mapper.convertValue(map, MembersDto.class);
+			System.out.println(dto);
+			dto = membersService.searchByMemberEmail(dto.getEmail());
+			System.out.println(dto);
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+		return null;
 	}
 	
 	

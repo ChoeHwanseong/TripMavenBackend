@@ -40,7 +40,7 @@ public class CSBoardController {
 	
 	//CREATE (문의 등록)
 	@PostMapping("/post")	
-	public ResponseEntity<CSBoardDto> createInquire(@RequestParam Map map) {
+	public ResponseEntity<CSBoardDto> createInquire(@RequestBody Map map) {
 		try {
 			String members_id = map.get("members_id").toString();
 			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(members_id)).toEntity();
@@ -107,7 +107,7 @@ public class CSBoardController {
 	
 	//UPDATE (문의 수정)
 	@PutMapping("/put/{id}")
-	public ResponseEntity<CSBoardDto> updateInquire(@PathVariable("id") long id, @RequestParam Map map){
+	public ResponseEntity<CSBoardDto> updateInquire(@PathVariable("id") long id, @RequestBody Map map){
 		try {
 			CSBoardDto dto = mapper.convertValue(map, CSBoardDto.class);
 			CSBoardDto updatedDto= csBoardService.updateById(id,dto);
@@ -121,10 +121,12 @@ public class CSBoardController {
 	
 	//UPDATE (문의 답변수정)
 	@PutMapping("/answer/{id}")
-	public ResponseEntity<CSBoardDto> updateAnswer(@PathVariable("id") long id, @RequestParam Map map){
+	public ResponseEntity<CSBoardDto> updateAnswer(@PathVariable("id") long id, @RequestBody Map map){
 		try {
 			CSBoardDto dto = mapper.convertValue(map, CSBoardDto.class);
+			System.out.println("dto.comments: "+dto.getComments());
 			CSBoardDto updatedDto= csBoardService.updateAnswerById(id,dto);
+			System.out.println("updatedDto: "+updatedDto.getComments());
 			return ResponseEntity.ok(updatedDto);
 		}
 		catch(Exception e) {

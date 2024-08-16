@@ -1,68 +1,108 @@
 package com.tripmaven.filter;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+
 import com.tripmaven.auth.CustomOauthUserDetails;
+import com.tripmaven.auth.CustomUserDetails;
 import com.tripmaven.auth.model.JWTTOKEN;
+import com.tripmaven.auth.model.JWTUtil;
 import com.tripmaven.members.model.MembersEntity;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
+@Slf4j
 public class JWTFilter extends OncePerRequestFilter{
-	private final JWTTOKEN jwttoken;
+	private final JWTUtil jwtUtil;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-		//request에서 Authorization헤더 찾기
-		String authorization = request.getHeader(jwttoken.AUTHORIZATION);
-		
-		//Authorization헤더 검증
-		if(authorization == null || !authorization.startsWith(jwttoken.BEARER)) {
-			//헤더가 비었거나 bearer시작안하면 필터를 다음으로 넘긴다.
-			filterChain.doFilter(request, response);
-			
-			return;
-		}
+		// request에서 Authorization 헤더 찾음
+        String authorization = request.getHeader("Authorization");
+        
+        String requestURI = request.getRequestURI();
+        if ("/reissue".equals(requestURI)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        // Authorization 헤더 검증
+        // Authorization 헤더가 비어있거나 "Bearer " 로 시작하지 않은 경우
+        if(authorization == null || !authorization.startsWith("Bearer ")){
+
+            System.out.println("token null");
+            // 토큰이 유효하지 않으므로 request와 response를 다음 필터로 넘겨줌
+            filterChain.doFilter(request, response);
+
+            // 메서드 종료
+            return;
+        }
 		
 		String token = authorization.split(" ")[1]; //bearer 제거
 		
 		//토큰 검증
-		if(jwttoken.verifyToken(token)) {
-			filterChain.doFilter(request, response);
-			return;
-		}
+		try {
+            jwtUtil.isTokenExpired(token);
+        } catch (ExpiredJwtException e) {
+            //response body
+            PrintWriter writer = response.getWriter();
+            writer.print("access token expired");
+            //response status code
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
 		
-		//토큰 검증 후 일시적 session 생성하고 user정보 설정
-		String loginId = jwttoken.getToKenPayloads(token).get("loginId").toString();
-		String role = jwttoken.getToKenPayloads(token).get("role").toString();
-		
-		MembersEntity entity = MembersEntity.builder()
-									.email(loginId)
-									.password("임시 비밀번호")// 매번 요청마다 DB 조회해서 password 초기화 할 필요 x => 정확한 비밀번호 넣을 필요 없음 따라서 임시 비밀번호 설정!
-									.role(role).build();
-		
-		// UserDetails에 회원 정보 객체 담기
-		CustomOauthUserDetails customOauthUserDetails = new CustomOauthUserDetails(entity);
-		
-		 // 스프링 시큐리티 인증 토큰 생성
-		Authentication authToken = new UsernamePasswordAuthenticationToken(customOauthUserDetails, null, customOauthUserDetails.getAuthorities());
-		
-		// 세션에 사용자 등록 => 일시적으로 user 세션 생성
-		SecurityContextHolder.getContext().setAuthentication(authToken);
-		
-		filterChain.doFilter(request, response);
+		 // token에서 category 가져오기
+        String category = jwtUtil.getCategoryFromToken(token);
+        // 토큰 category 가 access 가 아니 라면 만료 된 토큰 이라고 판단
+        if (!category.equals("access")) {
+
+            //response body
+            PrintWriter writer = response.getWriter();
+            writer.print("invalid access token");
+
+            //response status code
+            // 응답 코드를 프론트와 맞추는 부분 401 에러 외 다른 코드로 맞춰서
+            // 진행하면 리프레시 토큰 발급 체크를 빠르게 할수 있음
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+        
+     // 토큰에서 사용자 이메일과 관리자 여부를 추출합니다.
+        String userEmail = jwtUtil.getUserEmailFromToken(token);
+        String role = jwtUtil.isAdminFromToken(token)?"ADMIN":"USER";
+        role = jwtUtil.isguideFromToken(token)?"GUIDE":"USER";
+
+        // 인증에 사용할 임시 User 객체를 생성하고, 이메일과 관리자 여부를 설정합니다.
+        MembersEntity user = new MembersEntity();
+        user.setEmail(userEmail);
+        user.setPassword("333333"); // 실제 인증에서는 사용되지 않는 임시 비밀번호를 설정합니다.
+        user.setRole(role);
+
+        // User 객체를 기반으로 CustomUserDetails 객체를 생성합니다.
+        CustomUserDetails customUserDetails = new CustomUserDetails(user);
+
+        // Spring Security의 Authentication 객체를 생성하고, SecurityContext에 설정합니다.
+        // 이로써 해당 요청에 대한 사용자 인증이 완료됩니다.
+        Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+
+        // 필터 체인을 계속 진행합니다.
+        filterChain.doFilter(request,response);
 		
 		
 	}

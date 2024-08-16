@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
@@ -16,27 +17,33 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.auth.CustomOauthUserDetails;
-
+import com.tripmaven.auth.CustomUserDetails;
 import com.tripmaven.auth.model.JWTTOKEN;
+import com.tripmaven.auth.model.JWTUtil;
 import com.tripmaven.auth.model.TokenDTO;
+import com.tripmaven.auth.model.TokenEntity;
 import com.tripmaven.auth.service.TokenService;
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.service.MembersService;
 
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+//@RequiredArgsConstructor
 public class LoginFilter extends UsernamePasswordAuthenticationFilter{
 //	private final AuthenticationManager authenticationManager;
-//	private final JWTTOKEN jwttoken;
+//	private final JWTUtil jwtUtil;
 //	
 //	@Override
 //	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
@@ -62,12 +69,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
 //		String role = auth.getAuthority();
 //		
 //		//JWT에 토큰 생성 요청 1시간짜리
-//		String token = jwttoken.generateToken(email, role, 60*60*1000L);
+//		String token = jwtUtil.createJwt(email, role, 60*60*1000L);
 //		
 //		//JWT를 response에 담아서 응답(header 부분에)
 //		// key : "Authorization"
 //        // value : "Bearer " (인증방식) + token
-//		response.addHeader(jwttoken.AUTHORIZATION, jwttoken.BEARER + token);
+//		response.addHeader("Authorization", "Bearer " + token);
 //		
 //	}
 //
@@ -84,14 +91,14 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
     private final TokenService tokenService;
 
     private final AuthenticationManager authenticationManager;
-    private final JWTTOKEN jwttoken;
+    private final JWTUtil jwtUtil;
 
     // 생성자를 통해 AuthenticationManager와 JWTUtil의 인스턴스를 주입받습니다.
-    public LoginFilter(MembersService membersService, TokenService tokenService, AuthenticationManager authenticationManager, JWTTOKEN jwttoken) {
+    public LoginFilter(MembersService membersService, TokenService tokenService, AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
         this.membersService = membersService;
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
-        this.jwttoken = jwttoken;
+        this.jwtUtil = jwtUtil;
         refreshExpiredMs = 86400000L;
         accessExpiredMs = 600000L;
     }
@@ -99,12 +106,20 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String loginId = obtainUsername(request);
+        	String loginId = request.getParameter("email");
+            if (loginId == null || loginId.isEmpty()) {
+                loginId = "NONE_PROVIDED";
+            }
             String password = obtainPassword(request);
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginId, password, null);
+
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginId, password);
             return authenticationManager.authenticate(authenticationToken);
+//            String loginId = obtainUsername(request);
+//            String password = obtainPassword(request);
+//            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginId, password);
+//            return authenticationManager.authenticate(authenticationToken);
         } catch (AuthenticationException e) {
-            throw new BadCredentialsException("Authentication failed for user: " + obtainUsername(request));
+        	throw new AuthenticationServiceException("인증 처리 중 오류가 발생했습니다.", e);
         }
     }
 
@@ -112,25 +127,25 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException {
         // 인증 객체에서 CustomUserDetails를 추출합니다.
-        CustomOauthUserDetails customOauthUserDetails = (CustomOauthUserDetails) authentication.getPrincipal();
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
         // CustomUserDetails에서 사용자 이름(이메일)을 추출합니다.
-        String username = customOauthUserDetails.getUsername();
+        String username = customUserDetails.getUsername();
 
         // 사용자 이름을 사용하여 JWT를 생성합니다.
-        String access  = jwttoken.generateToken(username,"access",accessExpiredMs);
-        String refresh  = jwttoken.generateToken(username,"refresh",refreshExpiredMs);
+        String access  = jwtUtil.generateToken(username,"access",accessExpiredMs);
+        String refresh  = jwtUtil.generateToken(username,"refresh",refreshExpiredMs);
         MembersDto membersDto = membersService.searchByMemberEmail(username);
+        
         if (membersDto != null) {
-            TokenDTO token = TokenDTO.builder()
+            TokenEntity token = TokenEntity.builder()
                     .status("activated")
                     .userAgent(request.getHeader("User-Agent"))
                     .members(membersDto.toEntity())
                     .tokenValue(refresh)
                     .expiresIn(refreshExpiredMs)
                     .build();
-
-            tokenService.save(token.toEntity());
+            tokenService.save(token);
         }
 
         // 응답 헤더에 JWT를 'Bearer' 토큰으로 추가합니다.
@@ -141,18 +156,18 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
 
         // 여기서 부터 사용자 정보를 응답 바디에 추가하는 코드입니다.
         // 사용자의 권한이나 추가 정보를 JSON 형태로 변환하여 응답 바디에 포함시킬 수 있습니다.
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-		Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
-		GrantedAuthority auth = iterator.next();
-		String role = auth.getAuthority();
+        boolean isAdmin = customUserDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        boolean isGuide = customUserDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_GUIDE"));
         Map<String, Object> responseBody = new HashMap<>();
         responseBody.put("username", username);
-        responseBody.put("role", role);
+        responseBody.put("isAdmin", isAdmin);
+        responseBody.put("isGuide", isGuide);
         responseBody.put("refresh",refresh);
+        
 
         // ObjectMapper를 사용하여 Map을 JSON 문자열로 변환합니다.
         String responseBodyJson = new ObjectMapper().writeValueAsString(responseBody);
-
+        
         // 응답 컨텐츠 타입을 설정합니다.
         response.setContentType("application/json");
 

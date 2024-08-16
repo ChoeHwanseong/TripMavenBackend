@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.model.MembersEntity;
+import com.tripmaven.review.ReviewDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +21,7 @@ public class MembersService {
 
 	private final MembersRepository membersRepository;
 	private final ObjectMapper objectMapper;
-	private final BCryptPasswordEncoder passwordEncoder;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	
 	//CREATE
@@ -33,13 +34,12 @@ public class MembersService {
 		
 		//System.out.println(dto.getPassword());
 		//암호화
-		dto.setPassword(passwordEncoder.encode(dto.getPassword()));
-		dto.setLoginType("local");
+		dto.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
 		//System.out.println(dto.getPassword());
 
 		//역할 DTO에서 받아왔잖아~
-		dto.setIsactive("1");
 		System.out.println(dto);
+		System.out.println(bCryptPasswordEncoder.matches(dto.getPassword(), bCryptPasswordEncoder.encode(dto.getPassword())));
 		return MembersDto.toDto(membersRepository.save(dto.toEntity()));
 	}
 	
@@ -103,4 +103,8 @@ public class MembersService {
 		membersRepository.deleteById(id);
 		return deletedDto;
 	}
+
+
+
+	
 }

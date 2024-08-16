@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -34,20 +35,20 @@ public class TokenEntity {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_tokens")
 	private long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "Members_id")
-    private MembersEntity member;
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "members_id", nullable = false)
+    private MembersEntity members;
 
-    @Column(name = "token_value", nullable = false, length = 255)
+    @Column(name = "token_value")
     private String tokenValue;
 
-    @Column(name = "issued_at", nullable = false)
+    @Column(name = "issued_at")
     private LocalDateTime issuedAt;
 
-    @Column(name = "expires_in", nullable = false)
+    @Column(name = "expires_in")
     private long expiresIn;
 
-    @Column(name = "expiration_date", nullable = false)
+    @Column(name = "expiration_date")
     private LocalDateTime expirationDate;
 
     @Column(name = "user_agent")
@@ -55,5 +56,12 @@ public class TokenEntity {
 
     @Column(length = 50)
     private String status;
+    
+    @PrePersist
+    public void prePersist() {
+        LocalDateTime now = LocalDateTime.now();
+        if (issuedAt == null) issuedAt = now;
+        if (expirationDate == null) expirationDate = now.plusSeconds(expiresIn / 1000); // 예를 들어 expiresIn이 밀리초 단위라면
+    }
 
 }

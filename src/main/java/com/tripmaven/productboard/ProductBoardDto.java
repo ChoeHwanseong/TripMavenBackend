@@ -31,6 +31,9 @@ public class ProductBoardDto {
 	private LocalDateTime deletedAt;
 	private String isDelete;
 	private String files;
+	private String hashtag;
+	private String hotel;
+	private String hotelAd;
 	
 	//DTO를 ENTITY로 변환하는 메소드
 		public ProductBoardEntity toEntity() {
@@ -48,6 +51,9 @@ public class ProductBoardDto {
 					.deletedAt(deletedAt)
 					.isDelete(isDelete)
 					.files(files)
+					.hashtag(hashtag)
+					.hotel(hotel)
+					.hotelAd(hotelAd)					
 					.build();
 		}
 		//ENTITY를 DTO로 변환하는 메소드
@@ -65,7 +71,10 @@ public class ProductBoardDto {
 					.isUpdate(productBoardEntity.getIsUpdate())
 					.deletedAt(productBoardEntity.getDeletedAt())
 					.isDelete(productBoardEntity.getIsDelete())
-					.files(productBoardEntity.getFiles())					
+					.files(productBoardEntity.getFiles())
+					.hashtag(productBoardEntity.getHashtag())
+					.hotel(productBoardEntity.getHotel())
+					.hotelAd(productBoardEntity.getHotelAd())
 					.build();
 					
 		}
