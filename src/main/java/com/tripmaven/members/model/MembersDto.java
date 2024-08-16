@@ -25,6 +25,7 @@ public class MembersDto {
 	private String telNumber;
 	private String address;
 	private String profile;
+	private String introduce;
 	private String isactive;
 	private LocalDateTime createdAt;
 	private String issocial;
@@ -45,6 +46,7 @@ public class MembersDto {
 					.telNumber(telNumber)
 					.address(address)
 					.profile(profile)
+					.introduce(introduce)
 					.isactive(isactive)
 					.createdAt(createdAt)
 					.issocial(issocial)
@@ -67,6 +69,7 @@ public class MembersDto {
 					.telNumber(membersEntity.getTelNumber())
 					.address(membersEntity.getAddress())
 					.profile(membersEntity.getProfile())
+					.introduce(membersEntity.getIntroduce())
 					.isactive(membersEntity.getIsactive())
 					.createdAt(membersEntity.getCreatedAt())
 					.issocial(membersEntity.getIssocial())

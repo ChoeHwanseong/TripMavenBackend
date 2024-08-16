@@ -80,6 +80,10 @@ public class MembersEntity {
 	@Column
 	private String profile;
 	
+	/** 자기 소개 */
+	@Column
+	private String introduce;
+	
 	/** 생성일. */
 	@ColumnDefault("SYSDATE")
 	@CreationTimestamp

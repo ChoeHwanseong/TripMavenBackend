@@ -1,4 +1,4 @@
-package com.tripmaven.auth;
+package com.tripmaven.auth.userdetail;
 
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;

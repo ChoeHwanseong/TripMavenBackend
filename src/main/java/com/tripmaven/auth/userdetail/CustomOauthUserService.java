@@ -1,4 +1,4 @@
-package com.tripmaven.auth;
+package com.tripmaven.auth.userdetail;
 
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
