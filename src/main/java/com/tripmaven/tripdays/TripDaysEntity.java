@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -47,20 +48,22 @@ public class TripDaysEntity {
 	@Column(nullable = false)
     private Integer day; //1일차.. 2일차.. sort... 
 
-	//content 추가... 
+	//content 추가...
+	@Lob
+	private String content;
 	
+	/** 사진 */
+	@Column
+	private String files;
 	
 	/** 수정 여부. */
-	@Column(nullable = false)
 	@ColumnDefault("0")
 	private String isUpdate;
 	
 	/** 수정 날짜. */
-	
 	private LocalDateTime updatedAt;
 	
 	/** 생성 여부. */
-	@Column(nullable = false)
 	@ColumnDefault("0")
 	private String isCreate;
 	

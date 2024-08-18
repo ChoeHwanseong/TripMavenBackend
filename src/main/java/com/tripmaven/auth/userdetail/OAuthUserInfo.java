@@ -1,4 +1,4 @@
-package com.tripmaven.auth;
+package com.tripmaven.auth.userdetail;
 
 public interface OAuthUserInfo {
 	String getProvider();

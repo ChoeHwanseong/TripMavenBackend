@@ -21,10 +21,13 @@ public class TripDaysDto {
 	private long id;
 	private ProductBoardEntity productBoard;
 	private Integer day;
+	private String content;
+	private String files;
 	private String isUpdate;
 	private LocalDateTime updatedAt;
 	private String isCreate;
 	private LocalDateTime createdAt;
+	
 
 	//DTO를 ENTITY로 변환하는 메소드
 	public TripDaysEntity toEntity() {
@@ -32,6 +35,8 @@ public class TripDaysDto {
 				.id(id)
 				.productBoard(productBoard)
 				.day(day)
+				.content(content)
+				.files(files)
 				.isUpdate(isUpdate)
 				.updatedAt(updatedAt)
 				.isCreate(isCreate)
@@ -45,11 +50,12 @@ public class TripDaysDto {
 				.id(tripDaysEntity.getId())
 				.productBoard(tripDaysEntity.getProductBoard())
 				.day(tripDaysEntity.getDay())
+				.content(tripDaysEntity.getContent())
+				.files(tripDaysEntity.getFiles())
 				.isUpdate(tripDaysEntity.getIsUpdate())
 				.updatedAt(tripDaysEntity.getUpdatedAt())
 				.isCreate(tripDaysEntity.getIsCreate())
 				.createdAt(tripDaysEntity.getCreatedAt())
 				.build();
-
 	}
 }
