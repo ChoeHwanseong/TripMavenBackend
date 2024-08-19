@@ -22,7 +22,7 @@ public class CustomUserDetails implements UserDetails{
 		 List<GrantedAuthority> authorities = new ArrayList();
 		 
 		// 사용자의 isAdmin 값에 따라 ROLE_ADMIN 또는 ROLE_USER 권한을 부여합니다.
-	        if (this.membersEntity.getRole().equalsIgnoreCase("admin")) {
+	        if (this.membersEntity.getRole().equalsIgnoreCase("ADMIN")) {
 	            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 	        } 
 	        else if(this.membersEntity.getRole().equalsIgnoreCase("GUIDE")) {

@@ -69,6 +69,14 @@ public class MembersController {
 		return ResponseEntity.ok(membersService.toguide(findMember));
 	}
 	
+	//관리자가 되어라!
+	@PutMapping("/toadmin/{membersid}")
+	public ResponseEntity<MembersDto> toAdmin(@PathVariable("membersid") String membersid){
+		MembersDto findMember =  membersService.searchByMemberID(Long.valueOf(membersid));
+		findMember.setRole("ADMIN");
+		System.out.println(findMember);
+		return ResponseEntity.ok(membersService.toguide(findMember));
+	}
 	
 	//READ
 	//모든 회원 조회
