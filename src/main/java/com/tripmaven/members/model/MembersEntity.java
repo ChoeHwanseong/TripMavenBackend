@@ -62,7 +62,7 @@ public class MembersEntity {
 	private String password;
 
 	/** 성별. */
-	@Column(length = 5)
+	@Column(length = 6)
 	private String gender;
 
 	/** BIRTHDAY. */
