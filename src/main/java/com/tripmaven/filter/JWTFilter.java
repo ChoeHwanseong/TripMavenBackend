@@ -89,7 +89,7 @@ public class JWTFilter extends OncePerRequestFilter{
         // 인증에 사용할 임시 User 객체를 생성하고, 이메일과 관리자 여부를 설정합니다.
         MembersEntity user = new MembersEntity();
         user.setEmail(userEmail);
-        user.setPassword("333333"); // 실제 인증에서는 사용되지 않는 임시 비밀번호를 설정합니다.
+        user.setPassword("임시비번"); // 실제 인증에서는 사용되지 않는 임시 비밀번호를 설정합니다.
         user.setRole(role);
 
         // User 객체를 기반으로 CustomUserDetails 객체를 생성합니다.
