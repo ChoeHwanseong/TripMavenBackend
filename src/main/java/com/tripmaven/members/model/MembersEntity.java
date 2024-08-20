@@ -73,7 +73,7 @@ public class MembersEntity {
 	private String telNumber;
 
 	/** 주소. */
-	@Column(length = 50)
+	@Column(length = 100)
 	private String address;
 
 	/** 프로필 사진. */
