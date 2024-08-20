@@ -131,6 +131,7 @@ public class OAuthController {
     @GetMapping("/oauth2/code/kakao")
     public void kakaoLogin(@RequestParam String code, HttpServletResponse response) throws IOException {
         log.info("code = {}", code);
+        System.out.println("code값"+code);
 
         // 액세스 토큰을 요청하기 위한 URL 및 헤더 설정
         String tokenUrl = "https://kauth.kakao.com/oauth/token";
@@ -140,7 +141,8 @@ public class OAuthController {
                 + "&client_id=" + kakaoClientId
                 + "&redirect_uri=" + kakaoRedirectUri
                 + "&code=" + code;
-
+        System.out.println("kakaoClientId : "+kakaoClientId);
+        System.out.println("kakaoRedirectUri : "+kakaoRedirectUri);
         // 토큰 요청
         HttpEntity<String> tokenRequestEntity = new HttpEntity<>(tokenRequestBody, tokenHeaders);
         RestTemplate restTemplate = new RestTemplate();
