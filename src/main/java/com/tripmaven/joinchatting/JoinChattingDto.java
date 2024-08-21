@@ -27,7 +27,7 @@ public class JoinChattingDto {
 		return JoinChattingEntity.builder()
 				.id(id)
 				.chattingRoom(chattingRoom)
-			    .member(member)   
+				.member(member)
 				.build();
 	}
 	//ENTITY를 DTO로 변환하는 메소드

@@ -40,7 +40,7 @@ public class MessageReadEntity {
 	@JoinColumn(name="chattingmessageentity_id")
 	private ChattingMessageEntity chattingMessage;
 	
-	/** 친구 고유 번호. FK*/
+	/** 회원 고유 번호. FK*/
 	@ManyToOne(optional = false)
 	@JoinColumn(name="membersentity_id")
 	private MembersEntity member;
