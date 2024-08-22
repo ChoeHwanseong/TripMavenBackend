@@ -5,6 +5,7 @@ package com.tripmaven.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,9 +13,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
+import com.tripmaven.auth.CustomOAuth2SuccessHandler;
 import com.tripmaven.auth.model.JWTUtil;
 import com.tripmaven.auth.service.TokenService;
-import com.tripmaven.auth.userdetail.CustomUserDetailsService;
+import com.tripmaven.auth.userdetail.CustomOauthUserService;
 import com.tripmaven.filter.JWTFilter;
 import com.tripmaven.filter.LoginFilter;
 import com.tripmaven.members.service.MembersService;
@@ -31,7 +34,9 @@ public class SecurityConfig{
 	private final JWTUtil jwtUtil;
     private final TokenService tokenService;
     private final MembersService membersService;
-	
+	private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
+	private final CustomOauthUserService oauthUserService;
+    
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
 		return configuration.getAuthenticationManager();
@@ -54,10 +59,17 @@ public class SecurityConfig{
 		
 		http.oauth2Login(auth-> auth
 				//.loginPage("/login")
-				.defaultSuccessUrl("http://localhost:58337/home", true)
+				//.userInfoEndpoint(c->c.userService(oauthUserService))
+				.successHandler(customOAuth2SuccessHandler)
+				
+				//.defaultSuccessUrl("http://localhost:58337/home", true)
 				//.failureUrl("/login?error=true") //에러나면 갈 페이지 어케하까
 				.permitAll()
 		);
+		
+		
+				
+		
 		
 		//로그아웃 설정
 		http.logout(logout->logout
@@ -77,7 +89,7 @@ public class SecurityConfig{
 		
 		// http basic 인증 방식 disable 설정 JWT, OAuth2 등 복잡한 인증 로직을 구현하려면 HTTP Basic 인증을 비활성화하는 것이 좋습니다.
 		http.httpBasic(basic-> basic.disable());	
-
+		
 		http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
 		http.addFilterAt(new LoginFilter(membersService, tokenService, authenticationManager(configuration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
 		

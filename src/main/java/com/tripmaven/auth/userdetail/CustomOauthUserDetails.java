@@ -34,9 +34,10 @@ public class CustomOauthUserDetails implements UserDetails, OAuth2User{
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
 		authorities.add(new GrantedAuthority() {
-
+			
 			@Override
 			public String getAuthority() {
+				System.out.println("여긴 어디?");
 				return "ROLE_"+membersEntity.getRole();
 			}
 		});

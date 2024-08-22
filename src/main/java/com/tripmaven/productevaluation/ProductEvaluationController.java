@@ -38,12 +38,15 @@ public class ProductEvaluationController {
 	public ResponseEntity<ProductEvaluationDto> createEvaluation(@RequestParam Map<String,String> map){
 		try {
 			String productboard_id = map.get("productboard_id").toString();
-			System.out.println("productboard_id: "+productboard_id);
+			
+			
+			
 			ProductBoardEntity productboard= productService.usersById(Long.parseLong(productboard_id)).toEntity();
-			System.out.println("productboard.getId: "+productboard.getId());
-			System.out.println("productboard.getMember: "+productboard.getMember());
+			
+			
 			ProductEvaluationDto productEvaluationDto = mapper.convertValue(map, ProductEvaluationDto.class);
 			productEvaluationDto.setProductBoard(productboard);
+			System.out.println("호ㅗ로로로로ㅗㄹ로ㅗㄹ: "+productEvaluationDto.getProductBoard().getTitle());
 			ProductEvaluationDto dto = productEvaluationService.create(productEvaluationDto);
 			return ResponseEntity.ok(dto);
 		}
