@@ -1,12 +1,19 @@
 package com.tripmaven.productboard;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.members.model.MembersDto;
@@ -23,22 +30,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 
 
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost")
+@CrossOrigin
 public class ProductController  {
 
 	private final ProductService productService;
 	private final ObjectMapper mapper;
 	private final MembersService membersService;
+	
+	//파일 저장위치 주입받기
+	@Value("${file.upload-dir}")
+	private String saveDirectory;
+	
 
 	//CREATE (게시글 등록)
 	@PostMapping("/product")
 	public ResponseEntity<ProductBoardDto> createPost(@RequestBody Map map) {
 		try {
+			System.out.print("files"+map.get("files"));
 			String member_id = map.get("member_id").toString();
 			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(member_id)).toEntity();
 			ProductBoardDto dto = mapper.convertValue(map, ProductBoardDto.class);				
@@ -51,6 +65,20 @@ public class ProductController  {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
+	
+	//파일 등록	
+	@PostMapping(value = "/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<List<Map>> fileUpload(@RequestPart(name ="files") List<MultipartFile> files){
+		try {
+			List<Map> filesInfo=productService.upload(files, saveDirectory);
+			return ResponseEntity.ok(filesInfo);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(500).body(null);
+	}
+	}	
+	
 
 
 
