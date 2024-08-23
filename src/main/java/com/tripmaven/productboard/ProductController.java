@@ -44,7 +44,7 @@ public class ProductController  {
 	private final MembersService membersService;
 	
 	//파일 저장위치 주입받기
-	@Value("${file.upload-dir}")
+	@Value("${spring.servlet.multipart.location}")
 	private String saveDirectory;
 	
 
@@ -68,9 +68,11 @@ public class ProductController  {
 	
 	//파일 등록	
 	@PostMapping(value = "/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<List<Map>> fileUpload(@RequestPart(name ="files") List<MultipartFile> files){
+	public ResponseEntity<List<Map>> fileUpload(@RequestPart(name ="files", required = false) List<MultipartFile> files){
 		try {
+			System.out.println("파일 등록 들어옴");
 			List<Map> filesInfo=productService.upload(files, saveDirectory);
+			System.out.println("saveDirectory"+saveDirectory);
 			return ResponseEntity.ok(filesInfo);
 		}
 		catch(Exception e) {
@@ -78,6 +80,20 @@ public class ProductController  {
 			return ResponseEntity.status(500).body(null);
 	}
 	}	
+	//파일 등록	
+		@GetMapping(value = "/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+		public ResponseEntity<List<Map>> fileUploads(@RequestPart(name ="files", required = false) List<MultipartFile> files){
+			try {
+				System.out.println("파일 등록 들어옴");
+				List<Map> filesInfo=productService.upload(files, saveDirectory);
+				System.out.println("saveDirectory"+saveDirectory);
+				return ResponseEntity.ok(filesInfo);
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+				return ResponseEntity.status(500).body(null);
+		}
+		}	
 	
 
 

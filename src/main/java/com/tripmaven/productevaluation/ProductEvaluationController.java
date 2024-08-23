@@ -41,7 +41,7 @@ public class ProductEvaluationController {
 			System.out.println("productboard_id: "+productboard_id);
 			ProductBoardEntity productboard= productService.usersById(Long.parseLong(productboard_id)).toEntity();
 			System.out.println("productboard.getId: "+productboard.getId());
-			System.out.println("productboard.getMember: "+productboard.getMember());
+			System.out.println("productboard.getProductEvaluation: "+productboard.getProductEvaluation());
 			ProductEvaluationDto productEvaluationDto = mapper.convertValue(map, ProductEvaluationDto.class);
 			productEvaluationDto.setProductBoard(productboard);
 			ProductEvaluationDto dto = productEvaluationService.create(productEvaluationDto);

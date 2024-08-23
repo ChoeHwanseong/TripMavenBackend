@@ -49,6 +49,7 @@ public class ProductService {
 		for(MultipartFile multipartFile:files) {
 			//File 객체 생성
 			String systemFilename=FileUtils.getNewFileName(saveDirectory, multipartFile.getOriginalFilename());
+			
 			File f = new File(saveDirectory+File.separator+systemFilename);
 			//업로드
 			multipartFile.transferTo(f);
@@ -62,6 +63,8 @@ public class ProductService {
 		
 		return fileInfos;
 	}
+
+
 
 	
 
