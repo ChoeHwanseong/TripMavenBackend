@@ -41,32 +41,6 @@ public class ProductService {
 	public ProductBoardDto create(ProductBoardDto dto) {
 		return ProductBoardDto.toDto(productRepository.save(dto.toEntity()));
 	}
-	
-	// 파일 등록
-	public List<Map> upload(List<MultipartFile> files, String saveDirectory) throws IllegalStateException, IOException{
-		List<Map> fileInfos = new Vector<>();
-		
-		for(MultipartFile multipartFile:files) {
-			//File 객체 생성
-			String systemFilename=FileUtils.getNewFileName(saveDirectory, multipartFile.getOriginalFilename());
-			
-			File f = new File(saveDirectory+File.separator+systemFilename);
-			//업로드
-			multipartFile.transferTo(f);
-			
-			Map<String,Object> map = new HashMap<>();
-			map.put("filename", f.getName());
-			map.put("filesize",(int)Math.ceil(f.length()/1024.0));
-			map.put("filetype", multipartFile.getContentType());
-			fileInfos.add(map);
-		}
-		
-		return fileInfos;
-	}
-
-
-
-	
 
 	
 

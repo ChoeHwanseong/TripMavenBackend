@@ -8,9 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.tripmaven.auth.model.JWTTOKEN;
 import com.tripmaven.auth.model.JWTUtil;
-import com.tripmaven.auth.userdetail.CustomOauthUserDetails;
 import com.tripmaven.auth.userdetail.CustomUserDetails;
 import com.tripmaven.members.model.MembersEntity;
 
