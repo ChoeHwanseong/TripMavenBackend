@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 
 
-
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
@@ -43,9 +42,6 @@ public class ProductController  {
 	private final ObjectMapper mapper;
 	private final MembersService membersService;
 	
-	//파일 저장위치 주입받기
-	@Value("${file.upload-dir}")
-	private String saveDirectory;
 	
 
 	//CREATE (게시글 등록)
@@ -65,23 +61,8 @@ public class ProductController  {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
+
 	
-	//파일 등록	
-	@PostMapping(value = "/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<List<Map>> fileUpload(@RequestPart(name ="files") List<MultipartFile> files){
-		try {
-			List<Map> filesInfo=productService.upload(files, saveDirectory);
-			return ResponseEntity.ok(filesInfo);
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(500).body(null);
-	}
-	}	
-	
-
-
-
 	//READ 관리자 측 전체 게시글 조회
 	@GetMapping("/product/all/{page}")
 	public ResponseEntity<List<ProductBoardDto>> getListAll(@PathVariable("page") String page){
@@ -94,8 +75,6 @@ public class ProductController  {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}		
 	}
-
-
 
 
 	// READ 가이드 측 게시글 조회(회원엔터티 FK_email로 조회)
@@ -127,23 +106,6 @@ public class ProductController  {
 		}		
 	}
 
-	// READ 제목검색용 컨트롤러 
-	/*
-	@GetMapping("/product/{title}")
-	public ResponseEntity<ProductBoardDto> getPostBySearch(){
-		try {
-			List<ProductBoardDto> postList=productService.listAll(); 
-			// 전체 게시글 조회해서 확장포문 적용
-			// gettitle해서 {title}이 포함되어 잇다면.. 
-			// 새로운 리스트에 담아서 응답바디에 실어서 보낸다. 
-			// 리액트에서 구현
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		}			
-	}
-	*/
 
 	//UPDATE (게시글 수정)
 	@PutMapping("/product/{id}")
