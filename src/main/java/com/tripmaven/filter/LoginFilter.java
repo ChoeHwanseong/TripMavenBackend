@@ -56,6 +56,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
         try {
+        	
         	String loginId = request.getParameter("email");
             if (loginId == null || loginId.isEmpty()) {
                 loginId = "NONE_PROVIDED";
