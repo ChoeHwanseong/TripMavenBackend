@@ -4,7 +4,7 @@ package com.tripmaven.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+
 import org.springframework.security.authentication.AuthenticationManager;
 
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -23,7 +23,6 @@ import com.tripmaven.filter.LoginFilter;
 import com.tripmaven.members.service.MembersService;
 
 
-import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -33,6 +32,7 @@ public class SecurityConfig{
 	private final JWTUtil jwtUtil;
     private final TokenService tokenService;
     private final MembersService membersService;
+
     
     
     
