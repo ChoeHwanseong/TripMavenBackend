@@ -16,6 +16,7 @@ import java.util.Vector;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,7 +49,7 @@ public class ProductService {
 	@Transactional(readOnly = true)
 	public List<ProductBoardDto> listAll(String page, String size) {
 		// 리포지토리 호출
-		Page<ProductBoardEntity> postEntityList= productRepository.findAll(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)));	
+		Page<ProductBoardEntity> postEntityList= productRepository.findAll(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size), Sort.by(Sort.Direction.ASC, "id")));	
 		// 엔터티 리스트를 dto 로 변환
 		return objectMapper.convertValue(postEntityList.getContent(),
 										objectMapper.getTypeFactory().defaultInstance()
