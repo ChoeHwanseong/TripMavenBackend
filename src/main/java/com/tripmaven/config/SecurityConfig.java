@@ -34,7 +34,7 @@ public class SecurityConfig{
 	private final JWTUtil jwtUtil;
     private final TokenService tokenService;
     private final MembersService membersService;
-	private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
+	//private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
 	private final CustomOauthUserService oauthUserService;
     
 	@Bean
@@ -44,28 +44,27 @@ public class SecurityConfig{
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-		
-		
+
 		http.authorizeHttpRequests(req-> req
 			.requestMatchers("/admin").hasRole("ADMIN") // /admin으로 시작하는 페이지는 "ADMIN" ROLE을 가진 사람만
 			.requestMatchers("/guide").hasAnyRole("ADMIN","GUIDE") // /guide으로 시작하는 페이지는 "ADMIN","GUIDE" ROLE을 가진 사람 들만
 			//.anyRequest().authenticated()//위의 경로를 제외한 모든 요청에 대해서는 인증된 사용자만 접근
 			.requestMatchers("/login").permitAll()
 			.anyRequest().permitAll() //위의 경로를 제외한 모든 요청에 대해서는 접근허용
-				);
+			);
 		
 		//로그인 설정
 		http.formLogin(login->login.disable());
 		
-		http.oauth2Login(auth-> auth
-				//.loginPage("/login")
-				//.userInfoEndpoint(c->c.userService(oauthUserService))
-				.successHandler(customOAuth2SuccessHandler)
-				
-				//.defaultSuccessUrl("http://localhost:58337/home", true)
-				//.failureUrl("/login?error=true") //에러나면 갈 페이지 어케하까
-				.permitAll()
-		);
+//		http.oauth2Login(auth-> auth
+//				//.loginPage("/login")
+//				//.userInfoEndpoint(c->c.userService(oauthUserService))
+//				.successHandler(customOAuth2SuccessHandler)
+//				
+//				//.defaultSuccessUrl("http://localhost:58337/home", true)
+//				//.failureUrl("/login?error=true") //에러나면 갈 페이지 어케하까
+//				.permitAll()
+//		);
 		
 		
 				
@@ -73,7 +72,7 @@ public class SecurityConfig{
 		
 		//로그아웃 설정
 		http.logout(logout->logout
-			.logoutUrl("/logout")//기본값 /logout		
+			.logoutUrl("/logout")//기본값 /logout	// 아포칼리 참고
 			.permitAll()
 		);
 		
