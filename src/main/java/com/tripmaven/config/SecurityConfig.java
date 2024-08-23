@@ -52,77 +52,64 @@ public class SecurityConfig{
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		
-		 http
-         .csrf(csrf -> csrf.disable())
-         .formLogin(formLogin -> formLogin.disable())
-         .httpBasic(httpBasic -> httpBasic.disable())
-         .authorizeHttpRequests(auth -> auth
-                 //테스트 동안은 비활성화 
+//		 http
+//         .csrf(csrf -> csrf.disable())
+//         .formLogin(formLogin -> formLogin.disable())
+//         .httpBasic(httpBasic -> httpBasic.disable())
+//         .authorizeHttpRequests(auth -> auth
+//                 //테스트 동안은 비활성화 
 //                 .requestMatchers(HttpMethod.POST, "/admin").hasRole("ADMIN")
 //                 .requestMatchers("/logout", "/api/auth/", "/auth", "/login", "/api-docs/**", "/logout", "/reissue", "/api/email/", "/api/phone/*").permitAll()
-                 .anyRequest().permitAll())
-         .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
-         .addFilterAt(new LoginFilter(membersService, tokenService, authenticationManager(configuration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
-         .logout(logout -> logout
-                 //.addLogoutHandler(new CustomLogoutHandler(jwtUtil, refreshService, userService))
-                 .logoutSuccessHandler((request, response, authentication) -> {
-                   //response.setStatus(HttpServletResponse.SC_OK);
-                 }))
-         .sessionManagement(session -> session
-                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
- return http.build();
-}
+//                 .anyRequest().permitAll())
+//         .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
+//         .addFilterAt(new LoginFilter(membersService, tokenService, authenticationManager(configuration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
+//         .logout(logout -> logout
+//                 //.addLogoutHandler(new CustomLogoutHandler(jwtUtil, refreshService, userService))
+//                 .logoutSuccessHandler((request, response, authentication) -> {
+//                   //response.setStatus(HttpServletResponse.SC_OK);
+//                 }))
+//         .sessionManagement(session -> session
+//                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+//
+// return http.build();
+//}
 		
-//		http.authorizeHttpRequests(req-> req
-//			.requestMatchers("/admin").hasRole("ADMIN") // /admin으로 시작하는 페이지는 "ADMIN" ROLE을 가진 사람만
-//			.requestMatchers("/guide").hasAnyRole("ADMIN","GUIDE") // /guide으로 시작하는 페이지는 "ADMIN","GUIDE" ROLE을 가진 사람 들만
-//			//.anyRequest().authenticated()//위의 경로를 제외한 모든 요청에 대해서는 인증된 사용자만 접근
-//			.requestMatchers("/login").permitAll()
-//			.anyRequest().permitAll() //위의 경로를 제외한 모든 요청에 대해서는 접근허용
-//				);
-//		
-//		//로그인 설정
-//		http.formLogin(login->login.disable());
-//		
-////		http.oauth2Login(auth-> auth
-////				//.loginPage("/login")
-////				//.userInfoEndpoint(c->c.userService(oauthUserService))
-////				.successHandler(customOAuth2SuccessHandler)
-////				
-////				//.defaultSuccessUrl("http://localhost:58337/home", true)
-////				//.failureUrl("/login?error=true") //에러나면 갈 페이지 어케하까
-////				.permitAll()
-////		);
-////		
-////		
-//				
-//		
-//		
-//		//로그아웃 설정
-//		http.logout(logout->logout
-//			.logoutUrl("/logout")//기본값 /logout		
-//			.permitAll()
-//		);
-//		
-//		/*csrf 비활성화
-//		rest api를 이용한 서버라면, session 기반 인증과는 다르게 stateless하기 때문에 서버에 인증정보를 보관하지 않는다.
-//		rest api에서 client는 권한이 필요한 요청을 하기 위해서는 요청에 필요한 인증 정보를(OAuth2, jwt토큰 등)을 포함시켜야 한다.
-//		따라서 서버에 인증정보를 저장하지 않기 때문에 굳이 불필요한 csrf 코드들을 작성할 필요가 없다.*/
-//		http.csrf(csrf->csrf.disable()); 
-//	
-//		http.sessionManagement(session->session
-//			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) //JWT를 통한 인증, 인가 작업을 위해서는 세션을 무상태 (STATELESS) 로 설정하는 것이 중요!
-//		);
-//		
-//		// http basic 인증 방식 disable 설정 JWT, OAuth2 등 복잡한 인증 로직을 구현하려면 HTTP Basic 인증을 비활성화하는 것이 좋습니다.
-//		http.httpBasic(basic-> basic.disable());	
-//		
-//		http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
-//		http.addFilterAt(new LoginFilter(membersService, tokenService, authenticationManager(configuration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
-//		
-//		return http.build();
-//	};
+		http.authorizeHttpRequests(req-> req
+			.requestMatchers("/admin").hasRole("ADMIN") // /admin으로 시작하는 페이지는 "ADMIN" ROLE을 가진 사람만
+			.requestMatchers("/guide").hasAnyRole("ADMIN","GUIDE") // /guide으로 시작하는 페이지는 "ADMIN","GUIDE" ROLE을 가진 사람 들만
+			//.anyRequest().authenticated()//위의 경로를 제외한 모든 요청에 대해서는 인증된 사용자만 접근
+			.requestMatchers("/login").permitAll()
+			.anyRequest().permitAll() //위의 경로를 제외한 모든 요청에 대해서는 접근허용
+				);
+		
+		//로그인 설정
+		http.formLogin(login->login.disable());
+		
+		
+		//로그아웃 설정
+		http.logout(logout->logout
+			.logoutUrl("/logout")//기본값 /logout		
+			.permitAll()
+		);
+		
+		/*csrf 비활성화
+		rest api를 이용한 서버라면, session 기반 인증과는 다르게 stateless하기 때문에 서버에 인증정보를 보관하지 않는다.
+		rest api에서 client는 권한이 필요한 요청을 하기 위해서는 요청에 필요한 인증 정보를(OAuth2, jwt토큰 등)을 포함시켜야 한다.
+		따라서 서버에 인증정보를 저장하지 않기 때문에 굳이 불필요한 csrf 코드들을 작성할 필요가 없다.*/
+		http.csrf(csrf->csrf.disable()); 
+	
+		http.sessionManagement(session->session
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS) //JWT를 통한 인증, 인가 작업을 위해서는 세션을 무상태 (STATELESS) 로 설정하는 것이 중요!
+		);
+		
+		// http basic 인증 방식 disable 설정 JWT, OAuth2 등 복잡한 인증 로직을 구현하려면 HTTP Basic 인증을 비활성화하는 것이 좋습니다.
+		http.httpBasic(basic-> basic.disable());	
+		
+		http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
+		http.addFilterAt(new LoginFilter(membersService, tokenService, authenticationManager(configuration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+		
+		return http.build();
+	};
 	
 	
 	
