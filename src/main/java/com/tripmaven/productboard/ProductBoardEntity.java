@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tripmaven.likey.LikeyEntity;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.productevaluation.ProductEvaluationEntity;
+import com.tripmaven.tripdays.TripDaysEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -64,6 +65,12 @@ public class ProductBoardEntity {
 	@OrderBy("id DESC")
 	@JsonIgnore
 	private List<ProductEvaluationEntity> productEvaluation;
+	
+	/** 여행 일수 (양방향) FK*/
+	@OneToMany(mappedBy = "productBoard",cascade = CascadeType.REMOVE)
+	@OrderBy("id DESC")
+	@JsonIgnore
+	private List<TripDaysEntity> tripDays;
 
 	/** 제목 */
 	@Column(length = 20, nullable = false)
@@ -125,6 +132,5 @@ public class ProductBoardEntity {
 	private String hotelAd;
 	
 	
-	//tripdays 들어와야함. 
 	
 }

@@ -16,6 +16,7 @@ import java.util.Vector;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,29 +42,6 @@ public class ProductService {
 	public ProductBoardDto create(ProductBoardDto dto) {
 		return ProductBoardDto.toDto(productRepository.save(dto.toEntity()));
 	}
-	
-	// 파일 등록
-	public List<Map> upload(List<MultipartFile> files, String saveDirectory) throws IllegalStateException, IOException{
-		List<Map> fileInfos = new Vector<>();
-		
-		for(MultipartFile multipartFile:files) {
-			//File 객체 생성
-			String systemFilename=FileUtils.getNewFileName(saveDirectory, multipartFile.getOriginalFilename());
-			File f = new File(saveDirectory+File.separator+systemFilename);
-			//업로드
-			multipartFile.transferTo(f);
-			
-			Map<String,Object> map = new HashMap<>();
-			map.put("filename", f.getName());
-			map.put("filesize",(int)Math.ceil(f.length()/1024.0));
-			map.put("filetype", multipartFile.getContentType());
-			fileInfos.add(map);
-		}
-		
-		return fileInfos;
-	}
-
-	
 
 	
 
@@ -71,7 +49,7 @@ public class ProductService {
 	@Transactional(readOnly = true)
 	public List<ProductBoardDto> listAll(String page, String size) {
 		// 리포지토리 호출
-		Page<ProductBoardEntity> postEntityList= productRepository.findAll(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)));	
+		Page<ProductBoardEntity> postEntityList= productRepository.findAll(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size), Sort.by(Sort.Direction.ASC, "id")));	
 		// 엔터티 리스트를 dto 로 변환
 		return objectMapper.convertValue(postEntityList.getContent(),
 										objectMapper.getTypeFactory().defaultInstance()
