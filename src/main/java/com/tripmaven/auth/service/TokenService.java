@@ -1,6 +1,9 @@
 package com.tripmaven.auth.service;
 
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 import com.tripmaven.auth.model.TokenEntity;
@@ -30,6 +33,10 @@ public class TokenService {
 
     public void deleteByRefresh(String tokenValue) {
     	tokenRepository.deleteByTokenValue(tokenValue);
+    }
+    
+    public Optional<TokenEntity> findByMembersId(long id) {
+        return tokenRepository.findByMembersId(id);
     }
 
 }

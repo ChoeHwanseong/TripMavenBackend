@@ -284,9 +284,9 @@ public class OAuthController {
 
     		tokenService.save(token);
 
-    		//            // 로그인 성공 후 URL에 토큰 정보 포함
-    		String redirectUrl = String.format("http://localhost:58337?access=%s&refresh=%s&isAdmin=%s", ///successiirl 처리할 페이지 리엑트애서 생성
-    				accessTokenJwt, refreshTokenJwt, membersEntity.getRole());
+    		// 로그인 성공 후 URL에 토큰 정보 포함
+    		String redirectUrl = String.format("http://localhost:58337/loginsuccess?access=%s&refresh=%s&role=%s&memberId=%s", ///successiirl 처리할 페이지 리엑트애서 생성
+    				accessTokenJwt, refreshTokenJwt, membersEntity.getRole(),membersEntity.getId());
     		//
     		response.sendRedirect(redirectUrl);
     		log.info("로그인 성공: {}", email);

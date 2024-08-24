@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.tripmaven.auth.model.JWTUtil;
-import com.tripmaven.auth.userdetail.CustomUserDetails;
+import com.tripmaven.auth.service.CustomUserDetails;
 import com.tripmaven.members.model.MembersEntity;
 
 import io.jsonwebtoken.ExpiredJwtException;
