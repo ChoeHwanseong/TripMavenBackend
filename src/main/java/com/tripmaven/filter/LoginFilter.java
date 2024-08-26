@@ -21,8 +21,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.auth.model.JWTUtil;
 import com.tripmaven.auth.model.TokenEntity;
+import com.tripmaven.auth.service.CustomUserDetails;
 import com.tripmaven.auth.service.TokenService;
-import com.tripmaven.auth.userdetail.CustomUserDetails;
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.service.MembersService;
 
@@ -56,6 +56,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
         try {
+        	
         	String loginId = request.getParameter("email");
             if (loginId == null || loginId.isEmpty()) {
                 loginId = "NONE_PROVIDED";

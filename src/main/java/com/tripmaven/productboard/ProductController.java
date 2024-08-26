@@ -1,12 +1,19 @@
 package com.tripmaven.productboard;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.members.model.MembersDto;
@@ -23,22 +30,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.RequestPart;
 
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost")
+@CrossOrigin
 public class ProductController  {
 
 	private final ProductService productService;
 	private final ObjectMapper mapper;
 	private final MembersService membersService;
+	
+
+	//파일 저장위치 주입받기
+	@Value("${spring.servlet.multipart.location}")
+	private String saveDirectory;
+	
 
 	//CREATE (게시글 등록)
 	@PostMapping("/product")
 	public ResponseEntity<ProductBoardDto> createPost(@RequestBody Map map) {
 		try {
+			System.out.print("files"+map.get("files"));
 			String member_id = map.get("member_id").toString();
 			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(member_id)).toEntity();
 			ProductBoardDto dto = mapper.convertValue(map, ProductBoardDto.class);				
@@ -53,7 +67,6 @@ public class ProductController  {
 	}
 
 
-
 	//READ 관리자 측 전체 게시글 조회
 	@GetMapping("/product/all/{page}")
 	public ResponseEntity<List<ProductBoardDto>> getListAll(@PathVariable("page") String page){
@@ -66,8 +79,6 @@ public class ProductController  {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}		
 	}
-
-
 
 
 	// READ 가이드 측 게시글 조회(회원엔터티 FK_email로 조회)
@@ -99,23 +110,6 @@ public class ProductController  {
 		}		
 	}
 
-	// READ 제목검색용 컨트롤러 
-	/*
-	@GetMapping("/product/{title}")
-	public ResponseEntity<ProductBoardDto> getPostBySearch(){
-		try {
-			List<ProductBoardDto> postList=productService.listAll(); 
-			// 전체 게시글 조회해서 확장포문 적용
-			// gettitle해서 {title}이 포함되어 잇다면.. 
-			// 새로운 리스트에 담아서 응답바디에 실어서 보낸다. 
-			// 리액트에서 구현
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		}			
-	}
-	*/
 
 	//UPDATE (게시글 수정)
 	@PutMapping("/product/{id}")

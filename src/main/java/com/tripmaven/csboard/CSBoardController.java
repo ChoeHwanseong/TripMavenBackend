@@ -42,7 +42,10 @@ public class CSBoardController {
 	@PostMapping("/post")	
 	public ResponseEntity<CSBoardDto> createInquire(@RequestBody Map map) {
 		try {
+			
 			String members_id = map.get("members_id").toString();
+			System.out.println("cs컨트롤러 members_id: "+members_id);
+			
 			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(members_id)).toEntity();
 			CSBoardDto dto = mapper.convertValue(map, CSBoardDto.class);				
 			dto.setMember(members);

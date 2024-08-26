@@ -15,7 +15,7 @@ public interface TokenRepository extends JpaRepository<TokenEntity, Long>{
 
     void deleteByTokenValue(String refresh);
 
-    
+    Optional<TokenEntity> findByMembersId(Long id);
 
 	
 }

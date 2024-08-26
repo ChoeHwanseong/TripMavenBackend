@@ -135,9 +135,7 @@ public class MembersEntity {
     private String snsAccessToken;
 
 	
-	/** 선호 도시*/
-	/*
-	@Column(name = "inter_city", nullable = false)
+	@Column(name = "inter_city")
     private String interCity;
-	*/
+	
 }

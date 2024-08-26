@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.tripmaven.members.model.MembersEntity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,7 +36,7 @@ public class TokenEntity {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_tokens")
 	private long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "members_id", nullable = false)
     private MembersEntity members;
 

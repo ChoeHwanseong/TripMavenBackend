@@ -1,4 +1,4 @@
-package com.tripmaven.auth.userdetail;
+package com.tripmaven.auth.service;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,8 +1,11 @@
 package com.tripmaven.productboard;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.tripmaven.likey.LikeyEntity;
 import com.tripmaven.members.model.MembersEntity;
+import com.tripmaven.productevaluation.ProductEvaluationEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,9 +20,10 @@ import lombok.Setter;
 @Builder
 public class ProductBoardDto {
 
-	//데이터 전달에 필요한 필드만 지정하라는데 뭘까?
 	private long id;
-	private MembersEntity member;	
+	private MembersEntity member;
+	private List<LikeyEntity> likey;
+	private List<ProductEvaluationEntity> productEvaluation;
 	private String title;
 	private String content;	
 	private LocalDateTime createdAt;
@@ -40,6 +44,8 @@ public class ProductBoardDto {
 			return ProductBoardEntity.builder()
 					.id(id)
 					.member(member)
+					.likey(likey)
+					.productEvaluation(productEvaluation)
 					.title(title)
 					.content(content)
 					.createdAt(createdAt)
@@ -61,6 +67,8 @@ public class ProductBoardDto {
 			return ProductBoardDto.builder()
 					.id(productBoardEntity.getId())
 					.member(productBoardEntity.getMember())
+					.likey(productBoardEntity.getLikey())
+					.productEvaluation(productBoardEntity.getProductEvaluation())
 					.title(productBoardEntity.getTitle())
 					.content(productBoardEntity.getContent())
 					.createdAt(productBoardEntity.getCreatedAt())
