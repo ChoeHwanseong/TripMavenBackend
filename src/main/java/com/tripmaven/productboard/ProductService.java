@@ -1,16 +1,29 @@
 package com.tripmaven.productboard;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.StringJoiner;
 import java.util.Vector;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.csboard.CSBoardDto;
+import com.tripmaven.fileUpload.FileUtils;
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.service.MembersRepository;
 
@@ -29,14 +42,14 @@ public class ProductService {
 	public ProductBoardDto create(ProductBoardDto dto) {
 		return ProductBoardDto.toDto(productRepository.save(dto.toEntity()));
 	}
-	
+
 	
 
 	//READ 관리자 측 전체 게시글 조회
 	@Transactional(readOnly = true)
 	public List<ProductBoardDto> listAll(String page, String size) {
 		// 리포지토리 호출
-		Page<ProductBoardEntity> postEntityList= productRepository.findAll(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)));	
+		Page<ProductBoardEntity> postEntityList= productRepository.findAll(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size), Sort.by(Sort.Direction.ASC, "id")));	
 		// 엔터티 리스트를 dto 로 변환
 		return objectMapper.convertValue(postEntityList.getContent(),
 										objectMapper.getTypeFactory().defaultInstance()
@@ -140,6 +153,12 @@ public class ProductService {
 				objectMapper.getTypeFactory().defaultInstance()
 				.constructCollectionLikeType(List.class, ProductBoardDto.class));
 	}
+
+	
+
+
+
+	
 
 
 }

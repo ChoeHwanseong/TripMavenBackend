@@ -2,15 +2,19 @@ package com.tripmaven.productboard;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tripmaven.likey.LikeyEntity;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.productevaluation.ProductEvaluationEntity;
+import com.tripmaven.tripdays.TripDaysEntity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +23,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -47,20 +53,25 @@ public class ProductBoardEntity {
 	@ManyToOne(optional = false)
 	@JoinColumn(name="membersentity_id")
 	private MembersEntity member;
-
-
-//	/** 상품 찜 고유 번호. FK*/
-//	@ManyToOne(optional = false)
-//	@JoinColumn(name="likeyentity_id")
-//	private LikeyEntity likey;
-//	
-//	
-//	/** AI평가 고유 번호. FK*/
-//	@ManyToOne(optional = false)
-//	@JoinColumn(name="productevaluationEntity_id")
-//	private ProductEvaluationEntity productevaluation;
 	
+	/** 찜. (양방향) FK*/
+	@OneToMany(mappedBy = "productBoard",cascade = CascadeType.REMOVE)
+	@OrderBy("id DESC")
+	@JsonIgnore
+	private List<LikeyEntity> likey;
 	
+	/** AI평가 고유 번호. FK (양방향)*/
+	@OneToMany(mappedBy = "productBoard",cascade = CascadeType.REMOVE)
+	@OrderBy("id DESC")
+	@JsonIgnore
+	private List<ProductEvaluationEntity> productEvaluation;
+	
+	/** 여행 일수 (양방향) FK*/
+	@OneToMany(mappedBy = "productBoard",cascade = CascadeType.REMOVE)
+	@OrderBy("id DESC")
+	@JsonIgnore
+	private List<TripDaysEntity> tripDays;
+
 	/** 제목 */
 	@Column(length = 20, nullable = false)
 	private String title;
@@ -121,6 +132,5 @@ public class ProductBoardEntity {
 	private String hotelAd;
 	
 	
-	//tripdays 들어와야함. 
 	
 }

@@ -1,8 +1,7 @@
 package com.tripmaven.members.service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Vector;
+
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.model.MembersEntity;
-import com.tripmaven.review.ReviewDto;
 
 import lombok.RequiredArgsConstructor;
 

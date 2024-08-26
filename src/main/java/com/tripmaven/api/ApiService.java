@@ -11,6 +11,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class ApiService {
+
 	private final WebClient webClient;
 
     public ApiService(WebClient.Builder webClientBuilder) {

@@ -40,12 +40,11 @@ public class ProductEvaluationEntity {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_productevaluation")
 	private long id;
 	
-	/** 가이드 상품 고유 번호. FK*/
-	/*
+	/** 가이드 상품 고유 번호. FK*/	
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "productboardentity_id")
 	private ProductBoardEntity productBoard;
-	 */
+	
 	
 	/** 평가 날짜. */
 	@ColumnDefault("SYSDATE")

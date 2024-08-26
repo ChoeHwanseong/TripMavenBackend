@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersRepository;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
 import lombok.extern.slf4j.Slf4j;

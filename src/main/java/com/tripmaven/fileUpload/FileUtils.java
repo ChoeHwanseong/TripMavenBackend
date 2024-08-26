@@ -1,4 +1,4 @@
-package com.tripmaven.members.model;
+package com.tripmaven.fileUpload;
 
 import java.io.File;
 
