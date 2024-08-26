@@ -33,6 +33,7 @@ public class MembersDto {
 	private String guidelicense;
 	private String loginType;
 	private String snsAccessToken;
+	private String interCity;
 	
 	//DTO를 ENTITY로 변환하는 메소드
 		public MembersEntity toEntity() {
@@ -54,6 +55,7 @@ public class MembersDto {
 					.guidelicense(guidelicense)
 					.loginType(loginType)
 					.snsAccessToken(snsAccessToken)
+					.interCity(interCity)
 					.build();
 		}
 		
@@ -77,6 +79,7 @@ public class MembersDto {
 					.guidelicense(membersEntity.getGuidelicense())
 					.loginType(membersEntity.getLoginType())
 					.snsAccessToken(membersEntity.getSnsAccessToken())
+					.interCity(membersEntity.getInterCity())
 					.build();
 		}
 
