@@ -1,9 +1,6 @@
 package com.tripmaven.members.service;
 
-import java.lang.reflect.Field;
 import java.util.List;
-
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.model.MembersEntity;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -78,33 +76,15 @@ public class MembersService {
 	//회원 정보 수정
 	@Transactional
 	public MembersDto updateByMemberId(Long id, MembersDto dto) {
-		MembersEntity members=membersRepository.findById(id).get();
+		MembersEntity members=membersRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + id));
 		
-		 // 리플렉션을 사용하여 dto의 필드 값을 검사
-        Field[] fields = dto.getClass().getDeclaredFields();
-        for (Field field : fields) {
-            field.setAccessible(true); // private 필드에도 접근 가능하게 설정
-            try {
-                Object value = field.get(dto); // 필드의 값 가져오기
-                if (value != null) { // 필드 값이 null이 아닌 경우에만 엔티티 업데이트
-                    Field entityField = members.getClass().getDeclaredField(field.getName());
-                    entityField.setAccessible(true);
-                    entityField.set(members, value); // 엔티티 필드 업데이트
-                }
-            } catch (IllegalAccessException | NoSuchFieldException e) {
-                e.printStackTrace();
-            }
-        }
-        
-		/*
-		members.setName(dto.getName());
-		members.setAddress(dto.getAddress());
-		members.setBirthday(dto.getBirthday());
-		members.setGender(dto.getGender());
-		members.setTelNumber(dto.getTelNumber());
-		*/
+		if (dto.getName() != null) members.setName(dto.getName());
+	    if (dto.getAddress() != null) members.setAddress(dto.getAddress());
+	    if (dto.getBirthday() != null) members.setBirthday(dto.getBirthday());
+	    if (dto.getGender() != null) members.setGender(dto.getGender());
+	    if (dto.getTelNumber() != null) members.setTelNumber(dto.getTelNumber());
+	    if (dto.getGuidelicense() != null) members.setGuidelicense(dto.getGuidelicense());
 		return MembersDto.toDto(membersRepository.save(members));
-		
 	}
 	
 	//가이드 변환 로직

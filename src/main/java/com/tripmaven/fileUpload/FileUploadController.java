@@ -56,7 +56,7 @@ public class FileUploadController {
     		@RequestPart(name = "files", required = false) List<MultipartFile> files,
     		@RequestPart(name = "type", required = false) String type){
     	
-    	//System.out.println(saveDirectory);
+    	System.out.println(saveDirectory);
         try {
         	List<Map> filesInfo = new Vector<>();
         	if(type != null && type.equals("guidelicense")) {
