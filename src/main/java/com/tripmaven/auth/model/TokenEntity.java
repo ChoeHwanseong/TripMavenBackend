@@ -36,7 +36,7 @@ public class TokenEntity {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_tokens")
 	private long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "members_id", nullable = false)
     private MembersEntity members;
 

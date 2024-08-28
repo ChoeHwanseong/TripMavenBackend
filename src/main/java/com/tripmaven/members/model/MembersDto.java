@@ -1,8 +1,7 @@
 package com.tripmaven.members.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +20,7 @@ public class MembersDto {
 	private String name;
 	private String password;
 	private String gender;
-	private Date birthday;
+	private LocalDate birthday;
 	private String telNumber;
 	private String address;
 	private String profile;
