@@ -141,6 +141,8 @@ public class MembersController {
 	@PutMapping("/members/{id}")	
 	public ResponseEntity<MembersDto> usersUpdate(@PathVariable("id") Long id,@RequestBody MembersDto dto){
 		try {
+			System.out.println(dto.getGuidelicense());
+			System.out.println(id);
 			MembersDto updatedDto = membersService.updateByMemberId(id,dto);
 			return ResponseEntity.ok(updatedDto);
 		}

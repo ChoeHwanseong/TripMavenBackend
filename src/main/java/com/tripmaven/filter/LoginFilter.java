@@ -111,7 +111,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
         responseBody.put("isGuide", isGuide);
         responseBody.put("refresh",refresh);
         responseBody.put("membersId",membersId);
-        
+        responseBody.put("loginType","local");
 
         // ObjectMapper를 사용하여 Map을 JSON 문자열로 변환합니다.
         String responseBodyJson = new ObjectMapper().writeValueAsString(responseBody);

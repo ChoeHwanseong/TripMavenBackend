@@ -148,7 +148,7 @@ public class ProductService {
 	//게시글 검색 -제목+내용
 	@Transactional(readOnly = true)
 	public List<ProductBoardDto> searchByTitleAndContent(String keyword, String page, String size) {
-		Page<ProductBoardEntity> products = productRepository.findByTitleOrContentContaining(keyword, keyword, PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)));
+		Page<ProductBoardEntity> products = productRepository.findByTitleContainingOrContentContaining(keyword, keyword, PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)));
 		return objectMapper.convertValue(products.getContent(),
 				objectMapper.getTypeFactory().defaultInstance()
 				.constructCollectionLikeType(List.class, ProductBoardDto.class));

@@ -1,6 +1,13 @@
 package com.tripmaven.auth.controller;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Base64;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
@@ -52,9 +59,6 @@ public class OAuthController {
     @Value("${spring.security.oauth2.client.registration.google.redirect-uri}")
     private String googleRedirectUri;
     
-    
-  
-    
     private final MembersRepository membersRepository;
     private final TokenService tokenService;
     private final JWTTOKEN jwttoken;
@@ -62,8 +66,7 @@ public class OAuthController {
    
     @CrossOrigin
     @GetMapping("/oauth2/code/naver")
-    public void naverLogin(@RequestParam("code") String code,@RequestParam("state") String state, HttpServletResponse response) throws IOException {
-    	System.out.println("TLqkfdk");
+    public void naverLogin(@RequestParam("code") String code,@RequestParam("state") String state, HttpServletResponse response) throws IOException, ParseException {
         log.info("code = {}", code);
 
         // 액세스 토큰을 요청하기 위한 URL 및 헤더 설정
@@ -97,7 +100,31 @@ public class OAuthController {
         log.info("user info response = {}", userInfoResponse.getBody());
 
         Map<String, Object> userJson = mapper.readValue(userInfoResponse.getBody(), Map.class);
-        String email = ((Map<String, Object>) userJson.get("response")).get("email").toString();
+        Map<String, Object> userJsonRes = (Map<String, Object>) userJson.get("response");
+        
+        String email = userJsonRes.get("email").toString().trim();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate birthday = LocalDate.parse(userJsonRes.get("birthyear").toString() + "-" + userJsonRes.get("birthday").toString(), formatter);
+        System.out.println("Parsed Birthday: " + birthday);
+        String uniname = userJsonRes.get("name").toString();
+       
+        
+        
+        StringBuilder name = new StringBuilder();
+        for (int i = 0; i < uniname.length(); i++) {
+            if (uniname.charAt(i) == '\\' && i + 5 < uniname.length() && uniname.charAt(i + 1) == 'u') {
+                // \\uXXXX 형식의 유니코드인지 확인
+                String unicodeValue = uniname.substring(i + 2, i + 6);
+                int charCode = Integer.parseInt(unicodeValue, 16);
+                name.append((char) charCode);
+                i += 5; 
+            } else {
+            	name.append(uniname.charAt(i));
+            }
+        }
+        
+        System.out.println(name.toString());
+        
         log.info("email = {}", email);
 
         // 'naver'로 loginType을 설정해야 합니다.
@@ -105,6 +132,7 @@ public class OAuthController {
 
         if (optionalMembers.isPresent()) {
             MembersEntity membersEntity = optionalMembers.get();
+            membersEntity.setLoginType("naver");
             membersEntity.setSnsAccessToken(accessToken);
             membersRepository.save(membersEntity);
 
@@ -125,15 +153,36 @@ public class OAuthController {
             tokenService.save(token);
 
             // 로그인 성공 후 URL에 토큰 정보 포함
-            String redirectUrl = String.format("http://localhost:58337/home?access=%s&refresh=%s&isAdmin=%s",
-                    accessTokenJwt, refreshTokenJwt, membersEntity.getRole());
+            String redirectUrl = String.format("http://localhost:58337/success?access=%s&refresh=%s&role=%s&membersId=%s&logintype=naver",
+    				accessTokenJwt, refreshTokenJwt, membersEntity.getRole(),membersEntity.getId());
 
             response.sendRedirect(redirectUrl);
             log.info("로그인 성공: {}", email);
         } else {
             log.info("회원가입 필요: {}", email);
-            // 회원가입 페이지로 리다이렉트
-            response.sendRedirect("http://localhost:58337/signup");
+            MembersEntity newMember = new MembersEntity().builder()
+					.email(email)
+					.loginType("naver")
+					.name(name.toString())
+					.profile(userJsonRes.get("profile_image").toString())
+					.telNumber(userJsonRes.get("mobile").toString())
+					.birthday(birthday)
+					.gender(userJsonRes.get("gender").toString().equalsIgnoreCase("M")?"male":"female")
+					.role("USER")
+					.password("OAUTH2_LOGIN")
+					.build();
+            membersRepository.save(newMember);
+    		log.info("회원가입 성공: {}", email);
+            String logoutUrl = String.format("https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=%s&client_secret=%s&access_token=%s&service_provider=NAVER",naverClientId,naversecret,accessToken);
+            HttpHeaders logoutHeaders = new HttpHeaders();
+            logoutHeaders.set("Content-Type", "application/x-www-form-urlencoded");
+            logoutHeaders.set("Accept", "application/json");
+            HttpEntity<String> logoutRequestEntity = new HttpEntity<>(logoutHeaders);
+            ResponseEntity<String> logoutResponse = restTemplate.exchange(logoutUrl, HttpMethod.POST, logoutRequestEntity, String.class);
+            log.info("logout response = {}", logoutResponse.getBody());
+            
+            
+            response.sendRedirect("http://localhost:58337/socialsignup");
         }
     }
     
@@ -173,7 +222,7 @@ public class OAuthController {
         log.info("user info response = {}", userInfoResponse.getBody());
 
         Map<String, Object> userJson = mapper.readValue(userInfoResponse.getBody(), Map.class);
-        String email = userJson.get("email").toString();
+        String email = userJson.get("email").toString().trim();
         log.info("email = {}", email);
 
         // 'naver'로 loginType을 설정해야 합니다.
@@ -181,6 +230,8 @@ public class OAuthController {
 
         if (optionalMembers.isPresent()) {
             MembersEntity membersEntity = optionalMembers.get();
+            membersEntity.setLoginType("google");
+            
             membersEntity.setSnsAccessToken(accessToken);
             membersRepository.save(membersEntity);
 
@@ -201,15 +252,33 @@ public class OAuthController {
             tokenService.save(token);
 
             // 로그인 성공 후 URL에 토큰 정보 포함
-            String redirectUrl = String.format("http://localhost:58337/home?access=%s&refresh=%s&isAdmin=%s",
-                    accessTokenJwt, refreshTokenJwt, membersEntity.getRole());
+            String redirectUrl = String.format("http://localhost:58337/success?access=%s&refresh=%s&role=%s&membersId=%s&logintype=google",
+    				accessTokenJwt, refreshTokenJwt, membersEntity.getRole(),membersEntity.getId());
 
             response.sendRedirect(redirectUrl);
             log.info("로그인 성공: {}", email);
         } else {
             log.info("회원가입 필요: {}", email);
-            // 회원가입 페이지로 리다이렉트 //로그아웃. 하고.?
-            response.sendRedirect("http://localhost:58337/signup");
+            MembersEntity newMember = new MembersEntity().builder()
+            						.email(email)
+            						.loginType("google")
+            						.name((userJson.get("name")).toString())
+            						.role("USER")
+            						.profile((userJson.get("picture")).toString())
+            						.password("OAUTH2_LOGIN")
+            						.build();
+            membersRepository.save(newMember);
+    		log.info("회원가입 성공: {}", email);
+            //구글 로그아웃 처리
+            String logoutUrl = "https://oauth2.googleapis.com/revoke?token=" + accessToken;
+            HttpHeaders logoutHeaders = new HttpHeaders();
+            logoutHeaders.set("Content-Type", "application/x-www-form-urlencoded");
+
+            HttpEntity<String> logoutRequestEntity = new HttpEntity<>(logoutHeaders);
+            ResponseEntity<String> logoutResponse = restTemplate.exchange(logoutUrl, HttpMethod.POST, logoutRequestEntity, String.class);
+            log.info("logout response = {}", logoutResponse.getBody());
+            response.sendRedirect("http://localhost:58337/socialsignup?membersId=");
+            
         }
     }
     
@@ -257,14 +326,14 @@ public class OAuthController {
     	Map<String, Object> userJson = mapper.readValue(userInfoResponse.getBody(), Map.class);
     	// 이메일 정보 추출
     	Map<String, Object> kakaoAccount = (Map<String, Object>) userJson.get("kakao_account");
-    	String email = kakaoAccount != null && kakaoAccount.containsKey("email") ?
-    			(String) kakaoAccount.get("email") : "이메일 정보가 없습니다.";
+    	String email =  kakaoAccount.get("email").toString().trim();
     	log.info("email = {}", email);
 
-    	Optional<MembersEntity> optionalMembers = membersRepository.findByEmailAndLoginType(email, "kakao");
+    	Optional<MembersEntity> optionalMembers = membersRepository.findByEmail(email);
 
     	if (optionalMembers.isPresent()) {
     		MembersEntity membersEntity = optionalMembers.get();
+    		membersEntity.setLoginType("kakao");
     		membersEntity.setSnsAccessToken(accessToken);
     		membersRepository.save(membersEntity);
     		//
@@ -285,14 +354,32 @@ public class OAuthController {
     		tokenService.save(token);
 
     		// 로그인 성공 후 URL에 토큰 정보 포함
-    		String redirectUrl = String.format("http://localhost:58337/loginsuccess?access=%s&refresh=%s&role=%s&memberId=%s", ///successiirl 처리할 페이지 리엑트애서 생성
+    		String redirectUrl = String.format("http://localhost:58337/success?access=%s&refresh=%s&role=%s&membersId=%s&logintype=kakao",
     				accessTokenJwt, refreshTokenJwt, membersEntity.getRole(),membersEntity.getId());
-    		//
     		response.sendRedirect(redirectUrl);
     		log.info("로그인 성공: {}", email);
     	} else {
     		log.info("회원가입 필요: {}", email);
-    		response.sendRedirect("http://localhost:58337/");
+    		MembersEntity newMember = new MembersEntity().builder()
+					.email(email)
+					.loginType("kakao")
+					.name(kakaoAccount.get("name").toString())
+					.profile(((Map)kakaoAccount.get("profile")).get("thumbnail_image_url").toString())
+					.gender(kakaoAccount.get("gender").toString())
+					.role("USER")
+					.password("OAUTH2_LOGIN")
+					.build();
+    		membersRepository.save(newMember);
+    		log.info("회원가입 성공: {}", email);
+    		// 카카오 로그아웃 처리
+            String logoutUrl = "https://kapi.kakao.com/v1/user/logout";
+            HttpHeaders logoutHeaders = new HttpHeaders();
+            logoutHeaders.set("Authorization", "Bearer " + accessToken);
+
+            HttpEntity<String> logoutRequestEntity = new HttpEntity<>(logoutHeaders);
+            ResponseEntity<String> logoutResponse = restTemplate.exchange(logoutUrl, HttpMethod.POST, logoutRequestEntity, String.class);
+            log.info("logout response = {}", logoutResponse.getBody());
+            response.sendRedirect("http://localhost:58337/socialsignup?membersId=");
     	}
     }
 
