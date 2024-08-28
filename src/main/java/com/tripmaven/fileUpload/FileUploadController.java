@@ -55,6 +55,7 @@ public class FileUploadController {
     	System.out.println(saveDirectory);
         try {
             List<Map> filesInfo = fileService.upload(files, saveDirectory);
+            System.out.println("파일 등록 컨트롤러에서 처리완 filesInfo: "+ filesInfo);
             return ResponseEntity.ok(filesInfo);
         }
         catch(Exception e) {
@@ -70,20 +71,20 @@ public class FileUploadController {
         try {
             // 상품 ID로 상품 정보 조회
             ProductBoardDto dto = productService.usersById(id);
-            System.out.println("파일 이름: " + dto.getFiles());
+            System.out.println("GET 파일 이름: " + dto.getFiles());
 
             String[] filenames = dto.getFiles().split(",");
-            System.out.println("파일 배열 반환: " + filenames);
-            System.out.println("파일 배열 반환[0]: " + filenames[0]);
+            System.out.println("GET 파일 배열 반환: " + filenames);
+            System.out.println("GET 파일 배열 반환[0]: " + filenames[0]);
 
             if (filenames.length > 0) {
                 String filename = filenames[0];
                 Path filePath = Paths.get(saveDirectory).resolve(filename).normalize();
                 File file = filePath.toFile();
                 
-                System.out.println("확인할 파일 경로: " + filePath.toString());
-                System.out.println("파일 존재 여부: " + file.exists());
-                System.out.println("파일 읽기 가능 여부: " + file.canRead());
+                System.out.println("GET 확인할 파일 경로: " + filePath.toString());
+                System.out.println("GET 파일 존재 여부: " + file.exists());
+                System.out.println("GET 파일 읽기 가능 여부: " + file.canRead());
 
                 // 파일 존재 여부 확인
                 if (!file.exists() || !file.isFile()) {

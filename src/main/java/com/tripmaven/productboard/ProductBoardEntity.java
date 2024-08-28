@@ -66,12 +66,16 @@ public class ProductBoardEntity {
 	@JsonIgnore
 	private List<ProductEvaluationEntity> productEvaluation;
 	
-	/** 여행 일수 (양방향) FK*/
+	/** 여행 일수 FK*/
+//	@Column(length = 20, nullable = false)
+//	private String day;
+	/* (양방향)
 	@OneToMany(mappedBy = "productBoard",cascade = CascadeType.REMOVE)
 	@OrderBy("id DESC")
 	@JsonIgnore
 	private List<TripDaysEntity> tripDays;
-
+	 */
+	
 	/** 제목 */
 	@Column(length = 20, nullable = false)
 	private String title;
