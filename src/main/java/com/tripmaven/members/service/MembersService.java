@@ -27,19 +27,33 @@ public class MembersService {
 	public MembersDto signup(MembersDto dto) {
 		
 		boolean isDuplicated = membersRepository.existsByEmail(dto.getEmail()); //증복확인
-		MembersEntity entity = membersRepository.findByEmail(dto.getEmail()).get();
-		boolean isSocial = entity.getLoginType()!=null && !entity.getLoginType().equalsIgnoreCase("local") ; //소셜인지 확인.
-		
-		if(isDuplicated && !isSocial) return null;
-		
-		//암호화
-		dto.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
-		//역할 DTO에서 받아왔잖아~
-		if(isSocial) {
-			//dto.toEntity() = entity;
+		if(!isDuplicated) {
+			//암호화
+			dto.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
+			//역할 DTO에서 받아왔잖아~
 			
+			return MembersDto.toDto(membersRepository.save(dto.toEntity()));
 		}
-		return MembersDto.toDto(membersRepository.save(dto.toEntity()));
+		else {
+			MembersDto findMember = MembersDto.toDto(membersRepository.findByEmail(dto.getEmail()).get());
+			boolean isSocial = findMember.getLoginType()!=null && !findMember.getLoginType().equalsIgnoreCase("local") ; //소셜인지 확인.
+			if(isDuplicated && !isSocial) return null;
+			if(isSocial) {
+				findMember.setName(dto.getName());
+				findMember.setPassword(dto.getPassword());
+				findMember.setInterCity(dto.getInterCity());
+				findMember.setGender(dto.getGender());
+				findMember.setBirthday(dto.getBirthday());
+				findMember.setAddress(dto.getAddress());
+				dto=findMember;
+				
+			}
+			//암호화
+			dto.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
+			//역할 DTO에서 받아왔잖아~
+			
+			return MembersDto.toDto(membersRepository.save(dto.toEntity()));
+		}
 	}
 	
 	
