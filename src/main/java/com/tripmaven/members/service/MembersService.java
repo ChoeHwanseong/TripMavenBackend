@@ -27,10 +27,18 @@ public class MembersService {
 	public MembersDto signup(MembersDto dto) {
 		
 		boolean isDuplicated = membersRepository.existsByEmail(dto.getEmail()); //증복확인
-		if(isDuplicated) return null;
+		MembersEntity entity = membersRepository.findByEmail(dto.getEmail()).get();
+		boolean isSocial = entity.getLoginType()!=null && !entity.getLoginType().equalsIgnoreCase("local") ; //소셜인지 확인.
+		
+		if(isDuplicated && !isSocial) return null;
+		
 		//암호화
 		dto.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
 		//역할 DTO에서 받아왔잖아~
+		if(isSocial) {
+			//dto.toEntity() = entity;
+			
+		}
 		return MembersDto.toDto(membersRepository.save(dto.toEntity()));
 	}
 	
