@@ -1,16 +1,17 @@
 package com.tripmaven.members.model;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-
+import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
-import org.hibernate.annotations.UpdateTimestamp;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tripmaven.auth.model.TokenEntity;
+import com.tripmaven.likey.LikeyEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -18,7 +19,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -66,7 +68,7 @@ public class MembersEntity {
 	private String gender;
 
 	/** BIRTHDAY. */
-	private Date birthday;
+	private LocalDate birthday;
 
 	/** 전화. */
 	@Column(length = 18)
@@ -137,5 +139,10 @@ public class MembersEntity {
 	
 	@Column(name = "inter_city")
     private String interCity;
+	
+	/** 찜. (양방향) FK*/
+	@OneToMany(mappedBy = "members",cascade = CascadeType.REMOVE)
+	@JsonIgnore
+	private List<TokenEntity> token;
 	
 }

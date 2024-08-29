@@ -52,6 +52,7 @@ public class TripDaysEntity {
 	@Lob
 	private String content;
 	
+	
 	/** 사진 */
 	@Column
 	private String files;
