@@ -67,8 +67,8 @@ public class ProductBoardEntity {
 	private List<ProductEvaluationEntity> productEvaluation;
 	
 	/** 여행 일수 FK*/
-//	@Column(length = 20, nullable = false)
-//	private String day;
+	@Column(length = 20, nullable = false)
+	private String day;
 	/* (양방향)
 	@OneToMany(mappedBy = "productBoard",cascade = CascadeType.REMOVE)
 	@OrderBy("id DESC")

@@ -89,6 +89,9 @@ public class ProductService {
 		
 		productBoardEntity.setTitle(dto.getTitle());
 		productBoardEntity.setContent(dto.getContent());
+		productBoardEntity.setDay(dto.getDay());
+		productBoardEntity.setHashtag(dto.getHashtag());
+		productBoardEntity.setFiles(dto.getFiles());
 		productBoardEntity.setCity(dto.getCity());
 		productBoardEntity.setIsUpdate("1"); //수정여부
 		productBoardEntity.setUpdatedAt(LocalDateTime.now()); //수정시간
