@@ -17,9 +17,9 @@ public class ChattingRoomDto {
 
 	private long id;
 	private LocalDateTime createdAt;
-	private String isActive;
+	private Integer isActive;
 	private LocalDateTime deletedAt;
-	private String isDelete;
+	private Integer isDelete;
 	private LocalDateTime updatedAt;
 	private String isUpdate;
 	
@@ -36,15 +36,15 @@ public class ChattingRoomDto {
 				.build();		
 	}
 	//ENTITY를 DTO로 변환하는 메소드
-	public ChattingRoomDto toDto(ChattingRoomDto chattingRoomDto) {
-		return ChattingRoomDto.builder()
-				.id(chattingRoomDto.getId())
-				.createdAt(chattingRoomDto.getCreatedAt())
-				.isActive(chattingRoomDto.getIsActive())
-				.deletedAt(chattingRoomDto.getDeletedAt())
-				.isDelete(chattingRoomDto.getIsDelete())
-				.updatedAt(chattingRoomDto.getUpdatedAt())
-				.isUpdate(chattingRoomDto.getIsUpdate())
-				.build();		
-	}
+	public static ChattingRoomDto toDTO(ChattingRoomEntity chattingRoomEntity) {
+        return ChattingRoomDto.builder()
+                .id(chattingRoomEntity.getId())
+                .createdAt(chattingRoomEntity.getCreatedAt())
+                .isActive(chattingRoomEntity.getIsActive())
+                .deletedAt(chattingRoomEntity.getDeletedAt())
+                .isDelete(chattingRoomEntity.getIsDelete())
+                .updatedAt(chattingRoomEntity.getUpdatedAt())
+                .isUpdate(chattingRoomEntity.getIsUpdate())
+                .build();
+    }
 }

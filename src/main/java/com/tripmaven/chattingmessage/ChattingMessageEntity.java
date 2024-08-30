@@ -40,7 +40,7 @@ public class ChattingMessageEntity {
 	/** 채팅방 고유 번호. FK*/
 	@ManyToOne(optional = false)
 	@JoinColumn(name="chattingroomentity_id")
-	private ChattingRoomEntity chattingroom;
+	private ChattingRoomEntity chattingRoom;
 	
 	/** 유저 고유 번호. */
     @Column(nullable = false)
