@@ -18,7 +18,7 @@ import lombok.Setter;
 public class ChattingMessageDto {
 
 	private long id;
-	private ChattingRoomEntity chattingroom;
+	private ChattingRoomEntity chattingRoom;
 	private long userId;
 	private String content;
 	private LocalDateTime createdAt;
@@ -30,7 +30,7 @@ public class ChattingMessageDto {
 	public ChattingMessageEntity toEntity() {
 		return ChattingMessageEntity.builder()
 				.id(id)
-				.chattingroom(chattingroom)
+				.chattingRoom(chattingRoom)
 				.userId(userId)
 				.content(content)
 				.createdAt(createdAt)
@@ -43,7 +43,7 @@ public class ChattingMessageDto {
 	public static ChattingMessageDto toDto(ChattingMessageEntity chattingMessageEntity) {
 		return ChattingMessageDto.builder()
 				.id(chattingMessageEntity.getId())
-				.chattingroom(chattingMessageEntity.getChattingroom())
+				.chattingRoom(chattingMessageEntity.getChattingRoom())
 				.userId(chattingMessageEntity.getUserId())
 				.content(chattingMessageEntity.getContent())
 				.createdAt(chattingMessageEntity.getCreatedAt())
