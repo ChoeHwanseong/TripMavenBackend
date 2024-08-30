@@ -46,11 +46,12 @@ public class TripDaysEntity {
 	
 	/** 날짜. */
 	@Column(nullable = false)
-    private Integer day; //1일차.. 2일차.. sort... 
+    private Integer days; //1일차.. 2일차.. sort... 
 
 	//content 추가...
 	@Lob
 	private String content;
+	
 	
 	/** 사진 */
 	@Column

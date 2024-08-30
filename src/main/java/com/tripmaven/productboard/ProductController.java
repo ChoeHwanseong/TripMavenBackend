@@ -57,6 +57,8 @@ public class ProductController  {
 			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(member_id)).toEntity();
 			ProductBoardDto dto = mapper.convertValue(map, ProductBoardDto.class);				
 			dto.setMember(members);
+			
+			
 			ProductBoardDto createInquire = productService.create(dto);	
 			return ResponseEntity.ok(createInquire);
 		}
@@ -71,7 +73,7 @@ public class ProductController  {
 	@GetMapping("/product/all/{page}")
 	public ResponseEntity<List<ProductBoardDto>> getListAll(@PathVariable("page") String page){
 		try {
-			List<ProductBoardDto> postList=productService.listAll(page, "20"); 
+			List<ProductBoardDto> postList=productService.listAll(page, "50"); 
 			return ResponseEntity.status(200).header(HttpHeaders.CONTENT_TYPE, "application/json").body(postList);
 		}
 		catch(Exception e) {

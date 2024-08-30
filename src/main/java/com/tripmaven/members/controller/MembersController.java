@@ -42,6 +42,7 @@ public class MembersController {
 				Map<String, String> response = new HashMap<>();
 			    response.put("message", "중복된 아이디입니다.");
 			    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			    
 			}
 			return ResponseEntity.ok(insertedDto);			
 		}
@@ -90,7 +91,7 @@ public class MembersController {
 		}
 	}
 	
-	//모든 회원 이메일 검색
+	//회원 이메일 검색
 	@CrossOrigin
 	@GetMapping("/members/email/{email}")
 	public ResponseEntity<MembersDto> getMemberByMemberEmail (@PathVariable("email") String email) {
@@ -106,7 +107,7 @@ public class MembersController {
 		}
 	} 	
 	
-	//모든 회원 닉네임 검색
+	//회원 닉네임 검색
 	@CrossOrigin
 	@GetMapping("/members/name/{name}")
 	public ResponseEntity<List<MembersDto>> getMemberByMemberName (@PathVariable("name") String name) {
@@ -120,7 +121,7 @@ public class MembersController {
 		}
 	} 	
 	
-	//모든 회원 아이디 검색
+	//회원 아이디 검색
 	@CrossOrigin
 	@GetMapping("/members/id/{id}")
 	public ResponseEntity<MembersDto> getMemberByMemberId (@PathVariable("id") Long id){
@@ -141,6 +142,8 @@ public class MembersController {
 	@PutMapping("/members/{id}")	
 	public ResponseEntity<MembersDto> usersUpdate(@PathVariable("id") Long id,@RequestBody MembersDto dto){
 		try {
+			System.out.println(dto.getGuidelicense());
+			System.out.println(id);
 			MembersDto updatedDto = membersService.updateByMemberId(id,dto);
 			return ResponseEntity.ok(updatedDto);
 		}

@@ -40,4 +40,11 @@ public class ReportService {
 										.constructCollectionLikeType(List.class, ReportDto.class));
 	}
 	
+	
+	// 신고내역 조회 (가이드 member_id로 신고내역에 값 뿌려줄때 )
+	public ReportDto reportsById(Long member_id) {
+		return ReportDto.toDto(reportRepository.findById(member_id).get());
+	}
+	
+	
 }

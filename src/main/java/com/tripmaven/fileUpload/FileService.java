@@ -22,6 +22,15 @@ public class FileService {
 	//파일 등록
 	public List<Map> upload(List<MultipartFile> files, String saveDirectory) throws IllegalStateException, IOException{
 		List<Map> fileInfos = new Vector<>();
+		
+		// 디렉토리 존재 확인 및 생성
+		/*
+        File directory = new File(saveDirectory);
+        if (!directory.exists()) {
+            directory.mkdirs(); // 디렉토리가 없으면 생성
+        }
+        */
+		
 		for(MultipartFile multipartFile:files) {
 			//파일객체 생성
 			String systemFilename = FileUtils.getNewFileName(saveDirectory, multipartFile.getOriginalFilename());
@@ -34,6 +43,7 @@ public class FileService {
 			map.put("filesize", (int)Math.ceil(f.length()/1024.0));
 			map.put("filetype", multipartFile.getContentType());
 			fileInfos.add(map);
+			System.out.println("fileInfos : "+fileInfos);
 		}
 		return fileInfos;
 	}

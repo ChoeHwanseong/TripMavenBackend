@@ -1,8 +1,7 @@
 package com.tripmaven.members.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +20,7 @@ public class MembersDto {
 	private String name;
 	private String password;
 	private String gender;
-	private Date birthday;
+	private LocalDate birthday;
 	private String telNumber;
 	private String address;
 	private String profile;
@@ -33,6 +32,7 @@ public class MembersDto {
 	private String guidelicense;
 	private String loginType;
 	private String snsAccessToken;
+	private String interCity;
 	
 	//DTO를 ENTITY로 변환하는 메소드
 		public MembersEntity toEntity() {
@@ -54,6 +54,7 @@ public class MembersDto {
 					.guidelicense(guidelicense)
 					.loginType(loginType)
 					.snsAccessToken(snsAccessToken)
+					.interCity(interCity)
 					.build();
 		}
 		
@@ -77,6 +78,7 @@ public class MembersDto {
 					.guidelicense(membersEntity.getGuidelicense())
 					.loginType(membersEntity.getLoginType())
 					.snsAccessToken(membersEntity.getSnsAccessToken())
+					.interCity(membersEntity.getInterCity())
 					.build();
 		}
 

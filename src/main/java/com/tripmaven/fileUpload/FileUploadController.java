@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -51,10 +52,21 @@ public class FileUploadController {
     
     //파일 등록
     @PostMapping(value = "/upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<List<Map>> fileUpload(@RequestPart(name ="files", required = false) List<MultipartFile> files){
+    public ResponseEntity<List<Map>> fileUpload(
+    		@RequestPart(name = "files", required = false) List<MultipartFile> files,
+    		@RequestPart(name = "type", required = false) String type){
+    	
     	System.out.println(saveDirectory);
         try {
-            List<Map> filesInfo = fileService.upload(files, saveDirectory);
+
+        	List<Map> filesInfo = new Vector<>();
+        	if(type != null && type.equals("guidelicense")) {
+        		filesInfo = fileService.upload(files, saveDirectory+"/guidelicense");
+        	}
+        	else if(type == null) {
+        		filesInfo = fileService.upload(files, saveDirectory);
+        	}
+
             return ResponseEntity.ok(filesInfo);
         }
         catch(Exception e) {
@@ -63,27 +75,29 @@ public class FileUploadController {
         }
     }
     
-    //파일 조회
+    //파일 조회(상품 id로 조회)
     @GetMapping("/upload/{id}")
     public ResponseEntity<Resource> listFilesByProductId(@PathVariable("id") Long id) {
     	 
         try {
             // 상품 ID로 상품 정보 조회
             ProductBoardDto dto = productService.usersById(id);
-            System.out.println("파일 이름: " + dto.getFiles());
 
-            String[] filenames = dto.getFiles().split(",");
+            System.out.println("파일 이름: " + dto.getFiles());
+            
+            String[] filenames = dto.getFiles() != null ? dto.getFiles().split(",") : new String[0]; 
             System.out.println("파일 배열 반환: " + filenames);
             System.out.println("파일 배열 반환[0]: " + filenames[0]);
+
 
             if (filenames.length > 0) {
                 String filename = filenames[0];
                 Path filePath = Paths.get(saveDirectory).resolve(filename).normalize();
                 File file = filePath.toFile();
                 
-                System.out.println("확인할 파일 경로: " + filePath.toString());
-                System.out.println("파일 존재 여부: " + file.exists());
-                System.out.println("파일 읽기 가능 여부: " + file.canRead());
+                System.out.println("GET 확인할 파일 경로: " + filePath.toString());
+                System.out.println("GET 파일 존재 여부: " + file.exists());
+                System.out.println("GET 파일 읽기 가능 여부: " + file.canRead());
 
                 // 파일 존재 여부 확인
                 if (!file.exists() || !file.isFile()) {

@@ -20,7 +20,7 @@ public class TripDaysDto {
 	//필드
 	private long id;
 	private ProductBoardEntity productBoard;
-	private Integer day;
+	private Integer days;
 	private String content;
 	private String files;
 	private String isUpdate;
@@ -34,7 +34,7 @@ public class TripDaysDto {
 		return TripDaysEntity.builder()
 				.id(id)
 				.productBoard(productBoard)
-				.day(day)
+				.days(days)
 				.content(content)
 				.files(files)
 				.isUpdate(isUpdate)
@@ -49,7 +49,7 @@ public class TripDaysDto {
 		return TripDaysDto.builder()
 				.id(tripDaysEntity.getId())
 				.productBoard(tripDaysEntity.getProductBoard())
-				.day(tripDaysEntity.getDay())
+				.days(tripDaysEntity.getDays())
 				.content(tripDaysEntity.getContent())
 				.files(tripDaysEntity.getFiles())
 				.isUpdate(tripDaysEntity.getIsUpdate())
