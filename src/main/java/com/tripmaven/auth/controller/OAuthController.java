@@ -48,13 +48,13 @@ public class OAuthController {
     private String naverClientId;
 
     @Value("${spring.security.oauth2.client.registration.naver.client-secret}")
-    private String naversecret;
+    private String naverSecret;
     
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String googleClientId;
     
     @Value("${spring.security.oauth2.client.registration.google.client-secret}")
-    private String googlescrect;
+    private String googleScrect;
     
     @Value("${spring.security.oauth2.client.registration.google.redirect-uri}")
     private String googleRedirectUri;
@@ -75,7 +75,7 @@ public class OAuthController {
         tokenHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         String tokenRequestBody = "grant_type=authorization_code"
                 + "&client_id=" + naverClientId
-                + "&client_secret=" + naversecret
+                + "&client_secret=" + naverSecret
                 + "&code=" + code
                 + "&state=" + state;
 
@@ -153,7 +153,7 @@ public class OAuthController {
             tokenService.save(token);
 
             // 로그인 성공 후 URL에 토큰 정보 포함
-            String redirectUrl = String.format("http://localhost:58337/success?access=%s&refresh=%s&role=%s&membersId=%s&logintype=naver",
+            String redirectUrl = String.format("http://localhost:58337/success?access=%s&refresh=%s&role=%s&membersId=%s",
     				accessTokenJwt, refreshTokenJwt, membersEntity.getRole(),membersEntity.getId());
 
             response.sendRedirect(redirectUrl);
@@ -173,7 +173,9 @@ public class OAuthController {
 					.build();
             membersRepository.save(newMember);
     		log.info("회원가입 성공: {}", email);
-            String logoutUrl = String.format("https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=%s&client_secret=%s&access_token=%s&service_provider=NAVER",naverClientId,naversecret,accessToken);
+    		
+    		
+            String logoutUrl = String.format("https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=%s&client_secret=%s&access_token=%s&service_provider=NAVER",naverClientId,naverSecret,accessToken);
             HttpHeaders logoutHeaders = new HttpHeaders();
             logoutHeaders.set("Content-Type", "application/x-www-form-urlencoded");
             logoutHeaders.set("Accept", "application/json");
@@ -182,7 +184,7 @@ public class OAuthController {
             log.info("logout response = {}", logoutResponse.getBody());
             
             
-            response.sendRedirect("http://localhost:58337/socialsignup");
+            response.sendRedirect("http://localhost:58337/signup?email="+email);
         }
     }
     
@@ -197,7 +199,7 @@ public class OAuthController {
         tokenHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         String tokenRequestBody = "grant_type=authorization_code"
                 + "&client_id=" + googleClientId
-                + "&client_secret=" + googlescrect
+                + "&client_secret=" + googleScrect
                 + "&redirect_uri=" + googleRedirectUri
                 + "&code=" + code;
 
@@ -252,7 +254,7 @@ public class OAuthController {
             tokenService.save(token);
 
             // 로그인 성공 후 URL에 토큰 정보 포함
-            String redirectUrl = String.format("http://localhost:58337/success?access=%s&refresh=%s&role=%s&membersId=%s&logintype=google",
+            String redirectUrl = String.format("http://localhost:58337/success?access=%s&refresh=%s&role=%s&membersId=%s",
     				accessTokenJwt, refreshTokenJwt, membersEntity.getRole(),membersEntity.getId());
 
             response.sendRedirect(redirectUrl);
@@ -277,7 +279,7 @@ public class OAuthController {
             HttpEntity<String> logoutRequestEntity = new HttpEntity<>(logoutHeaders);
             ResponseEntity<String> logoutResponse = restTemplate.exchange(logoutUrl, HttpMethod.POST, logoutRequestEntity, String.class);
             log.info("logout response = {}", logoutResponse.getBody());
-            response.sendRedirect("http://localhost:58337/socialsignup?membersId=");
+            response.sendRedirect("http://localhost:58337/signup?email="+email);
             
         }
     }
@@ -354,7 +356,7 @@ public class OAuthController {
     		tokenService.save(token);
 
     		// 로그인 성공 후 URL에 토큰 정보 포함
-    		String redirectUrl = String.format("http://localhost:58337/success?access=%s&refresh=%s&role=%s&membersId=%s&logintype=kakao",
+    		String redirectUrl = String.format("http://localhost:58337/success?access=%s&refresh=%s&role=%s&membersId=%s",
     				accessTokenJwt, refreshTokenJwt, membersEntity.getRole(),membersEntity.getId());
     		response.sendRedirect(redirectUrl);
     		log.info("로그인 성공: {}", email);
@@ -379,7 +381,7 @@ public class OAuthController {
             HttpEntity<String> logoutRequestEntity = new HttpEntity<>(logoutHeaders);
             ResponseEntity<String> logoutResponse = restTemplate.exchange(logoutUrl, HttpMethod.POST, logoutRequestEntity, String.class);
             log.info("logout response = {}", logoutResponse.getBody());
-            response.sendRedirect("http://localhost:58337/socialsignup?membersId=");
+            response.sendRedirect("http://localhost:58337/signup?email="+email);
     	}
     }
 

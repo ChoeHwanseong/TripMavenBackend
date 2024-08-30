@@ -24,7 +24,7 @@ public class ProductBoardDto {
 	private MembersEntity member;
 	private List<LikeyEntity> likey;
 	private List<ProductEvaluationEntity> productEvaluation;
-	//private String day;
+	private String day;
 	private String title;
 	private String content;	
 	private LocalDateTime createdAt;
@@ -47,7 +47,7 @@ public class ProductBoardDto {
 					.member(member)
 					.likey(likey)
 					.productEvaluation(productEvaluation)
-					//.day(day)
+					.day(day)
 					.title(title)
 					.content(content)
 					.createdAt(createdAt)
@@ -71,7 +71,7 @@ public class ProductBoardDto {
 					.member(productBoardEntity.getMember())
 					.likey(productBoardEntity.getLikey())
 					.productEvaluation(productBoardEntity.getProductEvaluation())
-					//.day(productBoardEntity.getDay())
+					.day(productBoardEntity.getDay())
 					.title(productBoardEntity.getTitle())
 					.content(productBoardEntity.getContent())
 					.createdAt(productBoardEntity.getCreatedAt())
