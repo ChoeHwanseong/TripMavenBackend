@@ -140,9 +140,17 @@ public class MembersEntity {
 	@Column(name = "inter_city")
     private String interCity;
 	
-	/** 찜. (양방향) FK*/
+	/** 토큰. (양방향) FK*/
 	@OneToMany(mappedBy = "members",cascade = CascadeType.REMOVE)
 	@JsonIgnore
 	private List<TokenEntity> token;
 	
+	
+	/** 찜. (양방향) FK*/
+	/*
+	@OneToMany(mappedBy = "members",cascade = CascadeType.REMOVE)
+	@OrderBy("id ASC")
+	@JsonIgnore
+	private List<LikeyEntity> likey;
+	*/
 }

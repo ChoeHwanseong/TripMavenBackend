@@ -130,4 +130,43 @@ public class FileUploadController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+    
+    
+    //파일 다운로드(파일이름으로 자격증 가져오기)
+    @GetMapping("/downloadlicense/{filename}")
+    public ResponseEntity<Resource> getLicense(@PathVariable("filename") String filename) {
+        try {
+            Path filePath = Paths.get(saveDirectory+"/guidelicense").resolve(filename).normalize();
+            File file = filePath.toFile();
+
+            // 파일 존재 여부 확인
+            if (!file.exists() || !file.isFile()) {
+                System.out.println("파일이 존재하지 않거나 유효한 파일이 아님: " + filePath.toString());
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+            // 파일을 리소스로 반환
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                // 파일 이름을 UTF-8로 인코딩
+                String encodedFilename = URLEncoder.encode(resource.getFilename(), "UTF-8");
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename*=UTF-8''" + encodedFilename)
+                        .body(resource);
+            }
+            else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+        }
+        catch (MalformedURLException e) {
+            System.err.println("잘못된 파일 경로: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }

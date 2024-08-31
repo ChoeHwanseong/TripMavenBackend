@@ -16,13 +16,6 @@ public class LikeyService {
 
 	private final LikeyRepository likeyRepository;
 	
-	// 찜 목록 전체 불러오기
-	@Transactional
-	public List<LikeyDto> listAll() {
-		List<LikeyEntity> postEntityList=likeyRepository.findAll();
-		return postEntityList.stream().map(user->LikeyDto.toDto(user)).collect(Collectors.toList());
-	}
-	
 	// 게시글 찜하기
 	@Transactional
 	public LikeyDto addtoWishList(LikeyDto dto) {
@@ -32,9 +25,13 @@ public class LikeyService {
 	
 	// 게시글 찜 삭제하기
 	@Transactional
-	public LikeyDto deletetoWishList(LikeyDto dto) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean deletetoWishList(LikeyDto dto) {
+		LikeyEntity likeyEntity = likeyRepository.findByMemberAndProductBoard(dto.getMember(),dto.getProductBoard());
+		if (likeyEntity != null) {
+		    likeyRepository.delete(likeyEntity);
+		    return true;
+		}
+		return false;
 	}
 	
 	
