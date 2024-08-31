@@ -55,7 +55,7 @@ public class ProductController  {
 			System.out.print("files"+map.get("files"));
 			String member_id = map.get("member_id").toString();
 			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(member_id)).toEntity();
-			ProductBoardDto dto = mapper.convertValue(map, ProductBoardDto.class);				
+			ProductBoardDto dto = mapper.convertValue(map, ProductBoardDto.class);		
 			dto.setMember(members);
 			
 			
