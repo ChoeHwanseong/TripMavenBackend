@@ -40,25 +40,21 @@ public class ChattingRoomEntity {
 	private LocalDateTime createdAt;
 	
 	/** 활성화 여부. */
-	@Column(nullable = false , columnDefinition = "NUMBER(1,0)")
 	@ColumnDefault("1")
 	private Integer isActive;
 
 	/** 삭제날짜. */
-	@CreationTimestamp
 	private LocalDateTime deletedAt;
 
 	/** 삭제 여부. */
-	@Column(nullable = false , columnDefinition = "NUMBER(1,0)")
 	@ColumnDefault("0")
 	private Integer isDelete;
 	
 	/** 수정 날짜. */
-	@CreationTimestamp
 	private LocalDateTime updatedAt;
 
 	/** 수정 여부. */
-	@Column(nullable = false)
+	@Column
 	@ColumnDefault("0")
 	private String isUpdate;
 }
