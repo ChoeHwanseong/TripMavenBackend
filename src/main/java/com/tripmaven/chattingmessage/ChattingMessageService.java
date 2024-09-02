@@ -32,7 +32,7 @@
 //		List<ChattingMessageEntity> messages = new ArrayList<ChattingMessageEntity>();
 //
 //		if (joinChattingRepository.existsById(member.getId())) {
-//			JoinChattingEntity isEntered = joinChattingRepository.findByUserId(member.getId());
+//			JoinChattingEntity isEntered = joinChattingRepository.findAllByMember(member.getId());
 //			ChattingRoomEntity chattingroom = isEntered.getChattingRoom();
 //			if (chattingroom.getIsActive() == 1) {
 //				messages = chattingMessageRepository.findAllByChattingRoom_Id(chattingroom.getId());

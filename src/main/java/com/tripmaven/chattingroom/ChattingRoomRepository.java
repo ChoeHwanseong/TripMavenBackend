@@ -7,4 +7,8 @@ import org.springframework.stereotype.Repository;
 public interface ChattingRoomRepository extends JpaRepository<ChattingRoomEntity, Long> {
 
 
+
 }
+
+
+
