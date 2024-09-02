@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 public interface ChattingRoomRepository extends JpaRepository<ChattingRoomEntity, Long> {
 
 
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> branch 'master' of https://github.com/ChoeHwanseong/TripMavenBackend.git
+
+
+
