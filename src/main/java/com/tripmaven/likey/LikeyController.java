@@ -39,9 +39,11 @@ public class LikeyController {
 	//게시글 찜하기
 	@PostMapping("/likey/{productId}/{memberId}")
 	public ResponseEntity<LikeyDto> addWishList(
-			@PathVariable Long productId,
-			@PathVariable Long memberId){
+			@PathVariable("productId") Long productId,
+			@PathVariable("memberId") Long memberId){
 		try {
+			System.out.println("productId: "+ productId);
+			System.out.println("memberId: "+ memberId);
 			MembersEntity member = membersService.searchByMemberID(memberId).toEntity();
 			ProductBoardEntity productboard= productService.usersById(productId).toEntity();
 			LikeyDto likeyDto = LikeyDto.builder().member(member).productBoard(productboard).build();
@@ -57,8 +59,8 @@ public class LikeyController {
 	//찜 삭제하기
 	@DeleteMapping("/likey/{productId}/{memberId}")
 	public ResponseEntity<String> removeFromWishlist(
-			@PathVariable Long productId,
-			@PathVariable Long memberId) {
+			@PathVariable("productId") Long productId,
+			@PathVariable("memberId") Long memberId) {
 		try {
 			MembersEntity member = membersService.searchByMemberID(memberId).toEntity();
 			ProductBoardEntity productboard= productService.usersById(productId).toEntity();
