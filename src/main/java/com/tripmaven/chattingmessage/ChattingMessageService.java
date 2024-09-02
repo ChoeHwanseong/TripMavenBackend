@@ -44,11 +44,11 @@
 //	}
 //
 //	public List<ChattingMessageDto> getAllMessagesByChattingRoom(long chattingRoom) {
-//			// 채팅방아이디로 구분, 채팅방 있으면 톨려주기
-//			if(chattingRoomRepository.existsById(chattingRoom)) {
-//			List<ChattingMessageEntity> messages = chattingMessageRepository.findAllByChattingRoom_Id(chattingRoom);
-//			return messages.stream().map(msg->ChattingMessageDto.toDto(msg)).collect(Collectors.toList());
-//			}
-//			return null;
+//		// 채팅방아이디로 구분, 채팅방 있으면 톨려주기
+//		if(chattingRoomRepository.existsById(chattingRoom)) {
+//		List<ChattingMessageEntity> messages = chattingMessageRepository.findAllByChattingRoom_Id(chattingRoom);
+//		return messages.stream().map(msg->ChattingMessageDto.toDto(msg)).collect(Collectors.toList());
+//		}
+//		return null;
 //	}
 //}
