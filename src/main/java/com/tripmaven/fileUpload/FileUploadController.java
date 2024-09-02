@@ -78,7 +78,7 @@ public class FileUploadController {
     @GetMapping("/uploads/{id}")
     public List<String> listFilesByProductId(@PathVariable("id") Long id) {
         try {
-        	System.out.println("여러 파일 컨트롤러 들어옴");
+        	//System.out.println("여러 파일 컨트롤러 들어옴");
         	ProductBoardDto dto = productService.usersById(id);
             String[] filenames = dto.getFiles() != null ? dto.getFiles().split(",") : new String[0];
 
@@ -102,8 +102,8 @@ public class FileUploadController {
     public ResponseEntity<Resource> listFileByProductId(
             @PathVariable("id") Long id, @PathVariable("filename") String filename) {
         try {
-        	System.out.println("단일 파일을 반환 컨트롤러 들어옴");
-        	System.out.println("파일 이름들 : "+filename);
+        	//System.out.println("단일 파일을 반환 컨트롤러 들어옴");
+        	//System.out.println("파일 이름들 : "+filename);
         	
             Path filePath = Paths.get(saveDirectory).resolve(filename).normalize();
             File file = filePath.toFile();
