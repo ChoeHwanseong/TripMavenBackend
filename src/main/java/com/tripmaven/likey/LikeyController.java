@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersService;
 import com.tripmaven.productboard.ProductBoardDto;
@@ -74,21 +75,20 @@ public class LikeyController {
 		}
 	}
 	
-	/*
-	//회원아이디로 찜목록 가져오기
-	@PostMapping("/likey/{productId}/{memberId}")
-	public ResponseEntity<List<ProductBoardDto>> getWishList(
-			@PathVariable Long memberId) {
+	//회원번호로 찜 가져오기 (내 찜 목록 시 사용)
+	@GetMapping("/likey/{memberId}")
+	public ResponseEntity<List<LikeyDto>> getLikeById (@PathVariable("memberId") Long memberId) {
 		try {
-			List<ProductBoardDto>  = membersService.searchByMemberID(memberId).toEntity();
-			ProductBoardEntity productboard= productService.usersById(productId).toEntity();
-			LikeyDto likeyDto = LikeyDto.builder().member(member).productBoard(productboard).build();
-			boolean isDelete = likeyService.deletetoWishList(likeyDto);
-			return ResponseEntity.ok(String.valueOf(isDelete));
-		} catch (Exception e) {
+			MembersDto dto= membersService.searchByMemberID(memberId);
+			List<LikeyDto> likeyDto= likeyService.findAllById(dto.getId());
+			return ResponseEntity.status(200).header(HttpHeaders.CONTENT_TYPE, "application/json").body(likeyDto);
+
+		}
+		catch(Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("찜 제거에 실패했습니다.");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
-	*/
-}//
+	
+	
+}

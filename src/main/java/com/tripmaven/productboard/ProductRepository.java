@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.tripmaven.likey.LikeyEntity;
 import com.tripmaven.members.model.MembersEntity;
 
 @Repository
@@ -31,7 +32,9 @@ public interface ProductRepository extends JpaRepository<ProductBoardEntity, Lon
   	
 	// READ 가이드 측 게시글 가져오기(아이디로)
 	List<ProductBoardEntity> findByMember_Id(long id);
+	
 	Page<ProductBoardEntity> findByTitleContainingOrContentContaining(String keyword, String keyword2, PageRequest of);
+
 	
 	
 
