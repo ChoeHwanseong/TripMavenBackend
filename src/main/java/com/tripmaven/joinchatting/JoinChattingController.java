@@ -1,5 +1,5 @@
-//package com.tripmaven.joinchatting;
-//
-//public class JoinChattingController {
-//
-//}
+package com.tripmaven.joinchatting;
+
+public class JoinChattingController {
+
+}

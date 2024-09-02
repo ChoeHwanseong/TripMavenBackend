@@ -56,16 +56,13 @@ public class ChattingMessageEntity {
 	private LocalDateTime createdAt;
 	
 	/** 생성 여부. */
-
-	@ColumnDefault("0")
+	@ColumnDefault("1")
 	private String isActive;
     
 	/** 삭제 날짜. */
-	@CreationTimestamp
 	private LocalDateTime deletedAt;
 
 	/** 삭제 여부. */
-
 	@ColumnDefault("0")
 	private String isDelete;
     
