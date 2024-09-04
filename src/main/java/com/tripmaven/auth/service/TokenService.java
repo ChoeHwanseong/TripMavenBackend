@@ -23,8 +23,8 @@ public class TokenService {
         tokenRepository.save(Token);
     }
 
-    public TokenEntity findByTokenValue(String token) {
-        return tokenRepository.findByTokenValue(token).get();
+    public Optional<TokenEntity> findByTokenValue(String token) {
+        return tokenRepository.findByTokenValue(token);
     }
 
     public Boolean existsByRefresh(String tokenValue) {
