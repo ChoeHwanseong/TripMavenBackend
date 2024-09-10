@@ -44,7 +44,7 @@ public class NotificationController {
 	
 	//알림 목록 불러오는 메소드
 	@GetMapping("/{myId}")
-	public ResponseEntity<List<NotificationDto>> getNotifications(@PathVariable Long myId) {
+	public ResponseEntity<List<NotificationDto>> getNotifications(@PathVariable(name = "myId") Long myId) {
 		try {
 			List<NotificationDto> notificationList = notificationService.readAll(myId);
 			List<NotificationDto> filteredList = notificationList.stream().filter(t-> !(t.getIsRead().equals("1"))).toList();
