@@ -8,4 +8,6 @@ public interface NotificationRepository extends JpaRepository<NotificationEntity
 
 	List<NotificationEntity> findAllByMemberId(Long myId);
 
+	List<NotificationEntity> findAllByMemberIdAndSenderId(long memberId, long senderId);
+
 }
