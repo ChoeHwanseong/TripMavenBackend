@@ -23,6 +23,7 @@ public class NotificationDto {
 	private LocalDateTime createAt;
 	private String type;
 	private String link;
+	private long senderId;
 	
 	//DTO를 ENTITY로 변환하는 메소드
 	public NotificationEntity toEntity() {
@@ -34,6 +35,7 @@ public class NotificationDto {
 				.createAt(createAt)
 				.type(type)
 				.link(link)
+				.senderId(senderId)
 				.build();
 	}
 	
@@ -47,6 +49,7 @@ public class NotificationDto {
 				.createAt(notificationEntity.getCreateAt())
 				.type(notificationEntity.getType())
 				.link(notificationEntity.getLink())
+				.senderId(notificationEntity.getSenderId())
 				.build();
 	}
 }

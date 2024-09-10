@@ -46,6 +46,10 @@ public class NotificationEntity {
 	@Column(nullable = false)
 	private long memberId;
 	
+	/** 보낸 사용자 id. FK*/
+	@Column(nullable = false)
+	private long senderId;
+	
 	/** 알림 내용 */
 	private String content;
 
