@@ -61,7 +61,6 @@ public class CSBoardController {
 	
 
 	//READ 관리자 측 전체 조회
-
 	@GetMapping("/getAll")	
 	public ResponseEntity<List<CSBoardDto>> getUsersAll(){
 		try {
@@ -126,9 +125,9 @@ public class CSBoardController {
 	public ResponseEntity<CSBoardDto> updateAnswer(@PathVariable("id") long id, @RequestBody Map map){
 		try {
 			CSBoardDto dto = mapper.convertValue(map, CSBoardDto.class);
-			System.out.println("dto.comments: "+dto.getComments());
+			//System.out.println("dto.comments: "+dto.getComments());
 			CSBoardDto updatedDto= csBoardService.updateAnswerById(id,dto);
-			System.out.println("updatedDto: "+updatedDto.getComments());
+			//System.out.println("updatedDto: "+updatedDto.getComments());
 			return ResponseEntity.ok(updatedDto);
 		}
 		catch(Exception e) {

@@ -62,7 +62,8 @@ public class ProductService {
 	public MembersDto usersByEmail(String email) {
 		return MembersDto.toDto(membersRepository.findByEmail(email).get());
 	}
-		
+	
+	
 	// READ 가이드 측 게시글 가져오기
 	@Transactional(readOnly = true)
 	public List<ProductBoardDto> findAllById(long id) {
@@ -75,10 +76,12 @@ public class ProductService {
 	}
 	
 	
+	
 	// READ 가이드 측 문의내역 조회(cs엔터티 PK_id로)	
 	public ProductBoardDto usersById(Long id) {
 		return ProductBoardDto.toDto(productRepository.findById(id).get());
 	}
+	
 	
 	
 	
@@ -156,6 +159,10 @@ public class ProductService {
 				objectMapper.getTypeFactory().defaultInstance()
 				.constructCollectionLikeType(List.class, ProductBoardDto.class));
 	}
+
+
+
+	
 
 	
 

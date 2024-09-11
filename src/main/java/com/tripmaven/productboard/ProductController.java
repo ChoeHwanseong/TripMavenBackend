@@ -97,7 +97,8 @@ public class ProductController  {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
-
+	
+	
 
 	// READ 가이드 측 게시글 조회(cs엔터티 PK_id로)	
 	@GetMapping("/product/{id}")
