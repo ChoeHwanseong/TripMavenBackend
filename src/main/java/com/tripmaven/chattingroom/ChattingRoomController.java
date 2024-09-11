@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tripmaven.joinchatting.JoinChattingDto;
-import com.tripmaven.members.model.MembersEntity;
-import com.tripmaven.members.service.MembersService;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -24,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 public class ChattingRoomController {
 
 	private final ChattingRoomService chattingRoomService;
-	private final MembersService membersService;
 
 	@GetMapping("/topic/{myId}/{yourId}")
 	public ResponseEntity<String> getChattingRoomTopic(@PathVariable("myId") Long myId, @PathVariable("yourId") Long yourId) {
@@ -38,10 +34,8 @@ public class ChattingRoomController {
 		}
 	}
 
-//	채팅 내역 저장 ->
-//	파이썬에서 하는거임
-//	
-//	채팅 내역 불러오기
+
+	//채팅 내역 불러오기
 	@GetMapping("/users")
 	public ResponseEntity<List<ChattingRoomDto>> getA11ChatRoom() {
 		try {

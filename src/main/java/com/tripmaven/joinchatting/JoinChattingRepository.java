@@ -17,4 +17,6 @@ public interface JoinChattingRepository extends JpaRepository<JoinChattingEntity
 
 	List<JoinChattingEntity> findAllByChattingRoom(ChattingRoomEntity chattingRoom);
 
+	
+
 }

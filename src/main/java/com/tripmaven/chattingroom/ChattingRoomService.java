@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.joinchatting.JoinChattingDto;
 import com.tripmaven.joinchatting.JoinChattingEntity;
 import com.tripmaven.joinchatting.JoinChattingRepository;
-import com.tripmaven.members.model.MembersDto;
+
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersRepository;
 
@@ -28,15 +28,18 @@ public class ChattingRoomService {
 	public String getChattingRoomTopic(Long myId, Long yourId) {
 		MembersEntity user1 = membersRepository.findById(myId).get();
 		MembersEntity user2 = membersRepository.findById(yourId).get();
+				
 		List<JoinChattingEntity> user1List = joinChattingRepository.findAllByMember(user1);
 		List<JoinChattingEntity> user2List = joinChattingRepository.findAllByMember(user2);
+
 		long roomId = 0;
-		//2명 다 들어있는 채팅방 찾기
+		//2명 다 들어있는 채팅방 찾기o
 		for(JoinChattingEntity user1entity : user1List) {
 			for(JoinChattingEntity user2entity : user2List) {
-				if(user1entity.getChattingRoom().getId() == user2entity.getChattingRoom().getId())
+				if(user1entity.getChattingRoom().getId() == user2entity.getChattingRoom().getId()) {
 					roomId = user1entity.getChattingRoom().getId();
 				break;
+				}
 			}
 			if(roomId != 0) break;
 		}

@@ -34,7 +34,7 @@ public class QuizController {
 
     @PostMapping("/quiz")
     public void submitQuiz(@RequestBody Map<String, Object> map) {
-        Long quizId = ((Number) map.get("id")).longValue();
+    	Long quizId = ((Number) map.get("id")).longValue();
         String userAnswer = (String) map.get("userAnswer");
         quizService.saveUserAnswer(quizId, userAnswer);
     }

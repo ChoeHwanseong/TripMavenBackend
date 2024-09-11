@@ -2,6 +2,8 @@ package com.tripmaven.chattingroom;
 
 import java.time.LocalDateTime;
 
+import com.tripmaven.productboard.ProductBoardEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
