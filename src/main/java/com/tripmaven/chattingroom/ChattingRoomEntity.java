@@ -1,12 +1,18 @@
 package com.tripmaven.chattingroom;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.tripmaven.productboard.ProductBoardEntity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tripmaven.chattingmessage.ChattingMessageEntity;
+import com.tripmaven.likey.LikeyEntity;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +20,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
+
+
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -60,4 +70,10 @@ public class ChattingRoomEntity {
 	@Column
 	@ColumnDefault("0")
 	private String isUpdate;
+	
+	/** 채팅메시지 (양방향) FK*/
+	@OneToMany(mappedBy = "chattingRoom",cascade = CascadeType.REMOVE)
+	@OrderBy("id")
+	@JsonIgnore
+	private List<ChattingMessageEntity> chattingMessage;
 }

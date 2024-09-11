@@ -84,4 +84,10 @@ public class ChattingRoomService {
 		return objectMapper.convertValue(yourChatList, objectMapper.getTypeFactory().defaultInstance().constructCollectionType(List.class,JoinChattingDto.class));
 	}
 
+	public List<JoinChattingDto> getChattingMy(Long myId) {
+		MembersEntity my = membersRepository.findById(myId).get();
+		List<JoinChattingEntity> myChatList = joinChattingRepository.findAllByMember(my);
+		return objectMapper.convertValue(myChatList, objectMapper.getTypeFactory().defaultInstance().constructCollectionType(List.class,JoinChattingDto.class));
+	}
+
 }

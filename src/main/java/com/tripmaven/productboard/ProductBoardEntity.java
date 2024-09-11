@@ -1,7 +1,6 @@
 package com.tripmaven.productboard;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -12,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tripmaven.likey.LikeyEntity;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.productevaluation.ProductEvaluationEntity;
-import com.tripmaven.tripdays.TripDaysEntity;
+import com.tripmaven.review.ReviewEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -65,6 +64,12 @@ public class ProductBoardEntity {
 	@OrderBy("id DESC")
 	@JsonIgnore
 	private List<ProductEvaluationEntity> productEvaluation;
+	
+	/** AI평가 고유 번호. FK (양방향)*/
+	@OneToMany(mappedBy = "productBoard",cascade = CascadeType.REMOVE)
+	@OrderBy("id DESC")
+	@JsonIgnore
+	private List<ReviewEntity> review;
 	
 	/** 여행 일수 FK*/
 	@Column(length = 20, nullable = false)

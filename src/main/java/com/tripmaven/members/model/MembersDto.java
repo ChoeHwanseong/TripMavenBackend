@@ -35,51 +35,51 @@ public class MembersDto {
 	private String interCity;
 	
 	//DTO를 ENTITY로 변환하는 메소드
-		public MembersEntity toEntity() {
-			return MembersEntity.builder()
-					.id(id)
-					.email(email)
-					.name(name)
-					.password(password)
-					.gender(gender)
-					.birthday(birthday)
-					.telNumber(telNumber)
-					.address(address)
-					.profile(profile)
-					.introduce(introduce)
-					.isactive(isactive)
-					.createdAt(createdAt)
-					.issocial(issocial)
-					.role(role)
-					.guidelicense(guidelicense)
-					.loginType(loginType)
-					.snsAccessToken(snsAccessToken)
-					.interCity(interCity)
-					.build();
-		}
+	public MembersEntity toEntity() {
+		return MembersEntity.builder()
+				.id(id)
+				.email(email)
+				.name(name)
+				.password(password)
+				.gender(gender)
+				.birthday(birthday)
+				.telNumber(telNumber)
+				.address(address)
+				.profile(profile)
+				.introduce(introduce)
+				.isactive(isactive)
+				.createdAt(createdAt)
+				.issocial(issocial)
+				.role(role)
+				.guidelicense(guidelicense)
+				.loginType(loginType)
+				.snsAccessToken(snsAccessToken)
+				.interCity(interCity)
+				.build();
+	}
 		
-		//Entity를 DTO로 변환하는 메소드
-		public static MembersDto toDto(MembersEntity membersEntity) {
-			return MembersDto.builder()
-					.id(membersEntity.getId())
-					.email(membersEntity.getEmail())
-					.name(membersEntity.getName())
-					.password(membersEntity.getPassword())
-					.gender(membersEntity.getGender())
-					.birthday(membersEntity.getBirthday())
-					.telNumber(membersEntity.getTelNumber())
-					.address(membersEntity.getAddress())
-					.profile(membersEntity.getProfile())
-					.introduce(membersEntity.getIntroduce())
-					.isactive(membersEntity.getIsactive())
-					.createdAt(membersEntity.getCreatedAt())
-					.issocial(membersEntity.getIssocial())
-					.role(membersEntity.getRole())
-					.guidelicense(membersEntity.getGuidelicense())
-					.loginType(membersEntity.getLoginType())
-					.snsAccessToken(membersEntity.getSnsAccessToken())
-					.interCity(membersEntity.getInterCity())
-					.build();
-		}
+	//Entity를 DTO로 변환하는 메소드
+	public static MembersDto toDto(MembersEntity membersEntity) {
+		return MembersDto.builder()
+				.id(membersEntity.getId())
+				.email(membersEntity.getEmail())
+				.name(membersEntity.getName())
+				.password(membersEntity.getPassword())
+				.gender(membersEntity.getGender())
+				.birthday(membersEntity.getBirthday())
+				.telNumber(membersEntity.getTelNumber())
+				.address(membersEntity.getAddress())
+				.profile(membersEntity.getProfile())
+				.introduce(membersEntity.getIntroduce())
+				.isactive(membersEntity.getIsactive())
+				.createdAt(membersEntity.getCreatedAt())
+				.issocial(membersEntity.getIssocial())
+				.role(membersEntity.getRole())
+				.guidelicense(membersEntity.getGuidelicense())
+				.loginType(membersEntity.getLoginType())
+				.snsAccessToken(membersEntity.getSnsAccessToken())
+				.interCity(membersEntity.getInterCity())
+				.build();
+	}
 
 }
