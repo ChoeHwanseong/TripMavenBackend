@@ -66,4 +66,17 @@ public class ChattingRoomController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	//로그인한 사람 채팅방 모두 얻기
+	@GetMapping("/topic/my/{myId}")
+	public ResponseEntity<List<JoinChattingDto>> getChattingMy(@PathVariable("myId") Long myId) {
+		try {
+			List<JoinChattingDto> myList = chattingRoomService.getChattingMy(myId);
+			return ResponseEntity.status(200).header(HttpHeaders.CONTENT_TYPE, "application/json")
+					.body(myList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }
