@@ -136,6 +136,7 @@ public class FileUploadController {
     @GetMapping("/downloadlicense/{filename}")
     public ResponseEntity<Resource> getLicense(@PathVariable("filename") String filename) {
         try {
+        	System.out.println("filename: "+filename);
             Path filePath = Paths.get(saveDirectory+"/guidelicense").resolve(filename).normalize();
             File file = filePath.toFile();
 
