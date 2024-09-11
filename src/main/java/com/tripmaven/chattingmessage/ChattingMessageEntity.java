@@ -44,11 +44,11 @@ public class ChattingMessageEntity {
 	
 	/** 유저 고유 번호. */
     @Column(nullable = false)
-    private long userId;
+    private long sender;
     
 	/** 메시지 내용. */
     @Column(nullable = false, length = 100)
-	private String content;
+	private String text;
     
 	/** 생성 날짜. */
 	@ColumnDefault("SYSDATE")

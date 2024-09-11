@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.tripmaven.chattingmessage.ChattingMessageEntity;
 
+import com.tripmaven.productboard.ProductBoardEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

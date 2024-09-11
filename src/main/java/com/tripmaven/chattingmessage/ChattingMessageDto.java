@@ -19,8 +19,8 @@ public class ChattingMessageDto {
 
 	private long id;
 	private ChattingRoomEntity chattingRoom;
-	private long userId;
-	private String content;
+	private long sender;
+	private String text;
 	private LocalDateTime createdAt;
 	private String isActive;
 	private LocalDateTime deletedAt;
@@ -31,8 +31,8 @@ public class ChattingMessageDto {
 		return ChattingMessageEntity.builder()
 				.id(id)
 				.chattingRoom(chattingRoom)
-				.userId(userId)
-				.content(content)
+				.sender(sender)
+				.text(text)
 				.createdAt(createdAt)
 				.isActive(isActive)
 				.deletedAt(deletedAt)
@@ -44,8 +44,8 @@ public class ChattingMessageDto {
 		return ChattingMessageDto.builder()
 				.id(chattingMessageEntity.getId())
 				.chattingRoom(chattingMessageEntity.getChattingRoom())
-				.userId(chattingMessageEntity.getUserId())
-				.content(chattingMessageEntity.getContent())
+				.sender(chattingMessageEntity.getSender())
+				.text(chattingMessageEntity.getText())
 				.createdAt(chattingMessageEntity.getCreatedAt())
 				.isActive(chattingMessageEntity.getIsActive())
 				.deletedAt(chattingMessageEntity.getDeletedAt())
