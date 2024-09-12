@@ -54,7 +54,7 @@ public class CustomUserDetails implements UserDetails{
 	   @Override
 	   public boolean isAccountNonLocked() {
 		   //return true;
-		   return membersEntity.getIsdelete()==null ||membersEntity.getIsdelete().equalsIgnoreCase("0");// isDelete가 false이면 계정이 잠겨있지 않은 것으로 간주합니다. 
+		   return membersEntity.getIsdelete()==null || membersEntity.getIsdelete().equalsIgnoreCase("0");// isDelete가 false이면 계정이 잠겨있지 않은 것으로 간주합니다. 
 	   }
 
 	   @Override

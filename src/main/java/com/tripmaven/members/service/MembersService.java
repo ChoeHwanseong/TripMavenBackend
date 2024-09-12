@@ -1,6 +1,8 @@
 package com.tripmaven.members.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -122,6 +124,23 @@ public class MembersService {
 		MembersDto deletedDto=MembersDto.toDto(membersRepository.findById(id).get());
 		membersRepository.deleteById(id);
 		return deletedDto;
+	}
+
+
+	//isdelete와 isactive를 수정합니다.
+	@Transactional
+	public MembersDto setIsDelete(Long id) {
+		
+		Optional<MembersEntity> optional = membersRepository.findById(id);
+		
+		if(optional.isPresent()) {
+			MembersEntity entity = optional.get();
+			entity.setIsdelete("1");
+			entity.setIsactive("0");
+			return MembersDto.toDto(membersRepository.save(entity));
+		}
+		return null;
+		
 	}
 
 
