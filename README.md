@@ -11,3 +11,16 @@ GitHub 사용에 있어서 yml파일은 올릴 수 없습니다.
 kakao:
   api:
     key: 7473de86ee433a0814c0bd047ad30e9c
+
+9/12 yaml : JPA 설정 추가.
+#Spring Data JPA 설정
+  jpa:
+    hibernate:
+      ddl-auto: update #ddl 자동 생성
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl #JPA 컬럼명 전략
+    properties:
+      hibernate:
+        format_sql: true #DDL문 가독성 있게 표시
+    show-sql: true
+    packages-to-scan: com.tripmaven #이 줄 추가
