@@ -154,6 +154,29 @@ public class MembersController {
 		}
 	}
 	
+	
+	@CrossOrigin
+	@PutMapping("/members/delete/{id}")	
+	public ResponseEntity<MembersDto> usersdelete(@PathVariable("id") Long id){
+		try {
+			if(!membersService.searchByMemberID(id).getLoginType().equalsIgnoreCase("local")) {
+				MembersDto deletedDto = membersService.deleteByMemberId(id);
+				return ResponseEntity.ok(deletedDto);
+			};
+			MembersDto dto = membersService.setIsDelete(id);
+			if(dto == null) {
+				Map<String, String> response = new HashMap<>();
+			    response.put("message", "삭제에 실패했습니다.");
+			    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			}
+			return ResponseEntity.ok(dto);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+	}
+	
 	//DELETE
 	//회원 정보 삭제
 	@CrossOrigin

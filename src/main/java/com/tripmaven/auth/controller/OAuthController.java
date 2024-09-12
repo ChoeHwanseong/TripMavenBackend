@@ -334,32 +334,33 @@ public class OAuthController {
     	Optional<MembersEntity> optionalMembers = membersRepository.findByEmail(email);
 
     	if (optionalMembers.isPresent()) {
-    		MembersEntity membersEntity = optionalMembers.get();
-    		membersEntity.setLoginType("kakao");
-    		membersEntity.setSnsAccessToken(accessToken);
-    		membersRepository.save(membersEntity);
-    		//
-    		//            // JWT 토큰 발급
-    		Long accessExpiredMs = 600000L;
-    		String accessTokenJwt = jwttoken.generateToken(email, "access", accessExpiredMs);
-    		Long refreshExpiredMs = 86400000L;
-    		String refreshTokenJwt = jwttoken.generateToken(email, "refresh", refreshExpiredMs);
+    		MembersEntity membersEntity = optionalMembers.get(); 
+			membersEntity.setLoginType("kakao");
+			membersEntity.setSnsAccessToken(accessToken);
+			membersRepository.save(membersEntity);
+			//
+			//            // JWT 토큰 발급
+			Long accessExpiredMs = 600000L;
+			String accessTokenJwt = jwttoken.generateToken(email, "access", accessExpiredMs);
+			Long refreshExpiredMs = 86400000L;
+			String refreshTokenJwt = jwttoken.generateToken(email, "refresh", refreshExpiredMs);
 
-    		TokenEntity token = TokenEntity.builder()
-    				.status("activated")
-    				.userAgent(response.getHeader("User-Agent"))
-    				.members(membersEntity)
-    				.tokenValue(refreshTokenJwt)
-    				.expiresIn(refreshExpiredMs)
-    				.build();
+			TokenEntity token = TokenEntity.builder()
+				.status("activated")
+				.userAgent(response.getHeader("User-Agent"))
+				.members(membersEntity)
+				.tokenValue(refreshTokenJwt)
+				.expiresIn(refreshExpiredMs)
+				.build();
 
-    		tokenService.save(token);
+			tokenService.save(token);
 
-    		// 로그인 성공 후 URL에 토큰 정보 포함
-    		String redirectUrl = String.format("http://localhost:58337/success?access=%s&refresh=%s&role=%s&membersId=%s",
-    				accessTokenJwt, refreshTokenJwt, membersEntity.getRole(),membersEntity.getId());
-    		response.sendRedirect(redirectUrl);
-    		log.info("로그인 성공: {}", email);
+		// 로그인 성공 후 URL에 토큰 정보 포함
+			String redirectUrl = String.format("http://localhost:58337/success?access=%s&refresh=%s&role=%s&membersId=%s",
+				accessTokenJwt, refreshTokenJwt, membersEntity.getRole(),membersEntity.getId());
+			response.sendRedirect(redirectUrl);
+			log.info("로그인 성공: {}", email);
+    	
     	} else {
     		log.info("회원가입 필요: {}", email);
     		MembersEntity newMember = new MembersEntity().builder()
