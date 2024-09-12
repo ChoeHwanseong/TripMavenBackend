@@ -8,14 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tripmaven.likey.LikeyDto;
-import com.tripmaven.likey.LikeyService;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersService;
 import com.tripmaven.productboard.ProductBoardEntity;
@@ -26,49 +24,54 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class ProductEvaluationController {
-	
+
 	private final ProductService productService;
 	private final MembersService membersService;
 	private final ProductEvaluationService productEvaluationService;
 	private final ObjectMapper mapper;
-	
-	// 평가 등록
+
+	// 분석내용 등록
 	@CrossOrigin
 	@PostMapping("/evaluation")
-	public ResponseEntity<ProductEvaluationDto> createEvaluation(@RequestParam Map<String,String> map){
+	public ResponseEntity<ProductEvaluationDto> createEvaluation(@RequestBody Map<String, Object> map) {
 		try {
+			String member_id = map.get("member_id").toString();
+			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(member_id)).toEntity();
 			String productboard_id = map.get("productboard_id").toString();
-			
-			
-			
-			ProductBoardEntity productboard= productService.usersById(Long.parseLong(productboard_id)).toEntity();
-			System.out.println("productboard.getId: "+productboard.getId());
-			System.out.println("productboard.getProductEvaluation: "+productboard.getProductEvaluation());
-
+			ProductBoardEntity productboard = productService.usersById(Long.parseLong(productboard_id)).toEntity();
 			ProductEvaluationDto productEvaluationDto = mapper.convertValue(map, ProductEvaluationDto.class);
+			productEvaluationDto.setMember(members);
 			productEvaluationDto.setProductBoard(productboard);
-			System.out.println("호ㅗ로로로로ㅗㄹ로ㅗㄹ: "+productEvaluationDto.getProductBoard().getTitle());
 			ProductEvaluationDto dto = productEvaluationService.create(productEvaluationDto);
 			return ResponseEntity.ok(dto);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
-	
-	// 평가 조회
-	@CrossOrigin	
+
+	// 분석내용 전체조회
+	@CrossOrigin
 	@GetMapping("/evaluation")
-	public ResponseEntity<List<ProductEvaluationDto>> getListAll(){
+	public ResponseEntity<List<ProductEvaluationDto>> getEvaluationAll() {
 		try {
-			List<ProductEvaluationDto> Evaluation=productEvaluationService.listAll();
-			return ResponseEntity.status(200).header(HttpHeaders.CONTENT_TYPE, "application/json").body(Evaluation);
-		}
-		catch(Exception e) {
+			List<ProductEvaluationDto> evaluation = productEvaluationService.evaluationAll();
+			return ResponseEntity.status(200).header(HttpHeaders.CONTENT_TYPE, "application/json").body(evaluation);
+		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
 
+	// 분석내용 회원아이디로 조회
+	@GetMapping("/evaluation/{id}")
+	public ResponseEntity<ProductEvaluationDto> getEvaluationById(@PathVariable("id") Long id) {
+		try {
+			ProductEvaluationDto dto = productEvaluationService.usersById(id);
+			return ResponseEntity.ok(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+	}
 }
