@@ -12,7 +12,7 @@ kakao:
   api:
     key: 7473de86ee433a0814c0bd047ad30e9c
 
-9/12 yaml : JPA 설정 추가.
+9/12 yaml : JPA 설정 추가.                  가이드랭킹 올리다가 디렉토리가 잘못올라갔습니다 수정좀 해주십쇼
 #Spring Data JPA 설정
   jpa:
     hibernate:
