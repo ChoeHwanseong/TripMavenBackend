@@ -35,7 +35,14 @@ public interface ProductRepository extends JpaRepository<ProductBoardEntity, Lon
 	
 	Page<ProductBoardEntity> findByTitleContainingOrContentContaining(String keyword, String keyword2, PageRequest of);
 
-	
+	Page<ProductBoardEntity> findByTitleContainingOrContentContainingOrCityContainingOrMember_NameContainingOrHashtagContaining(
+		    String titleKeyword, 
+		    String contentKeyword, 
+		    String cityKeyword, 
+		    String memberNameKeyword, 
+		    String hashTagKeyword,
+		    PageRequest pageRequest);
+
 	
 
     

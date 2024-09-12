@@ -159,6 +159,16 @@ public class ProductService {
 				objectMapper.getTypeFactory().defaultInstance()
 				.constructCollectionLikeType(List.class, ProductBoardDto.class));
 	}
+	
+	//게시글 검색 -제목+내용
+	@Transactional(readOnly = true)
+	public List<ProductBoardDto> searchByKeyword(String keyword, String page, String size) {
+		Page<ProductBoardEntity> products = productRepository.findByTitleContainingOrContentContainingOrCityContainingOrMember_NameContainingOrHashtagContaining(keyword,keyword,keyword,keyword,keyword, PageRequest.of(Integer.parseInt(page), Integer.parseInt(size), Sort.by(Sort.Direction.DESC, "createdAt")));
+		return objectMapper.convertValue(products.getContent(),
+				objectMapper.getTypeFactory().defaultInstance()
+				.constructCollectionLikeType(List.class, ProductBoardDto.class));
+	}
+
 
 
 

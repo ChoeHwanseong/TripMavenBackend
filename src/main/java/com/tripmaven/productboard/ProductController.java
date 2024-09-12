@@ -198,4 +198,17 @@ public class ProductController  {
 		}
 	}
 	
+	//게시글 검색 - 색인
+	@GetMapping("/product/search/{keyword}") 
+	public ResponseEntity<List<ProductBoardDto>> getPostsByKeyword(@PathVariable("keyword") String keyword, @RequestParam(name = "page") String page) {
+		try {
+			System.out.println(keyword);
+			List<ProductBoardDto> dtoList = productService.searchByKeyword(keyword, page, "20");
+			return ResponseEntity.ok(dtoList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+	}
+	
 }
