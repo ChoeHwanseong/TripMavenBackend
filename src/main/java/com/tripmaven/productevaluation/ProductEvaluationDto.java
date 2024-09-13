@@ -34,17 +34,12 @@ public class ProductEvaluationDto {
 	private int question_speak;
 	private String text;
 	private String weight;
-	private int cheek_X;
-	private String cheek_Y;
-	private int mouth_X;
-	private String mouth_Y;
-	private int brow_X;
-	private String brow_Y;
-	private int eye_X;
-	private String eye_Y;
-	private int nasolabial_X;
-	private String nasolabial_Y;
-
+	private String cheek;
+	private String mouth;
+	private String brow;
+	private String eye;
+	private String nasolabial;
+	
 	//DTO를 ENTITY로 변환하는 메소드
 	public ProductEvaluationEntity toEntity() {
 		return ProductEvaluationEntity.builder()
@@ -61,16 +56,11 @@ public class ProductEvaluationDto {
 				.question_speak(question_speak)
 				.text(text)
 				.weight(weight)
-				.cheek_X(cheek_X)
-				.cheek_Y(cheek_Y)
-				.mouth_X(mouth_X)
-				.mouth_Y(mouth_Y)
-				.brow_X(brow_X)
-				.brow_Y(brow_Y)
-				.eye_X(eye_X)
-				.eye_Y(eye_Y)
-				.nasolabial_X(nasolabial_X)
-				.nasolabial_Y(nasolabial_Y)
+				.cheek(cheek)
+				.mouth(mouth)
+				.brow(brow)
+				.nasolabial(nasolabial)
+				.eye(eye)
 				.build();
 	}
 
@@ -90,16 +80,11 @@ public class ProductEvaluationDto {
 				.question_speak(productEvaluationEntity.getQuestion_speak())
 				.text(productEvaluationEntity.getText())
 				.weight(productEvaluationEntity.getWeight())
-				.cheek_X(productEvaluationEntity.getCheek_X())
-				.cheek_Y(productEvaluationEntity.getCheek_Y())
-				.mouth_X(productEvaluationEntity.getMouth_X())
-				.mouth_Y(productEvaluationEntity.getMouth_Y())
-				.brow_X(productEvaluationEntity.getBrow_X())
-				.brow_Y(productEvaluationEntity.getBrow_Y())
-				.eye_X(productEvaluationEntity.getEye_X())
-				.eye_Y(productEvaluationEntity.getEye_Y())
-				.nasolabial_X(productEvaluationEntity.getNasolabial_X())
-				.nasolabial_Y(productEvaluationEntity.getNasolabial_Y())
+				.cheek(productEvaluationEntity.getCheek())
+				.mouth(productEvaluationEntity.getMouth())
+				.brow(productEvaluationEntity.getBrow())
+				.nasolabial(productEvaluationEntity.getNasolabial())
+				.eye(productEvaluationEntity.getEye())
 				.build();
 
 	}

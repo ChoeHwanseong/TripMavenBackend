@@ -35,6 +35,9 @@ public class ProductEvaluationController {
 	@PostMapping("/evaluation")
 	public ResponseEntity<ProductEvaluationDto> createEvaluation(@RequestBody Map<String, Object> map) {
 		try {
+			
+			System.out.println("ai 평가 저장 컨트롤러 들어옴");
+			
 			String member_id = map.get("member_id").toString();
 			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(member_id)).toEntity();
 			String productboard_id = map.get("productboard_id").toString();

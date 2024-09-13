@@ -96,42 +96,22 @@ public class ProductEvaluationEntity {
 	
 	/** 광대 변화율. */
 	@Column(nullable = false)
-	private int cheek_X;
-	
-	/** 광대 변화율. */
-	@Column(nullable = false)
-	private String cheek_Y;
-
-	/** 입 변화율. */
-	@Column(nullable = false)
-	private int mouth_X;
+	private String cheek;
 	
 	/** 입 변화율. */
 	@Column(nullable = false)
-	private String mouth_Y;
+	private String mouth;
 	
 	/** 미간 변화율. */
 	@Column(nullable = false)
-	private int brow_X;
-	
-	/** 미간 변화율. */
+	private String brow;
+		
+	/** 팔자주름 변화율. */
 	@Column(nullable = false)
-	private String brow_Y;
+	private String nasolabial;
 	
 	/** 눈 깜박임 횟수. */
 	@Column(nullable = false)
-	private int eye_X;
+	private String eye;
 	
-	/** 눈 깜박임 횟수. */
-	@Column(nullable = false)
-	private String eye_Y;
-	
-	/** 팔자주름 변화율. */
-	@Column(nullable = false)
-	private int nasolabial_X;
-	
-	/** 팔자주름 변화율. */
-	@Column(nullable = false)
-	private String nasolabial_Y;
-
 }
