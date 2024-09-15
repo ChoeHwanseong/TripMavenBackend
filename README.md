@@ -1,3 +1,9 @@
+서버 실행시 오류가 난다면. 
+UPDATE members SET profile_temp = profile;
+ALTER TABLE members DROP COLUMN profile;
+ALTER TABLE members RENAME COLUMN profile_temp TO profile;
+ALTER TABLE members MODIFY address VARCHAR2(255);
+
 불철 주야 고생하시는 1팀. 'TripMaven' 학우분들 반갑습니다. 
 GitHub 사용에 있어서 yml파일은 올릴 수 없습니다. 
 따라서 여러분들도. 해당 .gitignore 파일에서 
