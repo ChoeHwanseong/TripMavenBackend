@@ -126,6 +126,7 @@ public class ProductBoardEntity {
 	
 	/**파일*/
 	@Column
+	@Lob
 	private String files;
 	
 	/**해시태그*/
