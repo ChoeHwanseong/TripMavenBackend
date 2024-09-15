@@ -1,8 +1,16 @@
 서버 실행시 오류가 난다면. 
+09/14
 UPDATE members SET profile_temp = profile;
 ALTER TABLE members DROP COLUMN profile;
 ALTER TABLE members RENAME COLUMN profile_temp TO profile;
 ALTER TABLE members MODIFY address VARCHAR2(255);
+
+09/15
+ALTER TABLE productboard ADD files_temp CLOB;
+UPDATE productboard SET files_temp = files;
+ALTER TABLE productboard DROP COLUMN files;
+ALTER TABLE productboard RENAME COLUMN files_temp TO files;
+
 
 불철 주야 고생하시는 1팀. 'TripMaven' 학우분들 반갑습니다. 
 GitHub 사용에 있어서 yml파일은 올릴 수 없습니다. 
