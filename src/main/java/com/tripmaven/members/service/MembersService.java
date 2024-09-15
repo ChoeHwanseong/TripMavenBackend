@@ -111,6 +111,7 @@ public class MembersService {
 	    if (dto.getTelNumber() != null) members.setTelNumber(dto.getTelNumber());
 	    if (dto.getInterCity() != null) members.setInterCity(dto.getInterCity());
 	    if (dto.getGuidelicense() != null) members.setGuidelicense(dto.getGuidelicense());
+	    if (dto.getPassword() != null ) members.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
 		return MembersDto.toDto(membersRepository.save(members));
 	}
 	

@@ -100,9 +100,7 @@ public class MembersController {
 			MembersDto dto = membersService.searchByMemberEmail(email);
 			return ResponseEntity.ok(dto);
 		}
-		catch(Exception e) {
-			
-			
+		catch(Exception e) {	
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
