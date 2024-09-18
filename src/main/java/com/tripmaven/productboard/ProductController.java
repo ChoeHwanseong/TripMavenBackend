@@ -100,7 +100,22 @@ public class ProductController  {
 		}
 	}
 	
-	
+	// READ 가이드 측 게시글 조회(회원엔터티 FK_id로 조회)
+	@GetMapping("/product/memberid/{memberId}")
+	public ResponseEntity<List<ProductBoardDto>> getPostByid (@PathVariable("memberId") long memberId) {
+		try {
+			MembersDto dto= productService.usersByMemberId(memberId);
+			List<ProductBoardDto> postDto= productService.findAllById(dto.getId());
+			System.out.println("상품 컨트롤러: "+postDto.size());
+			System.out.println("상품 컨트롤러: "+postDto);
+			return ResponseEntity.status(200).header(HttpHeaders.CONTENT_TYPE, "application/json").body(postDto);
+
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+	}	
 
 	// READ 가이드 측 게시글 조회(cs엔터티 PK_id로)	
 	@GetMapping("/product/{id}")

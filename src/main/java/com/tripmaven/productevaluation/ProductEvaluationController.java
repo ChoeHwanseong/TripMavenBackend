@@ -37,8 +37,11 @@ public class ProductEvaluationController {
 		try {
 			
 			System.out.println("ai 평가 저장 컨트롤러 들어옴");
+			System.out.println("ai 평가 저장 컨트롤러 들어옴");
 			
 			String member_id = map.get("member_id").toString();
+			System.out.println("member_id"+member_id);
+			
 			MembersEntity members =  membersService.searchByMemberID(Long.parseLong(member_id)).toEntity();
 			String productboard_id = map.get("productboard_id").toString();
 			ProductBoardEntity productboard = productService.usersById(Long.parseLong(productboard_id)).toEntity();

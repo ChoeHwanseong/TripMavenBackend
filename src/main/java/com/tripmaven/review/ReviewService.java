@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.csboard.CSBoardDto;
 import com.tripmaven.csboard.CSBoardEntity;
+import com.tripmaven.productboard.ProductBoardDto;
 import com.tripmaven.report.ReportDto;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,10 @@ public class ReviewService {
 		return ReviewDto.toDto(reviewRepository.save(dto.toEntity()));
 	}
 	
+	// READ 가이드 측 게시글 조회(cs엔터티 PK_id로)	
+	public ReviewDto usersById(Long id) {
+		return ReviewDto.toDto(reviewRepository.findById(id).get());
+	}	
 	
 	// READ (상품id 로 리뷰들 조회)
 	@Transactional(readOnly = true)
@@ -37,12 +42,14 @@ public class ReviewService {
 										objectMapper.getTypeFactory().defaultInstance()
 										.constructCollectionLikeType(List.class, ReviewDto.class));
 	}
-
 		
 	// READ (회원id 로 리뷰들 조회)
 	@Transactional(readOnly = true)
-	public ReviewDto reviewById(long id) {
-		return ReviewDto.toDto(reviewRepository.findById(id).orElse(new ReviewEntity()));
+	public List<ReviewDto> reviewByMemberId(long member) {
+		List<ReviewEntity> reviewEntityList= reviewRepository.findAllByMember_id(member);	
+		return objectMapper.convertValue(reviewEntityList,
+				objectMapper.getTypeFactory().defaultInstance()
+				.constructCollectionLikeType(List.class, ReviewDto.class));
 	}
 	
 	// UPDATE (리뷰 수정)
@@ -51,6 +58,7 @@ public class ReviewService {
 		ReviewEntity reviewEntity= reviewRepository.findById(id).orElse(new ReviewEntity());
 		reviewEntity.setTitle(dto.getTitle());
 		reviewEntity.setComments(dto.getComments());
+		reviewEntity.setRatingScore(dto.getRatingScore());
 		return ReviewDto.toDto(reviewRepository.save(reviewEntity));
 	}
 	
@@ -60,6 +68,8 @@ public class ReviewService {
 		reviewRepository.deleteById(id);
 		return deletedDto;
 	}
+
+
 	
 
 }

@@ -64,12 +64,18 @@ public class ProductService {
 		return MembersDto.toDto(membersRepository.findByEmail(email).get());
 	}
 	
+	// READ 가이드 측 게시글 조회(회원엔터티 FK_id로 조회)
+	public MembersDto usersByMemberId(long memberId) {
+		return MembersDto.toDto(membersRepository.findById(memberId).get());
+	}
+	
 	
 	// READ 가이드 측 게시글 가져오기
 	@Transactional(readOnly = true)
-	public List<ProductBoardDto> findAllById(long id) {
+	public List<ProductBoardDto> findAllById(long memberId) {
 		// 리포지토리 호출
-		List<ProductBoardEntity> postEntityList= productRepository.findByMember_Id(id);	
+		List<ProductBoardEntity> postEntityList= productRepository.findAllByMemberId(memberId);	
+		System.out.println("상품 서비스 postEntityList : "+postEntityList.size());
 		// 엔터티 리스트를 dto 로 변환
 		return objectMapper.convertValue(postEntityList,
 										objectMapper.getTypeFactory().defaultInstance()
@@ -78,7 +84,7 @@ public class ProductService {
 	
 	
 	
-	// READ 가이드 측 문의내역 조회(cs엔터티 PK_id로)	
+	// READ 가이드 측 내 상품 조회(cs엔터티 PK_id로)	
 	public ProductBoardDto usersById(Long id) {
 		return ProductBoardDto.toDto(productRepository.findById(id).get());
 	}
@@ -169,6 +175,9 @@ public class ProductService {
 				objectMapper.getTypeFactory().defaultInstance()
 				.constructCollectionLikeType(List.class, ProductBoardDto.class));
 	}
+
+
+	
 
 
 
