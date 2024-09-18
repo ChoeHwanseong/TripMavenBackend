@@ -153,7 +153,7 @@ public class OAuthController {
             tokenService.save(token);
 
             // 로그인 성공 후 URL에 토큰 정보 포함
-            String redirectUrl = String.format("http://localhost:58337/success?access=%s&refresh=%s&role=%s&membersId=%s",
+            String redirectUrl = String.format("http://localhost:58337/login/success?access=%s&refresh=%s&role=%s&membersId=%s",
     				accessTokenJwt, refreshTokenJwt, membersEntity.getRole(),membersEntity.getId());
 
             response.sendRedirect(redirectUrl);
@@ -184,7 +184,7 @@ public class OAuthController {
             log.info("logout response = {}", logoutResponse.getBody());
             
             
-            response.sendRedirect("http://localhost:58337/signup?email="+email);
+            response.sendRedirect("http://localhost:58337/login/signup?email="+email);
         }
     }
     
@@ -254,7 +254,7 @@ public class OAuthController {
             tokenService.save(token);
 
             // 로그인 성공 후 URL에 토큰 정보 포함
-            String redirectUrl = String.format("http://localhost:58337/success?access=%s&refresh=%s&role=%s&membersId=%s",
+            String redirectUrl = String.format("http://localhost:58337/login/success?access=%s&refresh=%s&role=%s&membersId=%s",
     				accessTokenJwt, refreshTokenJwt, membersEntity.getRole(),membersEntity.getId());
 
             response.sendRedirect(redirectUrl);
@@ -279,7 +279,7 @@ public class OAuthController {
             HttpEntity<String> logoutRequestEntity = new HttpEntity<>(logoutHeaders);
             ResponseEntity<String> logoutResponse = restTemplate.exchange(logoutUrl, HttpMethod.POST, logoutRequestEntity, String.class);
             log.info("logout response = {}", logoutResponse.getBody());
-            response.sendRedirect("http://localhost:58337/signup?email="+email);
+            response.sendRedirect("http://localhost:58337/login/signup?email="+email);
             
         }
     }
@@ -356,7 +356,7 @@ public class OAuthController {
 			tokenService.save(token);
 
 		// 로그인 성공 후 URL에 토큰 정보 포함
-			String redirectUrl = String.format("http://localhost:58337/success?access=%s&refresh=%s&role=%s&membersId=%s",
+			String redirectUrl = String.format("http://localhost:58337/login/success?access=%s&refresh=%s&role=%s&membersId=%s",
 				accessTokenJwt, refreshTokenJwt, membersEntity.getRole(),membersEntity.getId());
 			response.sendRedirect(redirectUrl);
 			log.info("로그인 성공: {}", email);
@@ -382,7 +382,7 @@ public class OAuthController {
             HttpEntity<String> logoutRequestEntity = new HttpEntity<>(logoutHeaders);
             ResponseEntity<String> logoutResponse = restTemplate.exchange(logoutUrl, HttpMethod.POST, logoutRequestEntity, String.class);
             log.info("logout response = {}", logoutResponse.getBody());
-            response.sendRedirect("http://localhost:58337/signup?email="+email);
+            response.sendRedirect("http://localhost:58337/login/signup?email="+email);
     	}
     }
 

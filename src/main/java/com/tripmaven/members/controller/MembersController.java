@@ -100,9 +100,7 @@ public class MembersController {
 			MembersDto dto = membersService.searchByMemberEmail(email);
 			return ResponseEntity.ok(dto);
 		}
-		catch(Exception e) {
-			
-			
+		catch(Exception e) {	
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
@@ -143,10 +141,9 @@ public class MembersController {
 	@PutMapping("/members/{id}")	
 	public ResponseEntity<MembersDto> usersUpdate(@PathVariable("id") Long id,@RequestBody MembersDto dto){
 		try {
-			System.out.println(dto.getGuidelicense());
-			System.out.println(id);
 			MembersDto updatedDto = membersService.updateByMemberId(id,dto);
 			return ResponseEntity.ok(updatedDto);
+			
 		}
 		catch(Exception e) {
 			e.printStackTrace();

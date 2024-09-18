@@ -47,13 +47,14 @@ public class ProductService {
 
 	//READ 관리자 측 전체 게시글 조회
 	@Transactional(readOnly = true)
-	public List<ProductBoardDto> listAll(String page, String size) {
+	public Page<ProductBoardDto> listAll(String page, String size) {
 		// 리포지토리 호출
 		Page<ProductBoardEntity> postEntityList= productRepository.findAll(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size), Sort.by(Sort.Direction.ASC, "id")));	
 		// 엔터티 리스트를 dto 로 변환
-		return objectMapper.convertValue(postEntityList.getContent(),
-										objectMapper.getTypeFactory().defaultInstance()
-										.constructCollectionLikeType(List.class, ProductBoardDto.class));
+		return postEntityList.map(post->ProductBoardDto.toDto(post));
+//		return objectMapper.convertValue(postEntityList.getContent(),
+//										objectMapper.getTypeFactory().defaultInstance()
+//										.constructCollectionLikeType(List.class, ProductBoardDto.class));
 	}
 	
 	

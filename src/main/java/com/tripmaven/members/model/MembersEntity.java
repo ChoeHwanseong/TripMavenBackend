@@ -19,6 +19,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.SequenceGenerator;
@@ -75,11 +76,12 @@ public class MembersEntity {
 	private String telNumber;
 
 	/** 주소. */
-	@Column(length = 100)
+	@Column(length = 255)
 	private String address;
 
 	/** 프로필 사진. */
 	@Column
+	@Lob
 	private String profile;
 	
 	/** 자기 소개 */

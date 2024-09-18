@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -71,9 +73,9 @@ public class ProductController  {
 
 	//READ 관리자 측 전체 게시글 조회
 	@GetMapping("/product/all/{page}")
-	public ResponseEntity<List<ProductBoardDto>> getListAll(@PathVariable("page") String page){
+	public ResponseEntity<Page<ProductBoardDto>> getListAll(@PathVariable("page") String page){
 		try {
-			List<ProductBoardDto> postList=productService.listAll(page, "50"); 
+			Page<ProductBoardDto> postList=productService.listAll(page, "50"); 
 			return ResponseEntity.status(200).header(HttpHeaders.CONTENT_TYPE, "application/json").body(postList);
 		}
 		catch(Exception e) {
