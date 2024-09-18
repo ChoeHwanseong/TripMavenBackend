@@ -127,7 +127,6 @@ public class ReviewController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ReviewDto> deleteReviewById(@PathVariable("id") long id){
 		try {
-			System.out.println("리뷰 삭제");
 			ReviewDto deletedDto= reviewService.deleteById(id);
 			return ResponseEntity.ok(deletedDto);
 		}
