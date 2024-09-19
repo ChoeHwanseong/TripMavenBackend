@@ -14,13 +14,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tripmaven.email.EmailVerificationResult;
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.service.MembersService;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+
+
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class MembersController {
@@ -168,5 +176,33 @@ public class MembersController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
+	
+	
+	//이메일 인증 코드 요청
+	// sendMessage(): 이메일 전송 API. 이메일을 파라미터로 받아 해당 membersService.sendCodeToEmail() 메서드로 넘겨준
+	@CrossOrigin
+	@PostMapping("/emails/coderequests")
+	public ResponseEntity<String> sendMessage(@RequestParam("email") @Valid @Email String email) {
+	    membersService.sendCodeToEmail(email);  // 이메일 코드 전송 로직
+
+	    return ResponseEntity.ok("이메일 전송 성공");  // 성공 메시지 반환
+	}
+
+	
+	//이메일 인증 검증 
+	//verificationEmail(): 이메일 인증을 진행하는 API. 이메일과 사용자가 작성한 인증 코드를 파라미터로 받아 
+	// MemberService.verifiedCode() 메서드로 넘긴. 성공하면true,실패 false반환
+	@CrossOrigin
+	@GetMapping("/emails/verifications")
+	public ResponseEntity<Boolean> verificationEmail(@RequestParam("email") @Valid @Email String email,
+			@RequestParam("code") String authCode) {
+		EmailVerificationResult response = membersService.verifiedCode(email, authCode);  // EmailVerificationResult 객체 반환
+		boolean isVerified = response.isSuccess();  // success 필드 값으로 인증 여부 확인
+
+		return ResponseEntity.ok(isVerified);  // true 또는 false 반환
+	}
+
+
+
 	
 }

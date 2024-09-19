@@ -41,6 +41,15 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	
+	// spring-boot-starter-mail가 jakarta.mail을 포함하므로 javax.mail-api는 제거
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	
+	// Redis 클라이언트와 관련된 의존성 설정
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	
+	// validation 관련 라이브러리 추가
+	implementation 'org.springframework.boot:spring-boot-starter-validation' // @Valid 작동하게 하려 추가
 }
 
 tasks.named('test') {

@@ -1,11 +1,19 @@
 package com.tripmaven.members.service;
 
+import java.security.SecureRandom;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tripmaven.email.EmailService;
+import com.tripmaven.email.EmailVerificationResult;
+import com.tripmaven.email.RedisService;
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.model.MembersEntity;
 
@@ -20,6 +28,13 @@ public class MembersService {
 	private final ObjectMapper objectMapper;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
+	 private static final String AUTH_CODE_PREFIX = "AuthCode "; //이메일 인증 코드와 관련된 데이터를 Redis에 저장할 때 이 상수를 사용
+	 private final EmailService emailService;
+	 private final RedisService redisService;
+
+	 @Value("${spring.mail.auth-code-expiration-millis}")
+	    private long authCodeExpirationMillis;
+
 	
 	//CREATE
 	//회원가입
@@ -125,10 +140,52 @@ public class MembersService {
 	}
 
 
-
+	//////////////////////////////////////////////////////
 	
-
-
-
 	
-}
+	// sendCodeToEmail(): 인증 코드를 생성 후 수신자 이메일로 발송하는 메서드.
+	// 이후 인증 코드를 검증하기 위해 생성한 인증 코드를 Redis에 저장
+    public void sendCodeToEmail(String toEmail) {
+        this.checkDuplicatedEmail(toEmail);
+        String title = "TripMaven이메일 인증 번호";
+        String authCode = this.createCode();
+        emailService.sendEmail(toEmail, title, authCode);
+        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "AuthCode " + Email / value = AuthCode )
+        redisService.setDataExpire(AUTH_CODE_PREFIX + toEmail, authCode, this.authCodeExpirationMillis / 1000); // 밀리초를 초로 변환
+
+    }
+    //checkDuplicatedEmail(): 회원가입하려는 이메일로 이미 가입한 회원이 있는지 확인하는 메서드. 
+    //  만약 해당 이메일을 가진 회원이 존재하면 예외를 발생한다.
+    private void checkDuplicatedEmail(String email) {
+        Optional<MembersEntity> member = membersRepository.findByEmail(email);
+        if (member.isPresent()) {
+        System.out.println("이미 사용 중인 이메일입니다: " + email);
+        }
+    }
+    
+	// creatCode(): 6자리의 랜덤한 인증 코드를 생성하여 반환하는 메서드
+    private String createCode() {
+        int length = 6;
+        Random random = new Random();  // SecureRandom이란게 있는데....
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            builder.append(random.nextInt(10));  
+        }
+        return builder.toString();
+    }
+
+    
+ 
+    public EmailVerificationResult verifiedCode(String email, String authCode) {
+        this.checkDuplicatedEmail(email);
+        String redisAuthCode = redisService.getData(AUTH_CODE_PREFIX + email);
+        boolean authResult =  redisAuthCode != null && redisAuthCode.equals(authCode);;
+
+        String message = authResult ? "인증 성공" : "인증 실패";
+        
+        return new EmailVerificationResult(authResult, message);
+       
+    }
+    
+    
+}////
