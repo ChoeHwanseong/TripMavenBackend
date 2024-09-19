@@ -46,6 +46,11 @@ REFERENCES productboard(id);
 
 09/19 ai 평가 테이블
 -- 1) 기존 열 삭제
+ALTER TABLE ProductEvaluation DROP COLUMN cheek;
+ALTER TABLE ProductEvaluation DROP COLUMN mouth;
+ALTER TABLE ProductEvaluation DROP COLUMN brow;
+ALTER TABLE ProductEvaluation DROP COLUMN nasolabial;
+ALTER TABLE ProductEvaluation DROP COLUMN eye;
 ALTER TABLE ProductEvaluation DROP COLUMN cheek_x;
 ALTER TABLE ProductEvaluation DROP COLUMN cheek_y;
 ALTER TABLE ProductEvaluation DROP COLUMN mouth_x;
@@ -62,7 +67,6 @@ ALTER TABLE ProductEvaluation ADD mouth CLOB;
 ALTER TABLE ProductEvaluation ADD brow CLOB;
 ALTER TABLE ProductEvaluation ADD nasolabial CLOB;
 ALTER TABLE ProductEvaluation ADD eye CLOB;
-
 
 ## STS ## 부분에 
 *.yml 이 적혀있지 않다면 추가하시면 좋을 듯합니다. 
