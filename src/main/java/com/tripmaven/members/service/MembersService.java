@@ -199,7 +199,7 @@ public class MembersService {
     }
 
     
-    /////가나다라마ㅁ바사이메일인증인증인증야야야아여여아야
+   
     public EmailVerificationResult verifiedCode(String email, String authCode) {
         this.checkDuplicatedEmail(email);
         String redisAuthCode = redisService.getData(AUTH_CODE_PREFIX + email);
