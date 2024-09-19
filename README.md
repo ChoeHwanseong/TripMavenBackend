@@ -11,6 +11,28 @@ UPDATE productboard SET files_temp = files;
 ALTER TABLE productboard DROP COLUMN files;
 ALTER TABLE productboard RENAME COLUMN files_temp TO files;
 
+09/19
+이메일 인증 시, 에러 >> 야믈 파일에 아래 넣기.
+```
+#이메일
+  mail:
+    protocol: smtp
+    host: smtp.gmail.com
+    port: 587
+    username: chlrkgms11@gmail.com
+    password: jickydvlvsotweri
+    properties:
+      mail:
+          smtp:
+            auth: true
+            starttls:
+              enable: true
+              required: true
+            connectiontimeout: 5000
+            timeout: 5000
+            writetimeout: 5000
+    auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30분
+```
 
 ## STS ## 부분에 
 *.yml 이 적혀있지 않다면 추가하시면 좋을 듯합니다. 
