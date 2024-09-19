@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -71,9 +73,9 @@ public class ProductController  {
 
 	//READ 관리자 측 전체 게시글 조회
 	@GetMapping("/product/all/{page}")
-	public ResponseEntity<List<ProductBoardDto>> getListAll(@PathVariable("page") String page){
+	public ResponseEntity<Page<ProductBoardDto>> getListAll(@PathVariable("page") String page){
 		try {
-			List<ProductBoardDto> postList=productService.listAll(page, "50"); 
+			Page<ProductBoardDto> postList=productService.listAll(page, "50"); 
 			return ResponseEntity.status(200).header(HttpHeaders.CONTENT_TYPE, "application/json").body(postList);
 		}
 		catch(Exception e) {
@@ -98,7 +100,22 @@ public class ProductController  {
 		}
 	}
 	
-	
+	// READ 가이드 측 게시글 조회(회원엔터티 FK_id로 조회)
+	@GetMapping("/product/memberid/{memberId}")
+	public ResponseEntity<List<ProductBoardDto>> getPostByid (@PathVariable("memberId") long memberId) {
+		try {
+			MembersDto dto= productService.usersByMemberId(memberId);
+			List<ProductBoardDto> postDto= productService.findAllById(dto.getId());
+			System.out.println("상품 컨트롤러: "+postDto.size());
+			System.out.println("상품 컨트롤러: "+postDto);
+			return ResponseEntity.status(200).header(HttpHeaders.CONTENT_TYPE, "application/json").body(postDto);
+
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+	}	
 
 	// READ 가이드 측 게시글 조회(cs엔터티 PK_id로)	
 	@GetMapping("/product/{id}")
@@ -191,6 +208,19 @@ public class ProductController  {
 		try {
 			System.out.println(keyword);
 			List<ProductBoardDto> dtoList = productService.searchByTitleAndContent(keyword, page, "20");
+			return ResponseEntity.ok(dtoList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+	}
+	
+	//게시글 검색 - 색인
+	@GetMapping("/product/search/{keyword}") 
+	public ResponseEntity<List<ProductBoardDto>> getPostsByKeyword(@PathVariable("keyword") String keyword, @RequestParam(name = "page") String page) {
+		try {
+			System.out.println(keyword);
+			List<ProductBoardDto> dtoList = productService.searchByKeyword(keyword, page, "20");
 			return ResponseEntity.ok(dtoList);
 		} catch (Exception e) {
 			e.printStackTrace();

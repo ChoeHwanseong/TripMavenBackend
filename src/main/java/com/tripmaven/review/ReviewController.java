@@ -65,6 +65,19 @@ public class ReviewController {
 		}
 	}
 	
+	// READ 가이드 측 게시글 조회(cs엔터티 PK_id로)	
+	@GetMapping("/{id}")
+	public ResponseEntity<ReviewDto> getPostById(@PathVariable("id") Long id){
+		try {
+			ReviewDto dto= reviewService.usersById(id);
+			return ResponseEntity.ok(dto);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);			
+		}		
+	}
+
 	// READ (상품id 로 리뷰들 조회)
 	@GetMapping("/product/{productboard_id}")
 	public ResponseEntity<List<ReviewDto>> getReviewByProductId(@PathVariable("productboard_id") long productboard_id){
@@ -80,13 +93,14 @@ public class ReviewController {
 		}		
 	}
 	
+
+	
 	// READ (회원id 로 리뷰들 조회)
-	@GetMapping("/{id}")
-	public ResponseEntity<ReviewDto> getReviewById(@PathVariable("id") Long id){
+	@GetMapping("/member/{memberId}")
+	public ResponseEntity<List<ReviewDto>> getReviewByMemberId(@PathVariable("memberId") long memberId){
 		try {
 			System.out.println("리뷰 컨트롤러 들어옴");
-			ReviewDto dto= reviewService.reviewById(id);
-			System.out.println("컨트롤러 dto: "+dto.getComments());
+			List<ReviewDto> dto= reviewService.reviewByMemberId(memberId);
 			return ResponseEntity.ok(dto);
 		}
 		catch(Exception e) {

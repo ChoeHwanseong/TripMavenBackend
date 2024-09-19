@@ -3,9 +3,11 @@ package com.tripmaven.members.service;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Optional;
+
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,7 +99,7 @@ public class MembersService {
 	//회원 아이디로 검색
 	@Transactional(readOnly = true)
 	public MembersDto searchByMemberID(Long id) {
-		System.out.println(id);
+		//System.out.println(id);
 		return MembersDto.toDto(membersRepository.findById(id).orElse(null));
 	}
 	
@@ -119,8 +121,12 @@ public class MembersService {
 	    if (dto.getAddress() != null) members.setAddress(dto.getAddress());
 	    if (dto.getBirthday() != null) members.setBirthday(dto.getBirthday());
 	    if (dto.getGender() != null) members.setGender(dto.getGender());
+	    if (dto.getIntroduce() != null) members.setIntroduce(dto.getIntroduce());
+	    if (dto.getProfile() != null) members.setProfile(dto.getProfile());
 	    if (dto.getTelNumber() != null) members.setTelNumber(dto.getTelNumber());
+	    if (dto.getInterCity() != null) members.setInterCity(dto.getInterCity());
 	    if (dto.getGuidelicense() != null) members.setGuidelicense(dto.getGuidelicense());
+	    if (dto.getPassword() != null ) members.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
 		return MembersDto.toDto(membersRepository.save(members));
 	}
 	
@@ -138,10 +144,28 @@ public class MembersService {
 		membersRepository.deleteById(id);
 		return deletedDto;
 	}
-
-
-	//////////////////////////////////////////////////////
 	
+	
+
+	//isdelete와 isactive를 수정합니다.
+	@Transactional
+	public MembersDto setIsDelete(Long id) {
+		
+		Optional<MembersEntity> optional = membersRepository.findById(id);
+		
+		if(optional.isPresent()) {
+			MembersEntity entity = optional.get();
+			entity.setIsdelete("1");
+			entity.setIsactive("0");
+			return MembersDto.toDto(membersRepository.save(entity));
+		}
+		return null;
+		
+	}
+
+
+
+
 	
 	// sendCodeToEmail(): 인증 코드를 생성 후 수신자 이메일로 발송하는 메서드.
 	// 이후 인증 코드를 검증하기 위해 생성한 인증 코드를 Redis에 저장
