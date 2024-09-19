@@ -34,6 +34,16 @@ ALTER TABLE productboard RENAME COLUMN files_temp TO files;
     auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30분
 ```
 
+09/19
+채팅방 엔터티 수정 
+ALTER TABLE ChattingRoom
+ADD productentity_id NUMBER;
+
+ALTER TABLE ChattingRoom
+ADD CONSTRAINT fk_productentity_id
+FOREIGN KEY (productentity_id)
+REFERENCES productboard(id);
+
 ## STS ## 부분에 
 *.yml 이 적혀있지 않다면 추가하시면 좋을 듯합니다. 
 더불어 저희의 팀 Notion에 TripMaven - 최종 프로젝트 - 각자의 gitignore란을 만들었습니다. 
