@@ -2,6 +2,7 @@ package com.tripmaven.joinchatting;
 
 import com.tripmaven.chattingroom.ChattingRoomEntity;
 import com.tripmaven.members.model.MembersEntity;
+import com.tripmaven.productboard.ProductBoardEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,5 +42,6 @@ public class JoinChattingEntity {
 	@ManyToOne(optional = false)
 	@JoinColumn(name="membersentity_id")
 	private MembersEntity member;
+	
 	
 }
