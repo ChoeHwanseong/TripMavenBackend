@@ -22,10 +22,10 @@ public class ChattingRoomController {
 
 	private final ChattingRoomService chattingRoomService;
 
-	@GetMapping("/topic/{myId}/{yourId}")
-	public ResponseEntity<String> getChattingRoomTopic(@PathVariable("myId") Long myId, @PathVariable("yourId") Long yourId) {
+	@GetMapping("/topic/{myId}/{yourId}/{prodId}")
+	public ResponseEntity<String> getChattingRoomTopic(@PathVariable("myId") Long myId, @PathVariable("yourId") Long yourId, @PathVariable("prodId") Long prodId) {
 		try {
-			String chattingRoomTopic = chattingRoomService.getChattingRoomTopic(myId, yourId);
+			String chattingRoomTopic = chattingRoomService.getChattingRoomTopic(myId, yourId, prodId);
 			return ResponseEntity.status(200).header(HttpHeaders.CONTENT_TYPE, "application/json")
 					.body(chattingRoomTopic);
 		} catch (Exception e) {

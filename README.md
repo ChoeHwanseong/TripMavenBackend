@@ -34,6 +34,40 @@ ALTER TABLE productboard RENAME COLUMN files_temp TO files;
     auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30분
 ```
 
+09/19
+채팅방 엔터티 수정 
+ALTER TABLE ChattingRoom
+ADD productentity_id NUMBER;
+
+ALTER TABLE ChattingRoom
+ADD CONSTRAINT fk_productentity_id
+FOREIGN KEY (productentity_id)
+REFERENCES productboard(id);
+
+09/19 ai 평가 테이블
+-- 1) 기존 열 삭제
+ALTER TABLE ProductEvaluation DROP COLUMN cheek;
+ALTER TABLE ProductEvaluation DROP COLUMN mouth;
+ALTER TABLE ProductEvaluation DROP COLUMN brow;
+ALTER TABLE ProductEvaluation DROP COLUMN nasolabial;
+ALTER TABLE ProductEvaluation DROP COLUMN eye;
+ALTER TABLE ProductEvaluation DROP COLUMN cheek_x;
+ALTER TABLE ProductEvaluation DROP COLUMN cheek_y;
+ALTER TABLE ProductEvaluation DROP COLUMN mouth_x;
+ALTER TABLE ProductEvaluation DROP COLUMN mouth_y;
+ALTER TABLE ProductEvaluation DROP COLUMN brow_x;
+ALTER TABLE ProductEvaluation DROP COLUMN brow_y;
+ALTER TABLE ProductEvaluation DROP COLUMN nasolabial_x;
+ALTER TABLE ProductEvaluation DROP COLUMN nasolabial_y;
+ALTER TABLE ProductEvaluation DROP COLUMN eye_x;
+ALTER TABLE ProductEvaluation DROP COLUMN eye_y;
+-- 2) 새로운 열의 이름을 기존 열의 이름으로 변경
+ALTER TABLE ProductEvaluation ADD cheek CLOB;
+ALTER TABLE ProductEvaluation ADD mouth CLOB;
+ALTER TABLE ProductEvaluation ADD brow CLOB;
+ALTER TABLE ProductEvaluation ADD nasolabial CLOB;
+ALTER TABLE ProductEvaluation ADD eye CLOB;
+
 ## STS ## 부분에 
 *.yml 이 적혀있지 않다면 추가하시면 좋을 듯합니다. 
 더불어 저희의 팀 Notion에 TripMaven - 최종 프로젝트 - 각자의 gitignore란을 만들었습니다. 
