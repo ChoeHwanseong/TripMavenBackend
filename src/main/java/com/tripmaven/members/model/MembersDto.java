@@ -34,7 +34,7 @@ public class MembersDto {
 	private String snsAccessToken;
 	private String interCity;
 	
-	//DTO를 ENTITY로 변환하는 메소드
+	//DTO를 ENTITY로 변환하는 메소드.
 	public MembersEntity toEntity() {
 		return MembersEntity.builder()
 				.id(id)

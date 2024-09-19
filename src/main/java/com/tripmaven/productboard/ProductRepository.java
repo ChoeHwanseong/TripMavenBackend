@@ -35,7 +35,18 @@ public interface ProductRepository extends JpaRepository<ProductBoardEntity, Lon
 	
 	Page<ProductBoardEntity> findByTitleContainingOrContentContaining(String keyword, String keyword2, PageRequest of);
 
+	Page<ProductBoardEntity> findByTitleContainingOrContentContainingOrCityContainingOrMember_NameContainingOrHashtagContaining(
+		    String titleKeyword, 
+		    String contentKeyword, 
+		    String cityKeyword, 
+		    String memberNameKeyword, 
+		    String hashTagKeyword,
+		    PageRequest pageRequest);
 	
+	
+	// READ 가이드 측 게시글 가져오기(회원아이디로)
+	List<ProductBoardEntity> findAllByMemberId(long memberId);
+
 	
 
     

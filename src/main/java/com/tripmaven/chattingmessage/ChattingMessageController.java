@@ -33,7 +33,9 @@ public class ChattingMessageController {
 	public void saveMessage(@RequestBody Map<String, Object> map) {
 		Long chattingRoomId = ((Integer) map.get("topic")).longValue();
 		String text = (String) map.get("userMessage");
+		text= text.replaceAll("\"","");
 		Long sender = Long.parseLong(map.get("membersId").toString());
+		System.out.println(map.get("userMessage"));
 		// 서비스에서 메시지 저장하기
 		chattingMessageService.saveMessage(chattingRoomId, text, sender);
 	}

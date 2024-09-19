@@ -47,13 +47,14 @@ public class ProductService {
 
 	//READ 관리자 측 전체 게시글 조회
 	@Transactional(readOnly = true)
-	public List<ProductBoardDto> listAll(String page, String size) {
+	public Page<ProductBoardDto> listAll(String page, String size) {
 		// 리포지토리 호출
 		Page<ProductBoardEntity> postEntityList= productRepository.findAll(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size), Sort.by(Sort.Direction.ASC, "id")));	
 		// 엔터티 리스트를 dto 로 변환
-		return objectMapper.convertValue(postEntityList.getContent(),
-										objectMapper.getTypeFactory().defaultInstance()
-										.constructCollectionLikeType(List.class, ProductBoardDto.class));
+		return postEntityList.map(post->ProductBoardDto.toDto(post));
+//		return objectMapper.convertValue(postEntityList.getContent(),
+//										objectMapper.getTypeFactory().defaultInstance()
+//										.constructCollectionLikeType(List.class, ProductBoardDto.class));
 	}
 	
 	
@@ -63,12 +64,18 @@ public class ProductService {
 		return MembersDto.toDto(membersRepository.findByEmail(email).get());
 	}
 	
+	// READ 가이드 측 게시글 조회(회원엔터티 FK_id로 조회)
+	public MembersDto usersByMemberId(long memberId) {
+		return MembersDto.toDto(membersRepository.findById(memberId).get());
+	}
+	
 	
 	// READ 가이드 측 게시글 가져오기
 	@Transactional(readOnly = true)
-	public List<ProductBoardDto> findAllById(long id) {
+	public List<ProductBoardDto> findAllById(long memberId) {
 		// 리포지토리 호출
-		List<ProductBoardEntity> postEntityList= productRepository.findByMember_Id(id);	
+		List<ProductBoardEntity> postEntityList= productRepository.findAllByMemberId(memberId);	
+		System.out.println("상품 서비스 postEntityList : "+postEntityList.size());
 		// 엔터티 리스트를 dto 로 변환
 		return objectMapper.convertValue(postEntityList,
 										objectMapper.getTypeFactory().defaultInstance()
@@ -77,7 +84,7 @@ public class ProductService {
 	
 	
 	
-	// READ 가이드 측 문의내역 조회(cs엔터티 PK_id로)	
+	// READ 가이드 측 내 상품 조회(cs엔터티 PK_id로)	
 	public ProductBoardDto usersById(Long id) {
 		return ProductBoardDto.toDto(productRepository.findById(id).get());
 	}
@@ -159,6 +166,19 @@ public class ProductService {
 				objectMapper.getTypeFactory().defaultInstance()
 				.constructCollectionLikeType(List.class, ProductBoardDto.class));
 	}
+	
+	//게시글 검색 -제목+내용
+	@Transactional(readOnly = true)
+	public List<ProductBoardDto> searchByKeyword(String keyword, String page, String size) {
+		Page<ProductBoardEntity> products = productRepository.findByTitleContainingOrContentContainingOrCityContainingOrMember_NameContainingOrHashtagContaining(keyword,keyword,keyword,keyword,keyword, PageRequest.of(Integer.parseInt(page), Integer.parseInt(size), Sort.by(Sort.Direction.DESC, "createdAt")));
+		return objectMapper.convertValue(products.getContent(),
+				objectMapper.getTypeFactory().defaultInstance()
+				.constructCollectionLikeType(List.class, ProductBoardDto.class));
+	}
+
+
+	
+
 
 
 
