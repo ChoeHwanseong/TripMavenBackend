@@ -95,22 +95,27 @@ public class ProductEvaluationEntity {
 	private String weight;
 	
 	/** 광대 변화율. */
+	@Lob
 	@Column(nullable = false)
 	private String cheek;
 	
 	/** 입 변화율. */
+	@Lob
 	@Column(nullable = false)
 	private String mouth;
 	
 	/** 미간 변화율. */
+	@Lob
 	@Column(nullable = false)
 	private String brow;
 		
 	/** 팔자주름 변화율. */
+	@Lob
 	@Column(nullable = false)
 	private String nasolabial;
 	
 	/** 눈 깜박임 횟수. */
+	@Lob
 	@Column(nullable = false)
 	private String eye;
 	
