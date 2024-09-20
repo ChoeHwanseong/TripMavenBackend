@@ -51,7 +51,7 @@ public class ReviewEntity {
 	
 	/** 별점매기기 */
 	@Column(nullable = false)
-	private String ratingScore;
+	private double ratingScore;
 	
 	/** 리뷰 제목 */
 	@Column(nullable = false)

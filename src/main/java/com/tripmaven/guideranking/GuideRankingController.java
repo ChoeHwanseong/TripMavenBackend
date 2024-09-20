@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/guide-ranking")
 public class GuideRankingController {
-    @Autowired
+    
+	@Autowired
     private GuideRankingService guideRankingService;
     
     @GetMapping
-    public ResponseEntity<List<GuideRankingDTO>> getGuideRanking() {
-        List<GuideRankingDTO> ranking = guideRankingService.getGuideRanking();
+    public ResponseEntity<List<GuideRankingDto>> getGuideRanking() {
+        List<GuideRankingDto> ranking = guideRankingService.calculateGuideRankings();
         return ResponseEntity.ok(ranking);
     }
 }
