@@ -1,7 +1,9 @@
 package com.tripmaven.productevaluation;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.productboard.ProductBoardEntity;
 
@@ -18,7 +20,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class ProductEvaluationDto {
-
+	
+	// Jackson ObjectMapper 인스턴스
+	private static final ObjectMapper objectMapper = new ObjectMapper();
 
 	//필드
 	private long id;
@@ -39,6 +43,8 @@ public class ProductEvaluationDto {
 	private String brow;
 	private String eye;
 	private String nasolabial;
+	private String commentsFace;
+	private String commentEye;
 	
 	//DTO를 ENTITY로 변환하는 메소드
 	public ProductEvaluationEntity toEntity() {
@@ -61,6 +67,8 @@ public class ProductEvaluationDto {
 				.brow(brow)
 				.nasolabial(nasolabial)
 				.eye(eye)
+				.commentsFace(commentsFace)
+				.commentEye(commentEye)
 				.build();
 	}
 
@@ -85,6 +93,8 @@ public class ProductEvaluationDto {
 				.brow(productEvaluationEntity.getBrow())
 				.nasolabial(productEvaluationEntity.getNasolabial())
 				.eye(productEvaluationEntity.getEye())
+				.commentEye(productEvaluationEntity.getCommentEye())
+				.commentsFace(productEvaluationEntity.getCommentsFace())
 				.build();
 
 	}
