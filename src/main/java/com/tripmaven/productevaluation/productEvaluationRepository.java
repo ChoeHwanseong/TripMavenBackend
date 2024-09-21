@@ -9,6 +9,7 @@ import com.tripmaven.review.ReviewEntity;
 
 @Repository
 public interface productEvaluationRepository extends JpaRepository<ProductEvaluationEntity, Long>{
+	
 	// 분석내용 상품아이디로 조회
 	List<ProductEvaluationEntity> findAllByProductBoard_id(long productBoard_id);
 	
