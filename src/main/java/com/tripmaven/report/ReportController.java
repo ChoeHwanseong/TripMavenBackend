@@ -34,7 +34,7 @@ public class ReportController {
 	private final ObjectMapper mapper;
 
 	// 신고내역 조회 (관리자)
-	@GetMapping("/product/report")
+	@GetMapping("/report")
 	public ResponseEntity<List<ReportDto>> getListAll(){
 		try {
 			List<ReportDto> postList=reportService.listAll();
@@ -48,10 +48,10 @@ public class ReportController {
 	
 
 	// 신고내역 조회 (가이드 member_id로 신고내역에 값 뿌려줄때 )
-	@GetMapping("/product/report/{member_id}")
-	public ResponseEntity<ReportDto> getReportById(@PathVariable("member_id") Long member_id){
+	@GetMapping("/report/{memberId}/{productId}")
+	public ResponseEntity<ReportDto> getReportById(@PathVariable("productId") Long productId, @PathVariable("memberId") Long memberId){
 		try {
-			ReportDto dto= reportService.reportsById(member_id);
+			ReportDto dto= reportService.findByMemberIdAndProductId(memberId,productId);
 			return ResponseEntity.ok(dto);
 		}
 		catch(Exception e) {
@@ -60,9 +60,21 @@ public class ReportController {
 		}		
 	}
 	
+	// 게시글 신고내역 조회 
+	@GetMapping("/report/{productId}")
+	public ResponseEntity<List<ReportDto>> getReportById(@PathVariable("productId") Long productId){
+		try {
+			List<ReportDto> dtos= reportService.findByProductId(productId);
+			return ResponseEntity.ok(dtos);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);			
+		}		
+	}
 		
 	//게시글 신고
-	@PostMapping("/product/report/post")
+	@PostMapping("/report/post")
 	public ResponseEntity<ReportDto> reportContent(@RequestBody Map<String, String> map){
 		try {		
 			String member_id = map.get("member_id").toString();

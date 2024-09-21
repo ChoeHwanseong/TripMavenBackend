@@ -52,21 +52,23 @@ public class ChattingRoomEntity {
 	private LocalDateTime createdAt;
 	
 	/** 활성화 여부. */
+	@Column(length = 1)
 	@ColumnDefault("1")
-	private Integer isActive;
+	private String isActive;
 
 	/** 삭제날짜. */
 	private LocalDateTime deletedAt;
 
 	/** 삭제 여부. */
+	@Column(length = 1)
 	@ColumnDefault("0")
-	private Integer isDelete;
+	private String isDelete;
 	
 	/** 수정 날짜. */
 	private LocalDateTime updatedAt;
 
 	/** 수정 여부. */
-	@Column
+	@Column(length = 1)
 	@ColumnDefault("0")
 	private String isUpdate;
 	

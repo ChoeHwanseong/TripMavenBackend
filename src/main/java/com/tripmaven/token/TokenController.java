@@ -1,4 +1,4 @@
-package com.tripmaven.auth.controller;
+package com.tripmaven.token;
 
 import java.util.Optional;
 
@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tripmaven.auth.model.JWTUtil;
-import com.tripmaven.auth.model.TokenEntity;
-import com.tripmaven.auth.service.TokenService;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersService;
 

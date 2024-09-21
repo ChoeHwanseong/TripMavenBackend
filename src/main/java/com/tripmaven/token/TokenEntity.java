@@ -1,4 +1,4 @@
-package com.tripmaven.auth.model;
+package com.tripmaven.token;
 
 import java.time.LocalDateTime;
 

@@ -47,6 +47,7 @@ public class NotificationEntity {
 	private String content;
 
 	/** 알림이 읽혔는지 여부 */
+	@Column(length = 1)
 	@ColumnDefault("0")
 	private String isRead;
 
@@ -61,13 +62,5 @@ public class NotificationEntity {
 	@Column(length = 100)
 	private String link;
 
-	
-	/*
-	  user_id BIGINT, -- 알림을 받는 사용자 ID (어느 사용자를 위한 알림인지)
-	  message TEXT, -- 알림 내용
-	  is_read BOOLEAN DEFAULT FALSE, -- 알림이 읽혔는지 여부
-	  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 알림 생성 시간
-	  type VARCHAR(50), -- 알림 유형 (ex: 'chat', 'system', 'message' 등)
-	  link VARCHAR(255) -- 알림과 연결될 리소스 (optional, ex: 특정 채팅방 ID 링크)
-	 */
+
 }

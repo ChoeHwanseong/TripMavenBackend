@@ -57,7 +57,7 @@ public class ProductEvaluationEntity {
 	private LocalDateTime createdAt;
 	
 	/** 삭제 유무. */
-	@Column
+	@Column(length = 1)
 	@ColumnDefault("0")
 	private String isDelete;
 	

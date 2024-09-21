@@ -79,7 +79,7 @@ public class ChattingRoomService {
 		List<ChattingRoomEntity> chatrooms = chattingRoomRepository.findAll();
 		List<ChattingRoomDto> chatroomDTOs = new ArrayList<ChattingRoomDto>();
 		for (ChattingRoomEntity room : chatrooms) {
-			if (room.getIsDelete() == 0) {
+			if (room.getIsDelete() == "0") {
 				chatroomDTOs.add(ChattingRoomDto.toDTO(room));
 			}
 		}

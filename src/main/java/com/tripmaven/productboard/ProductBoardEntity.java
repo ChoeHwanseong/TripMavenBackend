@@ -96,11 +96,12 @@ public class ProductBoardEntity {
 	private LocalDateTime createdAt;
 	
 	/** 활성화 유무 */
-	@Column
+	@Column(length = 1)
 	@ColumnDefault("1")
 	private String isActive;
 	
 	/** Al평가 유무 */
+	@Column(length = 1)
 	@ColumnDefault("1")
 	private String isEvaluation;
 	
@@ -112,7 +113,7 @@ public class ProductBoardEntity {
 	private LocalDateTime updatedAt;
 	
 	/** 수정여부 */
-	@Column
+	@Column(length = 1)
 	@ColumnDefault("0")
 	private String isUpdate;
 	
@@ -120,7 +121,7 @@ public class ProductBoardEntity {
 	private LocalDateTime deletedAt;
 	
 	/** 삭제여부 */
-	@Column
+	@Column(length = 1)
 	@ColumnDefault("0")
 	private String isDelete;
 	

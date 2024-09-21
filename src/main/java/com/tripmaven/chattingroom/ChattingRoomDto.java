@@ -22,9 +22,9 @@ public class ChattingRoomDto {
 
 	private long id;
 	private LocalDateTime createdAt;
-	private Integer isActive;
+	private String isActive;
 	private LocalDateTime deletedAt;
-	private Integer isDelete;
+	private String isDelete;
 	private LocalDateTime updatedAt;
 	private String isUpdate;
 	private List<ChattingMessageEntity> chattingMessage;

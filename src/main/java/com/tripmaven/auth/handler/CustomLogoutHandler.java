@@ -13,10 +13,10 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.client.RestTemplate;
 
 import com.tripmaven.auth.model.JWTUtil;
-import com.tripmaven.auth.model.TokenEntity;
-import com.tripmaven.auth.service.TokenService;
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.service.MembersService;
+import com.tripmaven.token.TokenEntity;
+import com.tripmaven.token.TokenService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
