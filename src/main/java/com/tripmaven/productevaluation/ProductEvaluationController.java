@@ -18,6 +18,7 @@ import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersService;
 import com.tripmaven.productboard.ProductBoardEntity;
 import com.tripmaven.productboard.ProductService;
+import com.tripmaven.review.ReviewDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -70,7 +71,7 @@ public class ProductEvaluationController {
 
 	// 분석내용 회원아이디로 조회
 	@GetMapping("/evaluation/{id}")
-	public ResponseEntity<ProductEvaluationDto> getEvaluationById(@PathVariable("id") Long id) {
+	public ResponseEntity<ProductEvaluationDto> getEvaluationById(@PathVariable("id") long id) {
 		try {
 			ProductEvaluationDto dto = productEvaluationService.usersById(id);
 			return ResponseEntity.ok(dto);
@@ -79,4 +80,21 @@ public class ProductEvaluationController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 	}
+	
+	// 분석내용 상품아이디로 조회
+	@GetMapping("/evaluation/product/{productId}")
+	public ResponseEntity<List<ProductEvaluationDto>> getEvaluationByProductId(@PathVariable("productId") long productId) {
+		try {
+			List<ProductEvaluationDto> dto = productEvaluationService.usersByProductId(productId);
+			return ResponseEntity.ok(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+	}
+	
+	
+	
+	
+	
 }
