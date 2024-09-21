@@ -1,13 +1,9 @@
 package com.tripmaven.auth.controller;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Base64;
-import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 

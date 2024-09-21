@@ -12,11 +12,9 @@ import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class CustomUserDetailsService implements UserDetailsService {
 	//리포지토리 주입
 		private final MembersRepository membersRepository;

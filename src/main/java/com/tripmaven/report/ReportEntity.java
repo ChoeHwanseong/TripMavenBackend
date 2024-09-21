@@ -1,7 +1,6 @@
 package com.tripmaven.report;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;

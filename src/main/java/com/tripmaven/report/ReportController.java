@@ -11,16 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tripmaven.csboard.CSBoardDto;
-import com.tripmaven.csboard.CSBoardService;
-import com.tripmaven.members.model.MembersDto;
+
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersService;
-import com.tripmaven.productboard.ProductBoardDto;
 import com.tripmaven.productboard.ProductBoardEntity;
 import com.tripmaven.productboard.ProductService;
 

@@ -11,7 +11,6 @@ import org.hibernate.annotations.DynamicInsert;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tripmaven.auth.model.TokenEntity;
-import com.tripmaven.likey.LikeyEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -21,7 +20,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -114,12 +112,6 @@ public class MembersEntity {
 	@ColumnDefault("0")
 	private String isdelete;
 
-	/** 소셜 연동 여부. */   
-	private String issocial;
-
-	/** 소셜 연동 날짜. */
-	private LocalDateTime socialAt;
-
 	/** 가이드, 어드민, 유저 인지. */
 	@Column(length = 10)
 	@ColumnDefault("USER")
@@ -147,12 +139,5 @@ public class MembersEntity {
 	@JsonIgnore
 	private List<TokenEntity> token;
 	
-	
-	/** 찜. (양방향) FK*/
-	/*
-	@OneToMany(mappedBy = "members",cascade = CascadeType.REMOVE)
-	@OrderBy("id ASC")
-	@JsonIgnore
-	private List<LikeyEntity> likey;
-	*/
+
 }

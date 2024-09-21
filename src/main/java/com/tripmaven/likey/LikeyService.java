@@ -1,17 +1,11 @@
 package com.tripmaven.likey;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tripmaven.csboard.CSBoardDto;
-import com.tripmaven.productboard.ProductBoardDto;
-import com.tripmaven.productboard.ProductBoardEntity;
-import com.tripmaven.productboard.ProductRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -19,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class LikeyService {
 
 	private final LikeyRepository likeyRepository;
-	private final ProductRepository productRepository;
+
 	private final ObjectMapper objectMapper;
 	
 	// 게시글 찜하기

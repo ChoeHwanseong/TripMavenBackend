@@ -10,10 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.members.model.MembersDto;
-import com.tripmaven.members.model.MembersEntity;
+
 import com.tripmaven.members.service.MembersRepository;
-import com.tripmaven.productboard.ProductBoardDto;
-import com.tripmaven.productboard.ProductBoardEntity;
 
 import lombok.RequiredArgsConstructor;
 

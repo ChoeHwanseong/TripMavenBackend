@@ -10,7 +10,6 @@ import com.tripmaven.productboard.ProductBoardEntity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tripmaven.chattingmessage.ChattingMessageEntity;
-import com.tripmaven.likey.LikeyEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

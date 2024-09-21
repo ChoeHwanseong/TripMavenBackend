@@ -3,9 +3,7 @@ package com.tripmaven.chattingmessage;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tripmaven.members.service.MembersService;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -26,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class ChattingMessageController {
 
 	private final ChattingMessageService chattingMessageService;
-	private final MembersService membersService;
+
 
 	// 채팅 내역 저장하기
 	@PostMapping("/save")
