@@ -24,7 +24,7 @@ public class ReviewDto {
 	private long id;
 	private MembersEntity member;
 	private ProductBoardEntity productBoard;
-	private String ratingScore;
+	private double ratingScore;
 	private String title;
 	private String comments;
 	private LocalDateTime createdAt;
