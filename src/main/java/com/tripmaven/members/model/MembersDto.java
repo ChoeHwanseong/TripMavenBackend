@@ -27,7 +27,6 @@ public class MembersDto {
 	private String introduce;
 	private String isactive;
 	private LocalDateTime createdAt;
-	private String issocial;
 	private String role;
 	private String guidelicense;
 	private String loginType;
@@ -49,7 +48,6 @@ public class MembersDto {
 				.introduce(introduce)
 				.isactive(isactive)
 				.createdAt(createdAt)
-				.issocial(issocial)
 				.role(role)
 				.guidelicense(guidelicense)
 				.loginType(loginType)
@@ -73,7 +71,6 @@ public class MembersDto {
 				.introduce(membersEntity.getIntroduce())
 				.isactive(membersEntity.getIsactive())
 				.createdAt(membersEntity.getCreatedAt())
-				.issocial(membersEntity.getIssocial())
 				.role(membersEntity.getRole())
 				.guidelicense(membersEntity.getGuidelicense())
 				.loginType(membersEntity.getLoginType())

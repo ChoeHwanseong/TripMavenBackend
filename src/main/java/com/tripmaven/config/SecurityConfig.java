@@ -16,11 +16,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.tripmaven.auth.handler.CustomLogoutHandler;
 import com.tripmaven.auth.model.JWTUtil;
-import com.tripmaven.auth.service.TokenService;
-
 import com.tripmaven.filter.JWTFilter;
 import com.tripmaven.filter.LoginFilter;
 import com.tripmaven.members.service.MembersService;
+import com.tripmaven.token.TokenService;
 
 import jakarta.servlet.http.HttpServletResponse;
 

@@ -10,8 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tripmaven.auth.model.TokenEntity;
-import com.tripmaven.likey.LikeyEntity;
+import com.tripmaven.token.TokenEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -21,7 +20,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -57,7 +55,7 @@ public class MembersEntity {
 	private String email;
 
 	/** 이름. */
-	@Column
+	@Column(length = 100, nullable= false)
 	private String name;
 
 	/** 비밀번호. */
@@ -86,6 +84,7 @@ public class MembersEntity {
 	
 	/** 자기 소개 */
 	@Column
+	@Lob
 	private String introduce;
 	
 	/** 생성일. */
@@ -94,7 +93,7 @@ public class MembersEntity {
 	private LocalDateTime createdAt;
 
 	/** 활성화 여부. */
-	@Column
+	@Column(length = 1)
 	@ColumnDefault("1")
 	private String isactive;
 
@@ -102,7 +101,7 @@ public class MembersEntity {
 	private LocalDateTime updatedAt;
 
 	/** 수정 여부. */
-	@Column
+	@Column(length = 1)
 	@ColumnDefault("0")
 	private String isupdate;
 
@@ -110,15 +109,9 @@ public class MembersEntity {
 	private LocalDateTime deletedAt;
 
 	/** 삭제 여부. */
-	@Column
+	@Column(length = 1)
 	@ColumnDefault("0")
 	private String isdelete;
-
-	/** 소셜 연동 여부. */   
-	private String issocial;
-
-	/** 소셜 연동 날짜. */
-	private LocalDateTime socialAt;
 
 	/** 가이드, 어드민, 유저 인지. */
 	@Column(length = 10)
@@ -130,7 +123,7 @@ public class MembersEntity {
 	
 
 	/** 로그인 타입 */
-	@Column(name = "login_type")
+	@Column(name = "login_type",length = 10 )
 	@ColumnDefault("local")
     private String loginType;
 
@@ -139,7 +132,7 @@ public class MembersEntity {
     private String snsAccessToken;
 
 	
-	@Column(name = "inter_city")
+	@Column(name = "inter_city",length = 50)
     private String interCity;
 	
 	/** 토큰. (양방향) FK*/
@@ -147,12 +140,5 @@ public class MembersEntity {
 	@JsonIgnore
 	private List<TokenEntity> token;
 	
-	
-	/** 찜. (양방향) FK*/
-	/*
-	@OneToMany(mappedBy = "members",cascade = CascadeType.REMOVE)
-	@OrderBy("id ASC")
-	@JsonIgnore
-	private List<LikeyEntity> likey;
-	*/
+
 }

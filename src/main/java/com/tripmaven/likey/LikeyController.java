@@ -1,7 +1,7 @@
 package com.tripmaven.likey;
 
 import java.util.List;
-import java.util.Map;
+
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,17 +11,15 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersService;
-import com.tripmaven.productboard.ProductBoardDto;
 import com.tripmaven.productboard.ProductBoardEntity;
 import com.tripmaven.productboard.ProductService;
-import com.tripmaven.report.ReportDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +31,6 @@ public class LikeyController {
 	private final LikeyService likeyService;
 	private final MembersService membersService;
 	private final ProductService productService;
-	private final ObjectMapper mapper;
 
 	//게시글 별 찜가져오기는 양방향으로 설계해서 필요 없음
 	//게시글 가져올때 같이 가져와짐

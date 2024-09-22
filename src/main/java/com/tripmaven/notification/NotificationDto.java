@@ -1,6 +1,6 @@
 package com.tripmaven.notification;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;

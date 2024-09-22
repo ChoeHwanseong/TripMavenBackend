@@ -1,13 +1,9 @@
 package com.tripmaven.auth.controller;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Base64;
-import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
@@ -22,10 +18,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.auth.model.JWTTOKEN;
-import com.tripmaven.auth.model.TokenEntity;
-import com.tripmaven.auth.service.TokenService;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersRepository;
+import com.tripmaven.token.TokenEntity;
+import com.tripmaven.token.TokenService;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

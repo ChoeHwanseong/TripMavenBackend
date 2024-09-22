@@ -46,7 +46,8 @@ public class JoinChattingEntity {
 	private MembersEntity member;
 	
 	/** 삭제 여부. */
-	@Column
+	@Column(length = 1)
 	@ColumnDefault("0")
 	private String isdelete;
+
 }

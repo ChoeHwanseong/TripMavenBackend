@@ -1,7 +1,9 @@
 package com.tripmaven.productevaluation;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.List;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -58,7 +60,7 @@ public class ProductEvaluationEntity {
 	private LocalDateTime createdAt;
 	
 	/** 삭제 유무. */
-	@Column
+	@Column(length = 1)
 	@ColumnDefault("0")
 	private String isDelete;
 	
@@ -118,5 +120,13 @@ public class ProductEvaluationEntity {
 	@Lob
 	@Column(nullable = false)
 	private String eye;
+
+	/** 눈 깜박임 횟수 코멘트 */
+	@Column(nullable = false)
+	private String commentEye;
+	
+	/** 표정 분석 코멘트 */
+	@Column(nullable = false)
+	private String commentsFace;
 	
 }

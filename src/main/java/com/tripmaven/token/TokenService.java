@@ -1,12 +1,9 @@
-package com.tripmaven.auth.service;
+package com.tripmaven.token;
 
 
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
-
-import com.tripmaven.auth.model.TokenEntity;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

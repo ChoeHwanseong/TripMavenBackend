@@ -67,7 +67,7 @@ public class ReviewEntity {
 	private LocalDateTime createdAt;
 	
 	/** 활성화 여부 */
-	@Column
+	@Column(length = 1)
 	@ColumnDefault("1")
 	private String isactive;
 	
@@ -76,7 +76,7 @@ public class ReviewEntity {
 	private LocalDateTime updatedAt;
 
 	/** 수정 여부. */
-	@Column(nullable = false)
+	@Column(nullable = false,length = 1)
 	@ColumnDefault("0")
 	private String isupdate;
 
@@ -85,7 +85,7 @@ public class ReviewEntity {
 	private LocalDateTime deletedAt;
 
 	/** 삭제 여부. */
-	@Column(nullable = false)
+	@Column(nullable = false,length = 1)
 	@ColumnDefault("0")
 	private String isdelete;
 	

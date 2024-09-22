@@ -24,11 +24,11 @@ import com.tripmaven.members.service.MembersService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 
 
-@Slf4j
+
+
 @RestController
 @RequiredArgsConstructor
 public class MembersController {
@@ -175,6 +175,19 @@ public class MembersController {
 			    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 			}
 			return ResponseEntity.ok(dto);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+	}
+	
+	@PutMapping("/members/activeonoff/{id}")	
+	public ResponseEntity<MembersDto> activeOnOff(@PathVariable("id") Long id){
+		try {
+			MembersDto affecteddto = membersService.activeOnOff(id);
+			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+affecteddto.getIsactive());
+			return ResponseEntity.ok(affecteddto);
 		}
 		catch(Exception e) {
 			e.printStackTrace();

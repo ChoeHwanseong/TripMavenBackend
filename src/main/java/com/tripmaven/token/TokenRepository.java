@@ -1,11 +1,9 @@
-package com.tripmaven.auth.service;
+package com.tripmaven.token;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import com.tripmaven.auth.model.TokenEntity;
 
 @Repository
 public interface TokenRepository extends JpaRepository<TokenEntity, Long>{

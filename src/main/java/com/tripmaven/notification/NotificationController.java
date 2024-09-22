@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class NotificationController {
 	
 	private final NotificationService notificationService;
-	private final ObjectMapper mapper;
+
 	
 	//알림 테이블에 등록하는 메소드
 	@PostMapping("/")

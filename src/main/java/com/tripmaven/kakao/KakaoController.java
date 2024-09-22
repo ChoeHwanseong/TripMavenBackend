@@ -18,8 +18,6 @@ public class KakaoController {
 	// 주소 반환
 	@GetMapping("/product/address")
 	public ResponseEntity<String> getHotelAddress(@RequestParam("hotel") String hotel) {
-		System.out.println("카카오 컨트롤러 잘 들어옴");
-		System.out.println("카카오 컨트롤러 hotel: "+hotel);
 		return kakaoService.getHotelAddress(hotel)
 	           .map(ResponseEntity::ok)
 	           .defaultIfEmpty(ResponseEntity.notFound().build())

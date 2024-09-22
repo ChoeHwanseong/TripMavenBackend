@@ -1,16 +1,13 @@
 package com.tripmaven.review;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tripmaven.csboard.CSBoardDto;
-import com.tripmaven.csboard.CSBoardEntity;
-import com.tripmaven.productboard.ProductBoardDto;
-import com.tripmaven.report.ReportDto;
+import com.tripmaven.guideranking.GuideRankingRepository;
+import com.tripmaven.guideranking.GuideRankingService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,11 +16,13 @@ import lombok.RequiredArgsConstructor;
 public class ReviewService {
 	
 	private final ReviewRepository reviewRepository;
+	private final GuideRankingService guideRankingService;
 	private final ObjectMapper objectMapper;
 	
 	// CREATE(리뷰 등록)
 	@Transactional
 	public ReviewDto create(ReviewDto dto) {
+		guideRankingService.addGuideRankings(dto);
 		return ReviewDto.toDto(reviewRepository.save(dto.toEntity()));
 	}
 	

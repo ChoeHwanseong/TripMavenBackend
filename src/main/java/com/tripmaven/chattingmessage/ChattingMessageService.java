@@ -1,24 +1,18 @@
 package com.tripmaven.chattingmessage;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.tripmaven.chattingroom.ChattingRoomEntity;
 import com.tripmaven.chattingroom.ChattingRoomRepository;
-import com.tripmaven.joinchatting.JoinChattingEntity;
-import com.tripmaven.joinchatting.JoinChattingRepository;
-import com.tripmaven.members.model.MembersEntity;
-import com.tripmaven.members.service.MembersRepository;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,9 +22,7 @@ public class ChattingMessageService {
 
 	private final ChattingMessageRepository chattingMessageRepository;
 	private final ChattingRoomRepository chattingRoomRepository;
-	private final JoinChattingRepository joinChattingRepository;
-	private final MembersRepository membersRepository;
-	private final ObjectMapper objectMapper;
+
 
 
 	

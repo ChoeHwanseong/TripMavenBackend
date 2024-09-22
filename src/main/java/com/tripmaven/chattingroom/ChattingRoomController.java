@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tripmaven.joinchatting.JoinChattingDto;
-import com.tripmaven.joinchatting.JoinChattingService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class ChattingRoomController {
 
 	private final ChattingRoomService chattingRoomService;
-	private final JoinChattingService joinChattingService;
+
 
 	@GetMapping("/topic/{myId}/{yourId}/{prodId}")
 	public ResponseEntity<String> getChattingRoomTopic(@PathVariable("myId") Long myId, @PathVariable("yourId") Long yourId, @PathVariable("prodId") Long prodId) {

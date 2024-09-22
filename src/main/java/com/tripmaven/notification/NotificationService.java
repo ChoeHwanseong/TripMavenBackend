@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tripmaven.joinchatting.JoinChattingDto;
 
 import lombok.RequiredArgsConstructor;
 

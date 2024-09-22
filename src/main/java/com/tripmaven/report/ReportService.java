@@ -2,15 +2,13 @@ package com.tripmaven.report;
 
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tripmaven.csboard.CSBoardDto;
-import com.tripmaven.csboard.CSBoardEntity;
-import com.tripmaven.productboard.ProductBoardDto;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,10 +39,22 @@ public class ReportService {
 	}
 	
 	
-	// 신고내역 조회 (가이드 member_id로 신고내역에 값 뿌려줄때 )
-	public ReportDto reportsById(Long member_id) {
-		return ReportDto.toDto(reportRepository.findById(member_id).get());
+	// 신고내역 조회 아이디 (해당 게시글 )
+	public ReportDto findByMemberIdAndProductId(Long memberId,Long productId) {
+		
+		Optional<ReportEntity> optional = reportRepository.findByMember_IdAndProductBoard_Id(memberId, productId);
+		System.out.println(optional.isPresent());
+		ReportDto dto = null;
+		if(optional.isPresent()) {
+			dto = ReportDto.toDto(optional.get());
+		}
+		
+		return dto;
 	}
 	
-	
+	// 신고내역 조회 (해당 게시글 )
+		public List<ReportDto> findByProductId(Long productId) {		
+			List<ReportEntity> list = reportRepository.findByProductBoard_Id(productId);
+			return objectMapper.convertValue(list,objectMapper.getTypeFactory().defaultInstance().constructCollectionLikeType(List.class, ReportDto.class));
+		}
 }

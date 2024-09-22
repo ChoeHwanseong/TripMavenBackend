@@ -20,18 +20,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripmaven.auth.model.JWTUtil;
-import com.tripmaven.auth.model.TokenEntity;
 import com.tripmaven.auth.service.CustomUserDetails;
-import com.tripmaven.auth.service.TokenService;
 import com.tripmaven.members.model.MembersDto;
 import com.tripmaven.members.service.MembersService;
+import com.tripmaven.token.TokenEntity;
+import com.tripmaven.token.TokenService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
+
 public class LoginFilter extends UsernamePasswordAuthenticationFilter{
 
 	private final Long accessExpiredMs;

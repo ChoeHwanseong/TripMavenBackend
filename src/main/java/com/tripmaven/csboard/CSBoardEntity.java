@@ -64,7 +64,7 @@ public class CSBoardEntity {
     private LocalDateTime createdAt;
 
     /** 활성화 여부 */
-    @Column
+    @Column(length = 1)
     @ColumnDefault("1")
     private String isActive;
 
@@ -73,7 +73,7 @@ public class CSBoardEntity {
     private LocalDateTime updatedAt;
 
     /** 수정 유무 */
-    @Column
+    @Column(length = 1)
     @ColumnDefault("0")
     private String isUpdate;
 
@@ -82,7 +82,7 @@ public class CSBoardEntity {
     private LocalDateTime deletedAt;
 
     /** 삭제 유무 */
-    @Column
+    @Column(length = 1)
     @ColumnDefault("0")
     private String isDelete;
 
