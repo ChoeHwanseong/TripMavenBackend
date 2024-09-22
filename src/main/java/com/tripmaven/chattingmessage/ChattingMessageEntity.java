@@ -67,6 +67,6 @@ public class ChattingMessageEntity {
 	/** 삭제 여부. */
 	@ColumnDefault("0")
 	private String isDelete;
-    
+
 	
 }

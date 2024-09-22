@@ -54,6 +54,7 @@ public class ChattingMessageService {
         }
 
 
+
 	 @Transactional
 		public List<Map<String, Object>> getMessages(Long chattingRoomId) {
 

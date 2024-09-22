@@ -1,9 +1,11 @@
 package com.tripmaven.joinchatting;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import com.tripmaven.chattingroom.ChattingRoomEntity;
 import com.tripmaven.members.model.MembersEntity;
-import com.tripmaven.productboard.ProductBoardEntity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -43,5 +45,8 @@ public class JoinChattingEntity {
 	@JoinColumn(name="membersentity_id")
 	private MembersEntity member;
 	
-	
+	/** 삭제 여부. */
+	@Column
+	@ColumnDefault("0")
+	private String isdelete;
 }
