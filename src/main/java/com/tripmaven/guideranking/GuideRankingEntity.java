@@ -44,7 +44,7 @@ public class GuideRankingEntity {
 	/** 평균 별점*/
 	
 	@Column(nullable = false)
-	private Double averageRating;
+	private double averageRating;
 	
 	
 	

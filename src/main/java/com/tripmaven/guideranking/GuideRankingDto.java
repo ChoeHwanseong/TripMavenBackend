@@ -22,7 +22,6 @@ public class GuideRankingDto {
 	private long id;
 	private MembersEntity member;
 	private Double averageRating;
-	private long totalReviews;
 	
 	// DTO를 ENTITY로 변환
 		public GuideRankingEntity toEntity() {
