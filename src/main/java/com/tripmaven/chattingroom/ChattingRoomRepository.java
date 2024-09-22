@@ -10,6 +10,8 @@ public interface ChattingRoomRepository extends JpaRepository<ChattingRoomEntity
 
 	Optional<ChattingRoomEntity> findByProductBoard_Id(Long id);
 
+	
+
 }
 
 
