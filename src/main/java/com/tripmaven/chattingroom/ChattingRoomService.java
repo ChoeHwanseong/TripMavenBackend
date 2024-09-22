@@ -40,22 +40,41 @@ public class ChattingRoomService {
 		List<Long> roomIds = new Vector<>();
 		long roomId = 0;
 		//2명 다 들어있는 채팅방 찾기
-
+		
 		for(JoinChattingEntity user1entity : user1List) {
 			for(JoinChattingEntity user2entity : user2List) {
+				
 				if(user1entity.getChattingRoom().getId() == user2entity.getChattingRoom().getId()) {
+					
 					roomIds.add(user1entity.getChattingRoom().getId());
 				}
 			}
 		}
-		
-		for(Long r : roomIds) {
-			Optional<ChattingRoomEntity> optional = chattingRoomRepository.findByProductBoard_Id(prodId);
-			if(optional.isPresent()) {
-				ChattingRoomEntity chattingRoomEntity = optional.get();
-				roomId = chattingRoomEntity.getId();
-				break;
+		if(roomIds.size()>1) {
+			for(Long r : roomIds) {
+				Optional<ChattingRoomEntity> optional = chattingRoomRepository.findById(r);
+				if(optional.isPresent()) {
+					ChattingRoomEntity chattingRoomEntity = optional.get();
+					if(prodId == chattingRoomEntity.getProductBoard().getId()) {
+						roomId = chattingRoomEntity.getId();
+						break;
+					}
+				}
 			}
+			if(roomId == 0) {
+				ChattingRoomEntity chatroom = ChattingRoomEntity.builder().productBoard(productBoardEntity).build();
+				chatroom = chattingRoomRepository.save(chatroom);
+				JoinChattingEntity newEnteredChatRoom1 = JoinChattingEntity.builder().chattingRoom(chatroom).member(user1).build();
+				joinChattingRepository.save(newEnteredChatRoom1);
+				JoinChattingEntity newEnteredChatRoom2 = JoinChattingEntity.builder().chattingRoom(chatroom).member(user2).build();
+				newEnteredChatRoom2 = joinChattingRepository.save(newEnteredChatRoom2);
+				roomId = newEnteredChatRoom2.getChattingRoom().getId();
+				return String.valueOf(roomId);
+			}
+		}
+		
+		if(roomIds.size()==1) {
+			return String.valueOf(roomIds.get(0));
 		}
 		
 		//채팅방 있으면 채팅방 id 반환
@@ -65,7 +84,6 @@ public class ChattingRoomService {
 		else {
 			ChattingRoomEntity chatroom = ChattingRoomEntity.builder().productBoard(productBoardEntity).build();
 			chatroom = chattingRoomRepository.save(chatroom);
-			
 			JoinChattingEntity newEnteredChatRoom1 = JoinChattingEntity.builder().chattingRoom(chatroom).member(user1).build();
 			joinChattingRepository.save(newEnteredChatRoom1);
 			JoinChattingEntity newEnteredChatRoom2 = JoinChattingEntity.builder().chattingRoom(chatroom).member(user2).build();
