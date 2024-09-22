@@ -72,13 +72,20 @@ public class ProductEvaluationEntity {
 	@Column(nullable = false)
 	private int pronunciation;
 	
+	/* 발음 점수 */
+	@Column(nullable = false)
+	private float speed;
+	
 	/** 톤 높낮이에 대한 내용. */
 	@Column(nullable = false)
 	private String tone;
 
 	/** 불필요한 단어사용에 대한 내용. */
 	@Column(nullable = false)
-	private int fillerwords;
+	private String fillerwords;
+	
+	@Column(nullable = false)
+	private String fillerweights;
 
 	/** 평서문 대한 내용. */
 	@Column(nullable = false)

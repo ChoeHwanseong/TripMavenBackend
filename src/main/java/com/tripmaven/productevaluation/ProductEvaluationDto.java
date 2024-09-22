@@ -32,8 +32,10 @@ public class ProductEvaluationDto {
 	private String isDelete;
 	private int score;
 	private int pronunciation;
+	private float speed;
 	private String tone;
-	private int fillerwords;
+	private String fillerwords;
+	private String fillerweights;
 	private int formal_speak;
 	private int question_speak;
 	private String text;
@@ -56,8 +58,10 @@ public class ProductEvaluationDto {
 				.isDelete(isDelete)
 				.score(score)
 				.pronunciation(pronunciation)
+				.speed(speed)
 				.tone(tone)
 				.fillerwords(fillerwords)
+				.fillerweights(fillerweights)
 				.formal_speak(formal_speak)
 				.question_speak(question_speak)
 				.text(text)
@@ -82,8 +86,10 @@ public class ProductEvaluationDto {
 				.isDelete(productEvaluationEntity.getIsDelete())
 				.score(productEvaluationEntity.getScore())
 				.pronunciation(productEvaluationEntity.getPronunciation())
+				.speed(productEvaluationEntity.getSpeed())
 				.tone(productEvaluationEntity.getTone())
 				.fillerwords(productEvaluationEntity.getFillerwords())
+				.fillerweights(productEvaluationEntity.getFillerweights())
 				.formal_speak(productEvaluationEntity.getFormal_speak())
 				.question_speak(productEvaluationEntity.getQuestion_speak())
 				.text(productEvaluationEntity.getText())
