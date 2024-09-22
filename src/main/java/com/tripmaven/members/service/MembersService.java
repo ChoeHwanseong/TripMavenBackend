@@ -163,7 +163,25 @@ public class MembersService {
 		
 	}
 
-
+	//isactive를 수정합니다.
+	@Transactional
+	public MembersDto activeOnOff(Long id) {
+		Optional<MembersEntity> optional = membersRepository.findById(id);	
+		if(optional.isPresent()) {
+			MembersEntity entity = optional.get();
+			System.out.println("tjqltm"+entity.getIsactive().equals("1"));
+			if(entity.getIsactive().equals("1")) {
+				entity.setIsactive("0");
+				return MembersDto.toDto(membersRepository.save(entity));
+			}
+			if(entity.getIsactive().equals("0")) {
+				entity.setIsactive("1");
+				return MembersDto.toDto(membersRepository.save(entity));
+			}			
+			
+		}
+		return null;
+	}
 
 
 	

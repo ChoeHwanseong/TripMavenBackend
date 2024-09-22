@@ -182,6 +182,19 @@ public class MembersController {
 		}
 	}
 	
+	@PutMapping("/members/activeonoff/{id}")	
+	public ResponseEntity<MembersDto> activeOnOff(@PathVariable("id") Long id){
+		try {
+			MembersDto affecteddto = membersService.activeOnOff(id);
+			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+affecteddto.getIsactive());
+			return ResponseEntity.ok(affecteddto);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+	}
+	
 	//DELETE
 	//회원 정보 삭제
 	@CrossOrigin
