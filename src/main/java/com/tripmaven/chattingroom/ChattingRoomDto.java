@@ -4,8 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.tripmaven.chattingmessage.ChattingMessageEntity;
-
-
+import com.tripmaven.productboard.ProductBoardEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +27,7 @@ public class ChattingRoomDto {
 	private LocalDateTime updatedAt;
 	private String isUpdate;
 	private List<ChattingMessageEntity> chattingMessage;
+	private ProductBoardEntity productBoard;
 	
 	//DTO를 ENTITY로 변환하는 메소드
 	public ChattingRoomEntity toEntity() {
@@ -40,6 +40,7 @@ public class ChattingRoomDto {
 				.updatedAt(updatedAt)
 				.isUpdate(isUpdate)
 				.chattingMessage(chattingMessage)
+				.productBoard(productBoard)
 				.build();		
 	}
 	//ENTITY를 DTO로 변환하는 메소드
@@ -53,6 +54,7 @@ public class ChattingRoomDto {
                 .updatedAt(chattingRoomEntity.getUpdatedAt())
                 .isUpdate(chattingRoomEntity.getIsUpdate())
                 .chattingMessage(chattingRoomEntity.getChattingMessage())
+                .productBoard(chattingRoomEntity.getProductBoard())
                 .build();
     }
 }
