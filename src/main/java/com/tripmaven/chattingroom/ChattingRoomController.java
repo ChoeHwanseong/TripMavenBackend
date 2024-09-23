@@ -73,4 +73,16 @@ public class ChattingRoomController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@GetMapping("/chattingRoom/{chattingRoomId}")
+	public ResponseEntity<ChattingRoomDto> getChattingRoom(@PathVariable("chattingRoomId") Long chattingRoomId) {
+		try {
+			ChattingRoomDto chattingRoomDto = chattingRoomService.getChattingRoom(chattingRoomId);
+			return ResponseEntity.status(200).header(HttpHeaders.CONTENT_TYPE, "application/json")
+					.body(chattingRoomDto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }
