@@ -50,17 +50,17 @@ public class ChattingRoomService {
 				}
 			}
 		}
-		if(roomIds.size()>1) {
-			for(Long r : roomIds) {
-				Optional<ChattingRoomEntity> optional = chattingRoomRepository.findById(r);
-				if(optional.isPresent()) {
-					ChattingRoomEntity chattingRoomEntity = optional.get();
-					if(prodId == chattingRoomEntity.getProductBoard().getId()) {
-						roomId = chattingRoomEntity.getId();
-						break;
-					}
+
+		
+		for(Long r : roomIds) {
+			ChattingRoomEntity chatroom  = chattingRoomRepository.findById(r).orElse(null);
+			if(chatroom != null) {
+				if(chatroom.getProductBoard().getId() == prodId) {
+					roomId = chatroom.getId();
+					break;
 				}
 			}
+		}
 			if(roomId == 0) {
 				ChattingRoomEntity chatroom = ChattingRoomEntity.builder().productBoard(productBoardEntity).build();
 				chatroom = chattingRoomRepository.save(chatroom);
@@ -71,7 +71,7 @@ public class ChattingRoomService {
 				roomId = newEnteredChatRoom2.getChattingRoom().getId();
 				return String.valueOf(roomId);
 			}
-		}
+		
 		
 		if(roomIds.size()==1) {
 			return String.valueOf(roomIds.get(0));

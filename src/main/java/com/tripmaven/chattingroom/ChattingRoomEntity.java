@@ -78,7 +78,7 @@ public class ChattingRoomEntity {
 	@JsonIgnore
 	private List<ChattingMessageEntity> chattingMessage;
 	
-	/** 회원 고유 번호. FK*/
+	/** 상품 고유 번호. FK*/
 	@ManyToOne(optional = false)
 	@JoinColumn(name="productentity_id")
 	private ProductBoardEntity productBoard;
