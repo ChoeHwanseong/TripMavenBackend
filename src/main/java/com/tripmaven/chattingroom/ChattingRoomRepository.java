@@ -11,9 +11,9 @@ public interface ChattingRoomRepository extends JpaRepository<ChattingRoomEntity
 
 	Optional<ChattingRoomEntity> findByProductBoard_Id(Long id);
 
-	List<ChattingRoomEntity> findAllByProductBoard_Id(Long prodId);
 
-	
+
+	List<ChattingRoomEntity> findAllByProductBoard_Id(Long prodId);
 
 }
 
