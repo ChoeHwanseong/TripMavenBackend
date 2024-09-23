@@ -50,11 +50,12 @@ public class ChattingRoomService {
 		}
 		
 		for(Long r : roomIds) {
-			Optional<ChattingRoomEntity> optional = chattingRoomRepository.findByProductBoard_Id(prodId);
-			if(optional.isPresent()) {
-				ChattingRoomEntity chattingRoomEntity = optional.get();
-				roomId = chattingRoomEntity.getId();
-				break;
+			ChattingRoomEntity chatroom  = chattingRoomRepository.findById(r).orElse(null);
+			if(chatroom != null) {
+				if(chatroom.getProductBoard().getId() == prodId) {
+					roomId = chatroom.getId();
+					break;
+				}
 			}
 		}
 		
