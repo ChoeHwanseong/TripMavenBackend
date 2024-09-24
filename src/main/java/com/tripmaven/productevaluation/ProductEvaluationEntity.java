@@ -9,6 +9,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
+import com.tripmaven.JoinProductEvaluation.JoinProductEvaluationEntity;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.productboard.ProductBoardEntity;
 
@@ -43,6 +44,11 @@ public class ProductEvaluationEntity {
 	@SequenceGenerator(name = "seq_productevaluation", sequenceName = "seq_productevaluation", allocationSize = 1, initialValue = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_productevaluation")
 	private long id;
+	
+	/** 조인테이블의 아이디를 FK로 한다 */
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "joinProductEvaluationEntity_id")
+	private JoinProductEvaluationEntity joinProductEvaluation;
 
 	/** 회원 고유 번호. FK*/
 	@ManyToOne(optional = false)
@@ -135,5 +141,4 @@ public class ProductEvaluationEntity {
 	/** 표정 분석 코멘트 */
 	@Column(nullable = false)
 	private String commentsFace;
-	
 }

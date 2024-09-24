@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tripmaven.JoinProductEvaluation.JoinProductEvaluationEntity;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.productboard.ProductBoardEntity;
 
@@ -27,6 +28,7 @@ public class ProductEvaluationDto {
 	//필드
 	private long id;
 	private MembersEntity member;
+	private JoinProductEvaluationEntity joinProductEvaluation;
 	private ProductBoardEntity productBoard;
 	private LocalDateTime createdAt;
 	private String isDelete;
@@ -52,6 +54,7 @@ public class ProductEvaluationDto {
 	public ProductEvaluationEntity toEntity() {
 		return ProductEvaluationEntity.builder()
 				.id(id)
+				.joinProductEvaluation(joinProductEvaluation)
 				.member(member)
 				.productBoard(productBoard)
 				.createdAt(createdAt)
@@ -80,6 +83,7 @@ public class ProductEvaluationDto {
 	public static ProductEvaluationDto toDto(ProductEvaluationEntity productEvaluationEntity) {
 		return ProductEvaluationDto.builder()
 				.id(productEvaluationEntity.getId())
+				.joinProductEvaluation(productEvaluationEntity.getJoinProductEvaluation())
 				.member(productEvaluationEntity.getMember())
 				.productBoard(productEvaluationEntity.getProductBoard())
 				.createdAt(productEvaluationEntity.getCreatedAt())
