@@ -81,10 +81,10 @@ public class ProductEvaluationEntity {
 	private String tone;
 
 	/** 불필요한 단어사용에 대한 내용. */
-	@Column(nullable = false)
+	@Column(nullable = true, columnDefinition = "VARCHAR2(255) DEFAULT ''")
 	private String fillerwords;
 	
-	@Column(nullable = false)
+	@Column(nullable = true, columnDefinition = "VARCHAR2(255) DEFAULT ''")
 	private String fillerweights;
 
 	/** 평서문 대한 내용. */

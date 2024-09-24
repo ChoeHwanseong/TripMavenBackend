@@ -48,6 +48,7 @@ public class ProductEvaluationController {
 			ProductEvaluationDto productEvaluationDto = mapper.convertValue(map, ProductEvaluationDto.class);
 			productEvaluationDto.setMember(members);
 			productEvaluationDto.setProductBoard(productboard);
+			
 			ProductEvaluationDto dto = productEvaluationService.create(productEvaluationDto);
 			return ResponseEntity.ok(dto);
 		} catch (Exception e) {
