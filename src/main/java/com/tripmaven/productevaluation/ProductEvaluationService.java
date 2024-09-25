@@ -32,15 +32,15 @@ public class ProductEvaluationService {
 				.collect(Collectors.toList());
 	}
 
-	// 분석내용 회원아이디로 조회
+	// 분석내용 아이디로 조회
 	@Transactional(readOnly = true)
-	public ProductEvaluationDto usersById(long id) {
+	public ProductEvaluationDto getById(long id) {
 		return ProductEvaluationDto.toDto(productevaluationRepository.findById(id).get());
 	}
 	
 	// 분석내용 상품아이디로 조회
 	@Transactional(readOnly = true)
-	public List<ProductEvaluationDto> usersByProductId(long productBoard_id) {
+	public List<ProductEvaluationDto> findByProductId(long productBoard_id) {
 		// 리포지토리 호출
 		List<ProductEvaluationEntity> evaluationEntityList= productevaluationRepository.findAllByProductBoard_id(productBoard_id);	
 		// 엔터티 리스트를 dto 로 변환

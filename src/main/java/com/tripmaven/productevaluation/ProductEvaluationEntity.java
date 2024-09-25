@@ -1,3 +1,4 @@
+
 package com.tripmaven.productevaluation;
 
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
+import com.tripmaven.JoinProductEvaluation.JoinProductEvaluationEntity;
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.productboard.ProductBoardEntity;
 
@@ -43,6 +45,11 @@ public class ProductEvaluationEntity {
 	@SequenceGenerator(name = "seq_productevaluation", sequenceName = "seq_productevaluation", allocationSize = 1, initialValue = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_productevaluation")
 	private long id;
+	
+	/** 조인테이블의 아이디를 FK로 한다 */
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "joinProductEvaluationEntity_id")
+	private JoinProductEvaluationEntity joinProductEvaluation;
 
 	/** 회원 고유 번호. FK*/
 	@ManyToOne(optional = false)
@@ -76,15 +83,24 @@ public class ProductEvaluationEntity {
 	@Column(nullable = false)
 	private float speed;
 	
+	/** 톤 변화 그래프 */
+	@Lob
+	@Column(nullable = true)
+	private String voice_graph;
+	
+	/** 톤 높낮이 평균 */
+	@Column(nullable = true)
+	private int tone_mean;
+	
 	/** 톤 높낮이에 대한 내용. */
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String tone;
 
 	/** 불필요한 단어사용에 대한 내용. */
-	@Column(nullable = false)
+	@Column(nullable = true, columnDefinition = "VARCHAR2(255) DEFAULT ''")
 	private String fillerwords;
 	
-	@Column(nullable = false)
+	@Column(nullable = true, columnDefinition = "VARCHAR2(255) DEFAULT ''")
 	private String fillerweights;
 
 	/** 평서문 대한 내용. */
@@ -105,35 +121,40 @@ public class ProductEvaluationEntity {
 	
 	/** 광대 변화율. */
 	@Lob
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String cheek;
 	
 	/** 입 변화율. */
 	@Lob
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String mouth;
 	
 	/** 미간 변화율. */
 	@Lob
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String brow;
 		
 	/** 팔자주름 변화율. */
 	@Lob
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String nasolabial;
 	
 	/** 눈 깜박임 횟수. */
 	@Lob
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String eye;
 
 	/** 눈 깜박임 횟수 코멘트 */
-	@Column(nullable = false)
+	@Lob
+	@Column(nullable = true)
 	private String commentEye;
 	
 	/** 표정 분석 코멘트 */
-	@Column(nullable = false)
+	@Lob
+	@Column(nullable = true)
 	private String commentsFace;
 	
+	/** 표정 분석 코멘트 */
+	@Column(nullable = true)
+	private float total_time;
 }
