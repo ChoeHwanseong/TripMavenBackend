@@ -17,6 +17,11 @@ public interface JoinChattingRepository extends JpaRepository<JoinChattingEntity
 
 	List<JoinChattingEntity> findAllByChattingRoom(ChattingRoomEntity chattingRoom);
 
+	List<JoinChattingEntity> findAllByMemberAndIsdelete(MembersEntity my, String string);
+
+	List<JoinChattingEntity> findAllByChattingRoomAndAndIsdelete(ChattingRoomEntity chattingRoom, String string);
+
+
 	
 
 }

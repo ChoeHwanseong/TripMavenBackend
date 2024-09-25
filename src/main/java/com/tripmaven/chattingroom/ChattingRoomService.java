@@ -1,19 +1,26 @@
 package com.tripmaven.chattingroom;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Vector;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tripmaven.chattingmessage.ChattingMessageEntity;
 import com.tripmaven.joinchatting.JoinChattingDto;
 import com.tripmaven.joinchatting.JoinChattingEntity;
 import com.tripmaven.joinchatting.JoinChattingRepository;
 
 import com.tripmaven.members.model.MembersEntity;
 import com.tripmaven.members.service.MembersRepository;
+import com.tripmaven.productboard.ProductBoardDto;
 import com.tripmaven.productboard.ProductBoardEntity;
 import com.tripmaven.productboard.ProductRepository;
 
@@ -40,22 +47,41 @@ public class ChattingRoomService {
 		List<Long> roomIds = new Vector<>();
 		long roomId = 0;
 		//2명 다 들어있는 채팅방 찾기
-
+		
 		for(JoinChattingEntity user1entity : user1List) {
 			for(JoinChattingEntity user2entity : user2List) {
+				
 				if(user1entity.getChattingRoom().getId() == user2entity.getChattingRoom().getId()) {
+					
 					roomIds.add(user1entity.getChattingRoom().getId());
 				}
 			}
 		}
+
 		
 		for(Long r : roomIds) {
-			Optional<ChattingRoomEntity> optional = chattingRoomRepository.findByProductBoard_Id(prodId);
-			if(optional.isPresent()) {
-				ChattingRoomEntity chattingRoomEntity = optional.get();
-				roomId = chattingRoomEntity.getId();
-				break;
+			ChattingRoomEntity chatroom  = chattingRoomRepository.findById(r).orElse(null);
+			if(chatroom != null) {
+				if(chatroom.getProductBoard().getId() == prodId) {
+					roomId = chatroom.getId();
+					break;
+				}
 			}
+		}
+			if(roomId == 0) {
+				ChattingRoomEntity chatroom = ChattingRoomEntity.builder().productBoard(productBoardEntity).build();
+				chatroom = chattingRoomRepository.save(chatroom);
+				JoinChattingEntity newEnteredChatRoom1 = JoinChattingEntity.builder().chattingRoom(chatroom).member(user1).build();
+				joinChattingRepository.save(newEnteredChatRoom1);
+				JoinChattingEntity newEnteredChatRoom2 = JoinChattingEntity.builder().chattingRoom(chatroom).member(user2).build();
+				newEnteredChatRoom2 = joinChattingRepository.save(newEnteredChatRoom2);
+				roomId = newEnteredChatRoom2.getChattingRoom().getId();
+				return String.valueOf(roomId);
+			}
+		
+		
+		if(roomIds.size()==1) {
+			return String.valueOf(roomIds.get(0));
 		}
 		
 		//채팅방 있으면 채팅방 id 반환
@@ -65,7 +91,6 @@ public class ChattingRoomService {
 		else {
 			ChattingRoomEntity chatroom = ChattingRoomEntity.builder().productBoard(productBoardEntity).build();
 			chatroom = chattingRoomRepository.save(chatroom);
-			
 			JoinChattingEntity newEnteredChatRoom1 = JoinChattingEntity.builder().chattingRoom(chatroom).member(user1).build();
 			joinChattingRepository.save(newEnteredChatRoom1);
 			JoinChattingEntity newEnteredChatRoom2 = JoinChattingEntity.builder().chattingRoom(chatroom).member(user2).build();
@@ -88,10 +113,10 @@ public class ChattingRoomService {
 
 	public List<JoinChattingDto> getChattingYour(Long myId) {
 		MembersEntity my = membersRepository.findById(myId).get();
-		List<JoinChattingEntity> myChatList = joinChattingRepository.findAllByMember(my);
+		List<JoinChattingEntity> myChatList = joinChattingRepository.findAllByMemberAndIsdelete(my, "0");
 		List<JoinChattingEntity> yourChatList = new Vector<>();
 		for(JoinChattingEntity chat:myChatList) {
-			List<JoinChattingEntity> chattingRoomList = joinChattingRepository.findAllByChattingRoom(chat.getChattingRoom());
+			List<JoinChattingEntity> chattingRoomList = joinChattingRepository.findAllByChattingRoomAndAndIsdelete(chat.getChattingRoom(),"0");
 			for(JoinChattingEntity chatting:chattingRoomList) {
 				if(chatting.getMember().getId()!=myId) yourChatList.add(chatting);
 			}
@@ -101,8 +126,22 @@ public class ChattingRoomService {
 
 	public List<JoinChattingDto> getChattingMy(Long myId) {
 		MembersEntity my = membersRepository.findById(myId).get();
-		List<JoinChattingEntity> myChatList = joinChattingRepository.findAllByMember(my);
+		List<JoinChattingEntity> myChatList = joinChattingRepository.findAllByMemberAndIsdelete(my,"0");
 		return objectMapper.convertValue(myChatList, objectMapper.getTypeFactory().defaultInstance().constructCollectionType(List.class,JoinChattingDto.class));
 	}
 
+	public ChattingRoomDto getChattingRoom(Long chattingRoomId) {
+		ChattingRoomEntity chattingRoomEntity = chattingRoomRepository.findById(chattingRoomId).get();
+		return ChattingRoomDto.toDTO(chattingRoomEntity);
+	}
+
+		@Transactional
+		public JoinChattingDto delete(long id) {
+			JoinChattingDto deletedDto=JoinChattingDto.toDto(joinChattingRepository.findById(id).get());
+			joinChattingRepository.deleteById(id);
+			return deletedDto;
+		}
+	
+
+	
 }
