@@ -24,12 +24,16 @@ public class JoinProductEvaluationDto {
 	
 	private long id;
 	private List<ProductEvaluationEntity> productEvaluation;
+	private MembersEntity member;
+	private ProductBoardEntity productBoard;
 	
 	//DTO를 ENTITY로 변환하는 메소드
 	public JoinProductEvaluationEntity toEntity() {
 		return JoinProductEvaluationEntity.builder()
 				.id(id)
 				.productEvaluation(productEvaluation)
+				.member(member)
+				.productBoard(productBoard)
 				.build();
 	}
 	//ENTITY를 DTO로 변환하는 메소드
@@ -37,6 +41,8 @@ public class JoinProductEvaluationDto {
 		return JoinProductEvaluationDto.builder()
 				.id(joinProductEvaluationEntity.getId())
 				.productEvaluation(joinProductEvaluationEntity.getProductEvaluation())
+				.member(joinProductEvaluationEntity.getMember())
+				.productBoard(joinProductEvaluationEntity.getProductBoard())
 				.build();
 	}
 
