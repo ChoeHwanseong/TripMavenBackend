@@ -83,8 +83,17 @@ public class ProductEvaluationEntity {
 	@Column(nullable = false)
 	private float speed;
 	
+	/** 톤 변화 그래프 */
+	@Lob
+	@Column(nullable = true)
+	private String voice_graph;
+	
+	/** 톤 높낮이 평균 */
+	@Column(nullable = true)
+	private int tone_mean;
+	
 	/** 톤 높낮이에 대한 내용. */
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String tone;
 
 	/** 불필요한 단어사용에 대한 내용. */
@@ -112,35 +121,40 @@ public class ProductEvaluationEntity {
 	
 	/** 광대 변화율. */
 	@Lob
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String cheek;
 	
 	/** 입 변화율. */
 	@Lob
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String mouth;
 	
 	/** 미간 변화율. */
 	@Lob
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String brow;
 		
 	/** 팔자주름 변화율. */
 	@Lob
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String nasolabial;
 	
 	/** 눈 깜박임 횟수. */
 	@Lob
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String eye;
 
 	/** 눈 깜박임 횟수 코멘트 */
 	@Lob
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String commentEye;
 	
 	/** 표정 분석 코멘트 */
-	@Column(nullable = false)
+	@Lob
+	@Column(nullable = true)
 	private String commentsFace;
+	
+	/** 표정 분석 코멘트 */
+	@Column(nullable = true)
+	private float total_time;
 }

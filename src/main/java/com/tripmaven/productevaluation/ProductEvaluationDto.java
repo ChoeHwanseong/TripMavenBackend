@@ -35,6 +35,8 @@ public class ProductEvaluationDto {
 	private int score;
 	private int pronunciation;
 	private float speed;
+	private String voice_graph;
+	private int tone_mean;
 	private String tone;
 	private String fillerwords;
 	private String fillerweights;
@@ -49,6 +51,7 @@ public class ProductEvaluationDto {
 	private String nasolabial;
 	private String commentsFace;
 	private String commentEye;
+	private float total_time;
 	
 	//DTO를 ENTITY로 변환하는 메소드
 	public ProductEvaluationEntity toEntity() {
@@ -62,6 +65,8 @@ public class ProductEvaluationDto {
 				.score(score)
 				.pronunciation(pronunciation)
 				.speed(speed)
+				.voice_graph(voice_graph)
+				.tone_mean(tone_mean)
 				.tone(tone)
 				.fillerwords(fillerwords)
 				.fillerweights(fillerweights)
@@ -76,6 +81,7 @@ public class ProductEvaluationDto {
 				.eye(eye)
 				.commentsFace(commentsFace)
 				.commentEye(commentEye)
+				.total_time(total_time)
 				.build();
 	}
 
@@ -91,6 +97,8 @@ public class ProductEvaluationDto {
 				.score(productEvaluationEntity.getScore())
 				.pronunciation(productEvaluationEntity.getPronunciation())
 				.speed(productEvaluationEntity.getSpeed())
+				.voice_graph(productEvaluationEntity.getVoice_graph())
+				.tone_mean(productEvaluationEntity.getTone_mean())
 				.tone(productEvaluationEntity.getTone())
 				.fillerwords(productEvaluationEntity.getFillerwords())
 				.fillerweights(productEvaluationEntity.getFillerweights())
@@ -105,9 +113,7 @@ public class ProductEvaluationDto {
 				.eye(productEvaluationEntity.getEye())
 				.commentEye(productEvaluationEntity.getCommentEye())
 				.commentsFace(productEvaluationEntity.getCommentsFace())
+				.total_time(productEvaluationEntity.getTotal_time())
 				.build();
-
 	}
-
-
 }

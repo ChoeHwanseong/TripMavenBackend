@@ -46,7 +46,7 @@ public class JoinProductEvaluationEntity {
 	private long id;
 	
 	/** 묶어줄 ai 결과들(양방향) FK*/
-	@OneToMany(mappedBy = "joinProductEvaluation",cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "joinProductEvaluation",cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@JsonIgnore
 	private List<ProductEvaluationEntity> productEvaluation;
 	

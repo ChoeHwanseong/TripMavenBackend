@@ -55,11 +55,11 @@ public class ProductEvaluationController {
 																						.member(members)
 																						.productBoard(productboard)
 																						.build();
-			if(map.get("gruopId") == null) { //처음 결과 있을때 요청에 groupId를 넣지 말고 보내기
+			if(map.get("group_id").toString().equals("0")) { //처음 결과 있을때 요청에 groupId를 넣지 말고 보내기
 				createdJoinProductEvaluation = joinProductEvaluationService.create(createdJoinProductEvaluation);
 			}
 			else { //두번째 결과에서는 gruopId를 키로 해서 넣고 분석결과를 넣으면 같은 아이디로 생성이 된다.
-				createdJoinProductEvaluation  = joinProductEvaluationService.getById(Long.parseLong(map.get("groupId").toString())).toEntity();
+				createdJoinProductEvaluation  = joinProductEvaluationService.getById(Long.parseLong(map.get("group_id").toString())).toEntity();
 			}
 
 		    ProductEvaluationDto productEvaluationDto = mapper.convertValue(map, ProductEvaluationDto.class);
@@ -70,7 +70,7 @@ public class ProductEvaluationController {
 		    ProductEvaluationDto dto = productEvaluationService.create(productEvaluationDto);
 		    
 		    //반환값은 joinProductEvaluation 으로 반환하기
-		    return ResponseEntity.ok(joinProductEvaluationService.getById(Long.parseLong(map.get("groupId").toString())));
+		    return ResponseEntity.ok(joinProductEvaluationService.getById(createdJoinProductEvaluation.getId()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
