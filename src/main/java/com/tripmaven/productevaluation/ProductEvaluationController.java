@@ -43,6 +43,7 @@ public class ProductEvaluationController {
 	@PostMapping
 	public ResponseEntity<JoinProductEvaluationDto> createEvaluation(@RequestBody Map<String, Object> map) {
 		try {
+			System.out.println("조인프로덕트 컨트롤러 들어왔당");
 			String member_id = map.get("member_id").toString();
 		    MembersEntity members =  membersService.searchByMemberID(Long.parseLong(member_id)).toEntity();
 

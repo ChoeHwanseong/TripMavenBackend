@@ -52,6 +52,7 @@ public class ProductEvaluationDto {
 	private String commentsFace;
 	private String commentEye;
 	private float total_time;
+	private String filename;
 	
 	//DTO를 ENTITY로 변환하는 메소드
 	public ProductEvaluationEntity toEntity() {
@@ -82,6 +83,7 @@ public class ProductEvaluationDto {
 				.commentsFace(commentsFace)
 				.commentEye(commentEye)
 				.total_time(total_time)
+				.filename(filename)
 				.build();
 	}
 
@@ -114,6 +116,7 @@ public class ProductEvaluationDto {
 				.commentEye(productEvaluationEntity.getCommentEye())
 				.commentsFace(productEvaluationEntity.getCommentsFace())
 				.total_time(productEvaluationEntity.getTotal_time())
+				.filename(productEvaluationEntity.getFilename())
 				.build();
 	}
 }

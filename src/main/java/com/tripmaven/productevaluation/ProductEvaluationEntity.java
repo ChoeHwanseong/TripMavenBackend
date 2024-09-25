@@ -157,4 +157,8 @@ public class ProductEvaluationEntity {
 	/** 표정 분석 코멘트 */
 	@Column(nullable = true)
 	private float total_time;
+	
+	/** 파일이름 */
+	@Column(nullable = true)
+	private String filename;
 }

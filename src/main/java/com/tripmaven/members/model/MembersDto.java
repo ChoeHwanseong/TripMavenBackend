@@ -25,6 +25,7 @@ public class MembersDto {
 	private String address;
 	private String profile;
 	private String introduce;
+	private String keywords;
 	private String isactive;
 	private LocalDateTime createdAt;
 	private String role;
@@ -46,6 +47,7 @@ public class MembersDto {
 				.address(address)
 				.profile(profile)
 				.introduce(introduce)
+				.keywords(keywords)
 				.isactive(isactive)
 				.createdAt(createdAt)
 				.role(role)
@@ -69,6 +71,7 @@ public class MembersDto {
 				.address(membersEntity.getAddress())
 				.profile(membersEntity.getProfile())
 				.introduce(membersEntity.getIntroduce())
+				.keywords(membersEntity.getKeywords())
 				.isactive(membersEntity.getIsactive())
 				.createdAt(membersEntity.getCreatedAt())
 				.role(membersEntity.getRole())

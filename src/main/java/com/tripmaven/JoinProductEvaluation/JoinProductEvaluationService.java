@@ -1,5 +1,6 @@
 package com.tripmaven.JoinProductEvaluation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -33,16 +34,20 @@ public class JoinProductEvaluationService {
 
 	public List<JoinProductEvaluationDto> getAllByProductId(long productId) {
 		List<JoinProductEvaluationEntity> entityList = joinProductEvaluationRepository.findAllByProductBoard_id(productId);
-		return objectMapper.convertValue(entityList,
-				objectMapper.getTypeFactory().defaultInstance()
-				.constructCollectionLikeType(List.class, JoinProductEvaluationDto.class));
+		List<JoinProductEvaluationDto> dtoList = new ArrayList<>();
+		for(JoinProductEvaluationEntity entity: entityList) {
+			dtoList.add(JoinProductEvaluationDto.toDto(entity)); 
+		}
+		return dtoList;
 	}
 
 	public List<JoinProductEvaluationDto> getAllByMemberId(long memberId) {
 		List<JoinProductEvaluationEntity> entityList = joinProductEvaluationRepository.findAllByMember_id(memberId);
-		return objectMapper.convertValue(entityList,
-				objectMapper.getTypeFactory().defaultInstance()
-				.constructCollectionLikeType(List.class, JoinProductEvaluationDto.class));
+		List<JoinProductEvaluationDto> dtoList = new ArrayList<>();
+		for(JoinProductEvaluationEntity entity: entityList) {
+			dtoList.add(JoinProductEvaluationDto.toDto(entity)); 
+		}
+		return dtoList;
 	}
 
 	

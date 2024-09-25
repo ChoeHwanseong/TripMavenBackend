@@ -122,6 +122,7 @@ public class MembersService {
 	    if (dto.getBirthday() != null) members.setBirthday(dto.getBirthday());
 	    if (dto.getGender() != null) members.setGender(dto.getGender());
 	    if (dto.getIntroduce() != null) members.setIntroduce(dto.getIntroduce());
+	    if (dto.getKeywords() != null) members.setKeywords(dto.getKeywords());
 	    if (dto.getProfile() != null) members.setProfile(dto.getProfile());
 	    if (dto.getTelNumber() != null) members.setTelNumber(dto.getTelNumber());
 	    if (dto.getInterCity() != null) members.setInterCity(dto.getInterCity());

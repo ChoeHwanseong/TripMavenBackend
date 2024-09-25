@@ -87,6 +87,11 @@ public class MembersEntity {
 	@Lob
 	private String introduce;
 	
+	/** 자기 소개 */
+	@Column
+	@Lob
+	private String keywords;
+	
 	/** 생성일. */
 	@ColumnDefault("SYSDATE")
 	@CreationTimestamp
