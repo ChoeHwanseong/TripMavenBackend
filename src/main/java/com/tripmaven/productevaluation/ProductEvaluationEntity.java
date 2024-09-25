@@ -1,3 +1,4 @@
+
 package com.tripmaven.productevaluation;
 
 import java.time.LocalDateTime;
@@ -135,6 +136,7 @@ public class ProductEvaluationEntity {
 	private String eye;
 
 	/** 눈 깜박임 횟수 코멘트 */
+	@Lob
 	@Column(nullable = false)
 	private String commentEye;
 	
