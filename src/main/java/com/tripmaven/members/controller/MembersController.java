@@ -63,14 +63,10 @@ public class MembersController {
 	
 	//가이드가 되어라!
 	/** 라이센스 파일 업로드 필요.*/
-	@PutMapping("/toguide")
-	public ResponseEntity<MembersDto> toGuide(@RequestBody Map map){
-		String guidelicense = map.get("guidelicense").toString();
-		String introduce = map.get("introduce").toString();
-		long membersId = (long)map.get("id");
-		MembersDto findMember =  membersService.searchByMemberID(membersId);
-		findMember.setIntroduce(introduce);
-		findMember.setGuidelicense(guidelicense);
+	@PutMapping("/toguide/{membersid}")
+	public ResponseEntity<MembersDto> toGuide(@PathVariable("membersid") String membersid){
+		long membersId = Long.parseLong(membersid);
+		MembersDto findMember =  membersService.searchByMemberID(membersId);		
 		findMember.setRole("GUIDE");
 		System.out.println(findMember);
 		return ResponseEntity.ok(membersService.toguide(findMember));
