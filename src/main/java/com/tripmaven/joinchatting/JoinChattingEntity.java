@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -46,8 +47,14 @@ public class JoinChattingEntity {
 	private MembersEntity member;
 	
 	/** 삭제 여부. */
-	@Column(length = 1)
-	@ColumnDefault("0")
-	private String isdelete;
+	@Column(columnDefinition = "varchar(1) default '0'")
+	private String isdelete = "0";
+	
+	@PrePersist
+    public void prePersist() {
+        if (isdelete == null) {
+        	isdelete = "0"; 
+        }
+    }
 
 }

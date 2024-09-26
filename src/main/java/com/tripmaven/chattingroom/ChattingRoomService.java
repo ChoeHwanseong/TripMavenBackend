@@ -37,28 +37,28 @@ public class ChattingRoomService {
 	private final ObjectMapper objectMapper;
 
 	public String getChattingRoomTopic(Long myId, Long yourId, Long prodId) {
-		
+
 		MembersEntity user1 = membersRepository.findById(myId).get();
 		MembersEntity user2 = membersRepository.findById(yourId).get();
 		ProductBoardEntity productBoardEntity = productRepository.findById(prodId).get();		
 		List<JoinChattingEntity> user1List = joinChattingRepository.findAllByMember(user1);
 		List<JoinChattingEntity> user2List = joinChattingRepository.findAllByMember(user2);
-		
+
 		List<Long> roomIds = new Vector<>();
 		long roomId = 0;
 		//2명 다 들어있는 채팅방 찾기
-		
+
 		for(JoinChattingEntity user1entity : user1List) {
 			for(JoinChattingEntity user2entity : user2List) {
-				
+
 				if(user1entity.getChattingRoom().getId() == user2entity.getChattingRoom().getId()) {
-					
+
 					roomIds.add(user1entity.getChattingRoom().getId());
 				}
 			}
 		}
 
-		
+
 		for(Long r : roomIds) {
 			ChattingRoomEntity chatroom  = chattingRoomRepository.findById(r).orElse(null);
 			if(chatroom != null) {
@@ -68,25 +68,25 @@ public class ChattingRoomService {
 				}
 			}
 		}
-			if(roomId == 0) {
-				ChattingRoomEntity chatroom = ChattingRoomEntity.builder().productBoard(productBoardEntity).build();
-				chatroom = chattingRoomRepository.save(chatroom);
-				JoinChattingEntity newEnteredChatRoom1 = JoinChattingEntity.builder().chattingRoom(chatroom).member(user1).build();
-				joinChattingRepository.save(newEnteredChatRoom1);
-				JoinChattingEntity newEnteredChatRoom2 = JoinChattingEntity.builder().chattingRoom(chatroom).member(user2).build();
-				newEnteredChatRoom2 = joinChattingRepository.save(newEnteredChatRoom2);
-				roomId = newEnteredChatRoom2.getChattingRoom().getId();
-				return String.valueOf(roomId);
-			}
-		
-		
+		if(roomId == 0) {
+			ChattingRoomEntity chatroom = ChattingRoomEntity.builder().productBoard(productBoardEntity).build();
+			chatroom = chattingRoomRepository.save(chatroom);
+			JoinChattingEntity newEnteredChatRoom1 = JoinChattingEntity.builder().chattingRoom(chatroom).member(user1).build();
+			joinChattingRepository.save(newEnteredChatRoom1);
+			JoinChattingEntity newEnteredChatRoom2 = JoinChattingEntity.builder().chattingRoom(chatroom).member(user2).build();
+			newEnteredChatRoom2 = joinChattingRepository.save(newEnteredChatRoom2);
+			roomId = newEnteredChatRoom2.getChattingRoom().getId();
+			return String.valueOf(roomId);
+		}
+
+
 		if(roomIds.size()==1) {
 			return String.valueOf(roomIds.get(0));
 		}
-		
+
 		//채팅방 있으면 채팅방 id 반환
 		if(roomId != 0) return String.valueOf(roomId);
-		
+
 		//없으면 만들어서 반환
 		else {
 			ChattingRoomEntity chatroom = ChattingRoomEntity.builder().productBoard(productBoardEntity).build();
@@ -135,13 +135,13 @@ public class ChattingRoomService {
 		return ChattingRoomDto.toDTO(chattingRoomEntity);
 	}
 
-		@Transactional
-		public JoinChattingDto delete(long id) {
-			JoinChattingDto deletedDto=JoinChattingDto.toDto(joinChattingRepository.findById(id).get());
-			joinChattingRepository.deleteById(id);
-			return deletedDto;
-		}
-	
+	@Transactional
+	public JoinChattingDto delete(long id) {
+		JoinChattingDto deletedDto=JoinChattingDto.toDto(joinChattingRepository.findById(id).get());
+		joinChattingRepository.deleteById(id);
+		return deletedDto;
+	}
 
-	
+
+
 }

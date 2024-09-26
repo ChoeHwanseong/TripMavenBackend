@@ -88,7 +88,7 @@ public class ChattingRoomController {
 	public ResponseEntity<List<JoinChattingDto>> getChattingYour(@PathVariable("myId") Long myId) {
 		try {
 			List<JoinChattingDto> yourList = chattingRoomService.getChattingYour(myId);
-			
+			System.out.println("리스트:"+yourList.size());
 			// JoinChattingDto 리스트를 정렬
 	        Collections.sort(yourList, new Comparator<JoinChattingDto>() {
 	            @Override
